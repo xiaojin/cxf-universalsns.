@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<title>ePay</title>
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- Le styles -->
+		<link href="CommonComp/lib/css/bootstrap-cerulean.css" rel="stylesheet">
+		<link href="CommonComp/lib/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="CommonComp/lib/css/jquery.alerts.css" rel="stylesheet" />
+		<link href="CommonComp/css/ess2.css" rel="stylesheet">
+		<link href="ePay/css/epay.css" rel="stylesheet">
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if IE]>
+		<script src="CommonComp/lib/js/base64.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="right-panel">
+			<div class="navbar" id='main-title'>
+				<span id="btn-home"></span><img src="CommonComp/img/title-p2.png"
+				class="show-on-portrait"><img
+				src="CommonComp/img/title-l2.png" class="show-on-landscape">
+			</div>
+			<div id='login' class="page">
+				<div class="container content" id="login-content">
+					<div id='epay-overview'>
+						<div class='row'>
+							<div class='span2'>
+								<h1 id='report-title'>ePay</h1>
+							</div>
+						</div>
+					</div>
+					<div class='container bold' id="input-form">
+						<div id="login-title">
+							To access ePay section, please enter your username and password for your additional security.
+						</div>
+						<div class="container" id='input-container'>
+							<div class='row'>
+								<div class="pull-left">
+									Username
+								</div>
+								<div class='pull-right'>
+									<input type="text" id="username"  placeholder="Type your username" autocorrect="off" value="">
+								</div>
+							</div>
+							<div class='row'>
+								<div class="pull-left">
+									Password
+								</div>
+								<div class="pull-right">
+									<input type="password" id="password"  placeholder="Type your password" value="">
+								</div>
+							</div>
+
+							<div class="row">
+								<a href="#"><span class="btn-icon btn-login" id="btn-login">Log In</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /container -->
+			</div>
+			<div class="page hidden" id='overview'>
+				<div class="container content" id="overview-content">
+					<div id='epay-overview'>
+						<div class="pull-left">
+							<h1 id="report-title">ePay</h1>
+						</div>
+					</div>
+					<div class="clearfix personal-info-box">
+						<div class="personal-info-image">
+							<img src="CommonComp/img/man.png">
+						</div>
+						<div class="personal-info-name">
+							<div data-localize="label.name">
+								Name
+							</div>
+							<div id="name" class="personal-info-v">
+								N/A
+							</div>
+						</div>
+						<div class="personal-no">
+							<div data-localize="label.personnelNo">
+								Personnel No.
+							</div>
+							<div id="personnel-no" class="personal-info-v">
+								N/A
+							</div>
+						</div>
+					</div>
+					<div class="shadow-box">
+						<div class="date-title-icon-table">
+							<h3 id="net-pay-wrap" >
+								<span>Net Pay - </span>
+								<span id='net-pay-val' class="dynamic-data"></span>
+							</h3>
+							<div id="pdf-icon" >
+								<a href="#" id="btn-open"> <img src="CommonComp/img/pdf-icon.png" /> </a>
+							</div>
+							<div id='data-picker'  >
+								<div class="year-date-picker"><div class="date-picker-font">Year</div><select id="check-date-year-select" class="check-date-select"></select></div>
+								
+								<div class="checkdate-picker" ><div class="date-picker-font">Check Date</div><select id="check-date-date-select" class="check-date"></select></div>
+								
+								
+							</div>
+						</div>
+						<div id="content-scroll-wrap">
+							<div id="content-scroll">
+								<div>
+									<div class="accordion" id="content-accordion">
+										<div class="accordion-group">
+											<div class="accordion-heading">
+												<a class="accordion-toggle" data-toggle="collapse" data-parent="#content-accordion" href="#collapse1"> 
+													<span>Earnings</span> 
+													<i class="accordion-icon icon-rollClose pull-right"></i>
+													<div class="pull-right dynamic-data accordion-head-total" id="betrcg"></div>
+												</a>
+											</div>
+											<div id="collapse1" class="accordion-body collapse">
+												<div class="accordion-inner">
+													<table class="table">
+														<thead>
+															<tr class='blue-background'>
+																<th>Description</th>
+																<th>Hours</th>
+																<th>Pay Rate</th>
+																<th>Current</th>
+																<th>YTD</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr id='hoursEarningsTotal'>
+																<td>Total</td>
+																<td></td>
+																<td></td>
+																<td><span id='betre1' class="total-num-tab"></span></td>
+																<td><span id='betre2' class="total-num-tab"></span></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="accordion-group">
+											<div class="accordion-heading">
+												<a class="accordion-toggle" data-toggle="collapse" data-parent="#content-accordion" href="#collapse2"> 
+													<span>Pre-tax Deductions</span>
+													<i class="accordion-icon icon-rollClose pull-right"></i>
+													<div class="pull-right dynamic-data accordion-head-total" id="betrb1-2"></div>
+												</a>
+											</div>
+											<div id="collapse2" class="accordion-body collapse">
+												<div class="accordion-inner">
+													<table class="table">
+														<thead>
+															<tr class='blue-background'>
+																<th>Description</th>
+																<th>Current</th>
+																<th>YTD</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr id='beforeTaxTotal'>
+																<td class="first-column">Total</td>
+																<td class="sec-column"><span id='betrb1'
+																class="total-num-tab"></span></td>
+																<td class="third-column"><span id='betrb2'
+																class="total-num-tab"></span></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="accordion-group">
+											<div class="accordion-heading">
+												<a class="accordion-toggle" data-toggle="collapse" data-parent="#content-accordion" href="#collapse3"> 
+													<span>After-tax Deductions</span>
+													<i class="accordion-icon icon-rollClose pull-right"></i>
+													<div class="pull-right dynamic-data accordion-head-total" id="betra1-2"></div>
+												</a>
+											</div>
+											<div id="collapse3" class="accordion-body collapse">
+												<div class="accordion-inner">
+													<table class="table">
+														<thead>
+															<tr class='blue-background'>
+																<th>Description</th>
+																<th>Current</th>
+																<th>YTD</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr id='afterTaxTotal'>
+																<td class="first-column">Total</td>
+																<td class="sec-column"><span id='betra1' class="total-num-tab"></span></td>
+																<td class="third-column"><span id='betra2' class="total-num-tab"></span></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="accordion-group">
+											<div class="accordion-heading">
+												<a class="accordion-toggle" data-toggle="collapse" data-parent="#content-accordion" href="#collapse4"> 
+													<span>Taxes</span>
+													<i class="accordion-icon icon-rollClose pull-right"></i>
+													<div class="pull-right dynamic-data accordion-head-total" id="betrt1-2"></div>
+												</a>
+											</div>
+											<div id="collapse4" class="accordion-body collapse">
+												<div class="accordion-inner">
+													<table class="table pull-left table-width">
+														<thead>
+															<tr class='blue-background'>
+																<th class="">Tax Data</th>
+																<th class="">Federal</th>
+																<th class=""><span id='taxau'></span> State</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Marital Status:</td>
+																<td id='txsta' class="dynamic-data"></td>
+																<td id='mtext' class="dynamic-data"></td>
+															</tr>
+															<tr>
+																<td>Allowances:</td>
+																<td id='nbrex1' class="dynamic-data"></td>
+																<td id='nbrex2' class="dynamic-data"></td>
+															</tr>
+															<tr>
+																<td>Addl.Amt.:</td>
+																<td id='examt1' class="dynamic-data"></td>
+																<td id='examt2' class="dynamic-data"></td>
+															</tr>
+														</tbody>
+													</table>
+													<table class="table pull-right table-width">
+														<thead>
+															<tr class='blue-background'>
+																<th>Tax Description</th>
+																<th>Current</th>
+																<th>YTD</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr id='taxesTotal'>
+																<td class="first-column">Total</td>
+																<td class="sec-column"><span id='betrt1'
+																class="total-num-tab"></span></td>
+																<td class="thirdColumn"><span id='betrt2'
+																class="total-num-tab"></span></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="accordion-group">
+											<div class="accordion-heading">
+												<a class="accordion-toggle" data-toggle="collapse" data-parent="#content-accordion" href="#collapse5"> 
+												<span>Other Amounts</span>
+												<i class="accordion-icon icon-rollClose pull-right"></i>	
+												</a>
+											</div>
+											<div id="collapse5" class="accordion-body collapse">
+												<div class="accordion-inner">
+													<table class="table">
+														<thead>
+															<tr class='blue-background'>
+																<th>Description</th>
+																<th>Current</th>
+																<th>YTD</th>
+															</tr>
+														</thead>
+														<tbody id='memoData'></tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="hidden" id="vital">
+											<h4>Important Message</h4>
+									   		<strong id="pay-msg"></strong>
+									    </div>
+									</div>
+							    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /container -->
+		</div>
+		<div class="simple-overlay" id="pdf-preview">
+			<div class="overlay-toolbar">
+				<a href="#" id='btn-download'><img src="CommonComp/img/print.png"/></a>
+			</div>
+			<div id="image-scroll-wrapper">
+				<div class="overlay-image-wrapper"></div>
+			</div>
+		</div>
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="CommonComp/lib/js/jquery-1.8.2.min.js"></script>
+		<script src="CommonComp/lib/js/jquery.tools.min.js"></script>
+		<script src="CommonComp/lib/js/bootstrap.js"></script>
+		<script src="CommonComp/lib/js/jquery.alerts.js"></script>
+		<script src="CommonComp/lib/js/iscroll.js"></script>
+		<script src="CommonComp/js/ess2.js"></script>
+		<script src="CommonComp/js/integration2.js"></script>
+		<script src="ePay/js/epay.js"></script>
+	</body>
+</html>

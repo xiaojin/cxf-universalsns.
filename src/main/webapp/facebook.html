@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/screen.css"
+	media="screen" />
+
+<title>SocialMediaFramework</title>
+</head>
+<body>
+	<div id="content">
+		<p id="top">com.pwc</p>
+
+		<ul id="menu">
+			<li class="current"><a href="facebook.html">Facebook</a></li>
+			<li><a href="google.html">Google+</a></li>
+			<li><a href="linkedin.html">LinkedIn</a></li>
+			<li><a href="twitter2.html">Twitter</a></li>
+			<li><a href="#">About</a></li>
+		</ul>
+	</div>
+
+	<div
+		style="margin: 50px 0 0 50px; float: left; position: absolute; width: 80%">
+		<a href="#" class="button gray" id="facebook-get-token">Get Access
+			Token</a>
+		<p class="token"
+			style="position: relative; float: left; margin-left: 30px">Token:</p>
+		<table border="1px" cellspacing="0px">
+			<tr>
+				<td id="facebook-token"></td>
+			</tr>
+		</table>
+	</div>
+
+	<div style="margin: 100px 0 0 50px; float: left; position: absolute">
+		<a href="#" class="button gray" id="facebook-post-status">POST
+			Status</a> <span class="parameter">Parameter: <input
+			id="parameter" style="width: 320px;" value='message="Hello, World."' /></span>
+	</div>
+	<div style="margin: 150px 0 0 50px; float: left; position: absolute">
+		<a href="#" class="button gray" id="facebook-get">Get
+			Me</a> 
+	</div>
+	<script src="js/libs/json2.js"></script>
+	<script src="js/libs/localstorage.js"></script>
+	<script src="js/libs/modernizr-2.5.3.min.js"></script>
+	<script src="js/libs/jquery-2.1.0.js"></script>
+	<script src="jso.js"></script>
+	<script src="postStatus.js"></script>
+</body>
+</html>

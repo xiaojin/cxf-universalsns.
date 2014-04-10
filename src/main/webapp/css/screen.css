@@ -1,0 +1,115 @@
+* {
+	margin: 0;
+	padding: 0
+}
+
+:focus,:active {
+	outline: 0
+}
+
+#top {
+	color: #ccc;
+	padding: 6px 20px 0;
+	font-size: .84em;
+	text-align: right;
+}
+
+img {
+	border: 0
+}
+
+body {
+	font: .8em Arial, Tahoma, Verdana;
+	background: #fff url(../images/bg.gif) repeat-x;
+	color: #777;
+}
+
+a {
+	text-decoration: none;
+	color: #B20F0F;
+}
+
+p {
+	line-height: 1.64em;
+	margin: 0 0 15px;
+}
+
+.token,.parameter {
+	line-height: 45px;
+	word-break;
+	break-all;
+}
+
+
+td {
+	line-height: 12px;
+	width: 500px;
+	height:50px;
+	text-align: left;
+	word-break:break-all; word-wrap:break-word;
+	
+}
+
+#menu {
+	float: left;
+	margin: 0px 20px 0;
+}
+
+#menu li {
+	display: inline;
+	font-size: 1.3em;
+}
+
+#menu li a {
+	float: left;
+	color: #808080;
+	padding: 0 0 5px;
+	margin: 0 0 0 55px;
+}
+
+#menu li a:hover,#menu li.current a,#menu li a:focus {
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.gray {
+	color: #515151;
+	background: #d3d3d3;
+	background: -moz-linear-gradient(top, #d3d3d3 0%, #8a8a8a 100%);
+	/* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d3d3d3),
+		color-stop(100%, #8a8a8a)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #d3d3d3 0%, #8a8a8a 100%);
+	/* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #d3d3d3 0%, #8a8a8a 100%);
+	/* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #d3d3d3 0%, #8a8a8a 100%);
+	/* IE10+ */
+	background: linear-gradient(top, #d3d3d3 0%, #8a8a8a 100%); /* W3C */
+}
+
+.button {
+	float: left;
+	display: inline-block;
+	position: relative;
+	margin: 10px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	font: bold 12px/25px Arial, sans-serif;
+}
+
+.button:hover {
+	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 0px 0px 2px
+		rgba(0, 0, 0, .5);
+	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 0px 0px 2px
+		rgba(0, 0, 0, .5);
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, .29), inset 0px 0px 2px
+		rgba(0, 0, 0, .5);
+}
+
+.button:active {
+	-webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, .8);
+	-moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, .8);
+	box-shadow: inset 0px 0px 3px rgba(0, 0, 0, .8);
+}

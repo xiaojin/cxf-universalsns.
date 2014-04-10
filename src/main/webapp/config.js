@@ -1,0 +1,23 @@
+var conf = {
+    TWITTER_KEY :"qCEyFIf0RehbUglehaOug",
+    TWITTER_SEC :"dbcOAa4PSWn5bhmKLT1S5dslqIOAzTYpV145dj77h8",
+    TWITTER_CALLBACK:"http://127.0.0.1:9090/twitter2.html",
+    TWITTER_REQUESTTOKEN_URL:"https://api.twitter.com/oauth/request_token",
+    TWITTER_AUTHTOKEN_URL:"https://api.twitter.com/oauth/authenticate?oauth_token=",
+    TWITTER_ACCESSTOKEN_URL:"https://api.twitter.com/oauth/access_token",
+    LINKEDIN_KEY :"247fmvid6e8k",
+    LINKEDIN_SEC :"4WWHRnj9YbTsw4cr",
+    LINKEDIN_CALLBACK:"http://localhost:9090/overall.html",
+    LINKEDIN_REQUESTTOKEN_URL:"https://api.linkedin.com/uas/oauth/requestToken",
+    LINKEDIN_AUTHTOKEN_URL:"https://www.linkedin.com/uas/oauth/authenticate?oauth_token=",
+    LINKEDIN_ACCESSTOKEN_URL:"https://api.linkedin.com/uas/oauth/accessToken",
+    GOOGLE_CLIENTID:"813483280675-h879tteoivpnmfeujgf2lg1j9t2jk9n7.apps.googleusercontent.com",
+    GOOGLE_CALLBACK:"http://localhost:9090/overall.html",
+    FACEBOOK_CLIENTID:"1455916827976099",
+    FACEBOOK_CALLBACK:"https://www.facebook.com/connect/login_success.html",
+    PROXY:"http://localhost:9090/AccessToken",
+    TWITTER:"Twitter",
+    FACEBOOK:'Facebook',
+    GOOGLEPLUS:"GooglePlus",
+    LINKEDIN:"LinkedIn"
+};
