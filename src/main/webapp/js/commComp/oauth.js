@@ -343,12 +343,26 @@ var oauthV2 = {
             return ret.join("&");
         }
         var url = "https://www.linkedin.com/uas/oauth2/accessToken"+'?'+EncodeQueryData(parameter);
-        social.tool.invokeWebServiceCall({
-            type : 'POST',
-            url:conf.PROXY + "?url=" +escape(url),
+        // social.tool.invokeWebServiceCall({
+            // type : 'POST',
+            // url:conf.PROXY + "?url=" +escape(url),
+            // success : success,
+            // error : error
+        // }); 
+        
+        $.ajax({
+            url : "/cxf/service/accessToken/",
+            type : "POST",
             success : success,
-            error : error
+            contentType : "application/json",
+            error : error,
+            data : JSON.stringify({
+                ApiEntity : {
+                    tokenURL : escape(url)
+                }
+            })
         }); 
+        
     }
     
 };

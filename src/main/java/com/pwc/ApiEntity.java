@@ -1,14 +1,21 @@
 package com.pwc;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+
+import com.pwc.platform.LinkedinEntity;
+import com.pwc.platform.TwitterEntity;
 
 @XmlRootElement(name = "ApiEntity") 
+@XmlSeeAlso({TwitterEntity.class, LinkedinEntity.class})
 public class ApiEntity {
 	private String platform;
 	private String apiKey;
 	private String accessToken;
 	private String paramter;
 	private String tokenURL;
+	private TwitterEntity twitterEntity;
+	private LinkedinEntity linkedinEntity;
 	public String getPlatform() {
 		return platform;
 	}
@@ -38,6 +45,18 @@ public class ApiEntity {
 	}
 	public void setTokenURL(String tokenURL) {
 		this.tokenURL = tokenURL;
+	}
+	public TwitterEntity getTwitterEntity() {
+		return twitterEntity;
+	}
+	public void setTwitterEntity(TwitterEntity twitterEntity) {
+		this.twitterEntity = twitterEntity;
+	}
+	public LinkedinEntity getLinkedinEntity() {
+		return linkedinEntity;
+	}
+	public void setLinkedinEntity(LinkedinEntity linkedinEntity) {
+		this.linkedinEntity = linkedinEntity;
 	}
 
 	

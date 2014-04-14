@@ -23,7 +23,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
 import com.pwc.platform.Facebook;
+import com.pwc.platform.Linkedin;
 import com.pwc.platform.RequestType;
+import com.pwc.platform.Twitter;
 import com.pwc.sns.HttpConnectionManager;
 
 @Path("/service")
@@ -45,13 +47,11 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok( facebook.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
-
 		} else if (platform.equalsIgnoreCase("twitter")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
-
 		} else if (platform.equalsIgnoreCase("linkedin")) {
-			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
-
+			Linkedin linkedin = new Linkedin(entity);
+			return Response.ok(linkedin.getCompanyProfile(), MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("error:need config platform data" , MediaType.TEXT_PLAIN).build();
 		}
@@ -74,13 +74,13 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok( facebook.postMessage(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
-
 		} else if (platform.equalsIgnoreCase("twitter")) {
-			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
+			Twitter twitter = new Twitter(entity);			
+			return Response.ok( twitter.postTwitter(), MediaType.TEXT_PLAIN).build();
 
 		} else if (platform.equalsIgnoreCase("linkedin")) {
-			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
-
+			Linkedin linkedin = new Linkedin(entity);
+			return Response.ok(linkedin.commentOnCompany(), MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("error:need config platform data" , MediaType.TEXT_PLAIN).build();
 		}
@@ -103,6 +103,21 @@ public class ApiServiceImpl implements ApiService {
 	@Path("/text")
 	public Response get() throws IOException {
 		return Response.ok("get works..", MediaType.TEXT_PLAIN).build();
+	}
+	
+	@POST
+	@Path("/favlist")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getMyFavList(ApiEntity entity) throws IOException {
+		if (entity.getPlatform().equalsIgnoreCase("twitter")) {
+			Twitter twitter = new Twitter(entity);
+			return Response.ok(twitter.getMyFavList(), MediaType.TEXT_PLAIN).build();		
+		}else
+		{
+			return Response.ok("no supported", MediaType.TEXT_PLAIN).build();
+		}
+
 	}
 	
 	@POST

@@ -16,21 +16,37 @@ var link = {
             console.log(errorThrown);
         }
         //getInfo
-        var api_key = "key12345";
-        $.ajax({
-            url : "getInfo",
-            type : "POST",
-            success : success,
-            error : error,
-            data : {
-                "platform" : "linkedin",
-                "token" : '',
-                 type : "GET",
-                "path" : url,
-                "message" : "",
-                "api_key":api_key
-            }
-        });
+        
+             $.ajax({
+                url : "/cxf/service/profile/",
+                type : "POST",
+                success : success,
+                contentType : "application/json",
+                error : error,
+                data : JSON.stringify({
+                    ApiEntity : {
+                        tokenURL : escape(url),
+                        platform : "linkedin",  
+                        apiKey : '123456'                 
+                    }
+                })
+            }); 
+        
+        // var api_key = "key12345";
+        // $.ajax({
+            // url : "getInfo",
+            // type : "POST",
+            // success : success,
+            // error : error,
+            // data : {
+                // "platform" : "linkedin",
+                // "token" : '',
+                 // type : "GET",
+                // "path" : url,
+                // "message" : "",
+                // "api_key":api_key
+            // }
+        // });
     },
     shareCommand :function(){
        var sourceUrl = "https://api.linkedin.com/v1/companies/2414183/shares";
@@ -70,25 +86,56 @@ var link = {
             console.log(errorThrown);
         }
         //getInfo
-        var api_key = "key12345";
+        
+
+
         $.ajax({
-            url : "getInfo",
+            url : "/cxf/service/message/",
             type : "POST",
+            contentType : "application/json",
             success : success,
             error : error,
-            data : {
-                "platform" : "linkedin",
-                "token" : localStorage.getItem("authInfo"),
-                "path" :url,
-                "message" : JSON.stringify({
-                    "visibility": { "code": "anyone" },
-                    "comment": parameters,
-                    "title":'SDC Soical Framework'
-                }),
-                "api_key":api_key,
-                "type":"POST"
-                },
+            data : JSON.stringify({
+                ApiEntity : {
+                    platform : "linkedin",
+                    accessToken : localStorage.getItem("authInfo"),
+                    apiKey : '123456',
+                    tokenURL : url,
+                    linkedinEntity : {
+                        message : JSON.stringify({
+                            "visibility" : {
+                                "code" : "anyone"
+                            },
+                            "comment" : parameters,
+                            "title" : 'SDC Soical Framework'
+                        })
+                    }
+                }
+            })
         });
+
+
+        
+//         
+        // var api_key = "key12345";
+        // $.ajax({
+            // url : "getInfo",
+            // type : "POST",
+            // success : success,
+            // error : error,
+            // data : {
+                // "platform" : "linkedin",
+                // "token" : localStorage.getItem("authInfo"),
+                // "path" :url,
+                // "message" : JSON.stringify({
+                    // "visibility": { "code": "anyone" },
+                    // "comment": parameters,
+                    // "title":'SDC Soical Framework'
+                // }),
+                // "api_key":api_key,
+                // "type":"POST"
+                // },
+        // });
         
     },
     oauthLinkedIn : function() {

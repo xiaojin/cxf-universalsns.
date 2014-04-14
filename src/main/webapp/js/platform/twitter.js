@@ -37,12 +37,20 @@ var twitter = {
             }
 
 
-            social.tool.invokeWebServiceCall({
-                type : 'GET',
-                url : proxy + "?url=" + escape(url),
+            $.ajax({
+                url : "/cxf/service/favlist/",
+                type : "POST",
                 success : success,
-                error : error
-            });
+                contentType : "application/json",
+                error : error,
+                data : JSON.stringify({
+                    ApiEntity : {
+                        tokenURL : escape(url),
+                        platform : "twitter",                   
+                    }
+                })
+            }); 
+
         } else {
             alert("get token first");
         }
@@ -54,27 +62,33 @@ var twitter = {
             oauthV1.init();
             var sourceUrl = "https://api.twitter.com/1.1/statuses/update.json";
             var status = $("#commandValue").val();
-            var api_key = "key12345";
+            var api_key = "123456";
             if (status == null || status == undefined) {
                 alert("please say something");
             } else {
                 status = escape(status).replace(/\@/g, '%40').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/\+/g, '%2B');
+     
+  
                 $.ajax({
-                    url : "publishStatus",
+                    url : "/cxf/service/message/",
                     type : "POST",
+                    contentType : "application/json",
                     success : success,
                     error : error,
-                    data : {
-                        "platform" : "twitter",
-                        "token" : JSON.stringify(oauth_information),
-                        "path" : sourceUrl,
-                        "consumerKeySec" : conf.TWITTER_SEC,
-                        "consumerKey" : conf.TWITTER_KEY,
-                        "api_key" : api_key,
-                        "type" : "POST",
-                        "status" : status
-                    },
+                    data : JSON.stringify({
+                        ApiEntity : {
+                            platform : "twitter",
+                            accessToken : JSON.stringify(oauth_information),
+                            apiKey : api_key,
+                            twitterEntity : {
+                                consumerKeySec : conf.TWITTER_SEC,
+                                consumerKey : conf.TWITTER_KEY,
+                                status : status
+                            }
+                        }
+                    })
                 });
+
 
             }
             function success(data) {
