@@ -34,14 +34,13 @@ var app = {
     },
 
     post : function() {
-        var api_key = "key12345";
-        var pa = $("#path").val();
+        var api_key = "123456";
         var param = $("#parameter").val();
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         var local_token = obj[0].access_token;
 
         function success(data) {
-            var status = JSON.parse(data).id;
+            var status = data.id;
             if (status != null && status != undefined) {
                 alert(param +"\n Post successfully");
             }
@@ -59,17 +58,13 @@ var app = {
 
         };
         $.ajax({
-            url : "publishStatus",
+            url : "/cxf/service/message/",
             type : "POST",
             success : success,
             error : error,
-            data : {
-                "platform" : "facebook",
-                "token" : local_token,
-                "path" : pa,
-                "message" : param,
-                "api_key" : api_key
-            }
+            dataType: 'json',
+            contentType:"application/json",
+            data:JSON.stringify({ApiEntity:{platform: 'facebook', apiKey: api_key,accessToken: local_token,paramter: param}})
         });
     },
     get : function() {

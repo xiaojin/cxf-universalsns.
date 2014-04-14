@@ -22,8 +22,10 @@ public class Facebook {
 			backData = HttpXmlClient.get(url);
 			break;
 		case 1:
+			
 			break;
 		case 2:
+			backData = HttpXmlClient.post(url,map);
 			break;
 		case 3:
 			break;
