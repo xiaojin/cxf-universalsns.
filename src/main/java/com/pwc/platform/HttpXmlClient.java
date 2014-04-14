@@ -27,7 +27,12 @@ import org.apache.log4j.Logger;
 
 public class HttpXmlClient {
 	private static Logger log = Logger.getLogger(HttpXmlClient.class);
-	
+	/**
+	 * @category request type 2
+	 * @param url
+	 * @param params
+	 * @return
+	 */
 	public static String post(String url, Map<String, String> params) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		String body = null;
@@ -41,7 +46,13 @@ public class HttpXmlClient {
 		
 		return body;
 	}
-	
+	/**
+	 * @category request type 3
+	 * @param url
+	 * @param head
+	 * @param params
+	 * @return
+	 */
 	public static String post(String url, Map<String, String> head,String params) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		String body = null;
@@ -56,6 +67,11 @@ public class HttpXmlClient {
 		return body;
 	}
 	
+	/**
+	 * @category request type 0
+	 * @param url
+	 * @return
+	 */
 	public static String get(String url) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		String body = null;
@@ -68,6 +84,12 @@ public class HttpXmlClient {
 		
 		return body;
 	}
+	/**
+	 * @category request type 1
+	 * @param url
+	 * @param headers
+	 * @return
+	 */
 	public static String get(String url,Map<String, String> headers) {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		String body = null;

@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.pwc.platform.Facebook;
+import com.pwc.platform.RequestType;
 
 @Path("/service")
 public class ApiServiceImpl implements ApiService {
@@ -27,7 +28,9 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok("error:need config right api key", MediaType.TEXT_PLAIN).build();
 		}
 		if (platform.equalsIgnoreCase("facebook")) {
-			Facebook facebook = new Facebook(entity);
+			String token = entity.getAccessToken();
+			String url = "https://graph.facebook.com/me?access_token="+token;
+			Facebook facebook = new Facebook(url,RequestType.GET,null);
 			return Response.ok( facebook.getBackData(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
