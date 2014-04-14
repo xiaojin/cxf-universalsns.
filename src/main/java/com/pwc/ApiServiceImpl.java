@@ -1,37 +1,30 @@
 package com.pwc;
 
 import java.io.IOException;
-<<<<<<< HEAD
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
-=======
 import java.util.HashMap;
 import java.util.Map;
->>>>>>> 2a3c7c6450aaf7fc116e9f5299e095267ada6ef2
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONObject;
 
 import com.pwc.platform.Facebook;
-import com.pwc.sns.HttpConnectionManager;
 import com.pwc.platform.RequestType;
+import com.pwc.sns.HttpConnectionManager;
 
 @Path("/service")
 public class ApiServiceImpl implements ApiService {
