@@ -23,6 +23,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
 import com.pwc.platform.Facebook;
+import com.pwc.platform.GooglePlus;
 import com.pwc.platform.RequestType;
 import com.pwc.platform.SocialMedia;
 import com.pwc.sns.HttpConnectionManager;
@@ -48,7 +49,9 @@ public class ApiServiceImpl implements ApiService {
 			sm.setEntity(entity);
 			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
-			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
+			sm = GooglePlus.getInstance();
+			sm.setEntity(entity);
+			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
 
 		} else if (platform.equalsIgnoreCase("twitter")) {
 			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
