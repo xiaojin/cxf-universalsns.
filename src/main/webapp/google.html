@@ -1,50 +1,130 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
+	<head>
 
-<link rel="stylesheet" type="text/css" href="css/screen.css"
-	media="screen" />
-<title>SocialMediaFramework</title>
-</head>
-<body>
-	<div id="content">
-		<p id="top">com.pwc</p>
+		<link rel="stylesheet" type="text/css" href="css/screen.css"
+		media="screen" />
 
-		<ul id="menu">
-			<li><a href="facebook.html">Facebook</a></li>
-			<li class="current"><a href="google.html">Google+</a></li>
-			<li><a href="linkedin.html">LinkedIn</a></li>
-			<li><a href="twitter2.html">Twitter</a></li>
-			<li><a href="#">About</a></li>
-		</ul>
-	</div>
+		<!-- <meta name="google-signin-clientid" content="813483280675-h879tteoivpnmfeujgf2lg1j9t2jk9n7.apps.googleusercontent.com" />
+		<meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
+		<meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
+		<meta name="google-signin-cookiepolicy" content="single_host_origin" /> -->
+		<title>SocialMediaFramework</title>
+		<!-- <script type="text/javascript">
+            (function() {
+                var po = document.createElement('script');
+                po.type = 'text/javascript';
+                po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(po, s);
+            })();
 
-	<div
+            /* Executed when the APIs finish loading */
+            function render() {
+                // Additional params including the callback, the rest of the params will
+                // come from the page-level configuration.
+                var additionalParams = {
+                    'callback' : signinCallback,
+                    'clientid':'813483280675-h879tteoivpnmfeujgf2lg1j9t2jk9n7.apps.googleusercontent.com',
+                    'requestvisibleactions':'http://schemas.google.com/AddActivity',
+                    'scope':'https://www.googleapis.com/auth/plus.login',
+                    'cookiepolicy':'single_host_origin'
+                };
+               gapi.signin.render('signinButton',additionalParams);
+               var insertMoment = document.getElementById('google-insert');
+               igninButton.addEventListener('click', function() {
+               		insertMyMoment();
+               });
+
+// 
+                // // Attach a click listener to a button to trigger the flow.
+                // var signinButton = document.getElementById('signinButton');
+                // signinButton.addEventListener('click', function() {
+                    // // gapi.auth.signIn(additionalParams);
+//                    
+                    // // Will use page level configuration
+// 
+                // });
+            }
+
+            function signinCallback(authResult) {
+                if (authResult['status']['signed_in']) {
+                    // Update the app to reflect a signed in user
+                    // Hide the sign-in button now that the user is authorized, for example:
+                    document.getElementById('signinButton').setAttribute('style', 'display: none');
+                    localStorage.setItem("googleOauth",JSON.stringify(authResult));
+                } else {
+                    // Update the app to reflect a signed out user
+                    // Possible error values:
+                    //   "user_signed_out" - User is signed-out
+                    //   "access_denied" - User denied access to your app
+                    //   "immediate_failed" - Could not automatically log in the user
+                    console.log('Sign-in state: ' + authResult['error']);
+                }
+            }
+		</script> -->
+
+	</head>
+
+	<body>
+		<div id="content">
+			<p id="top">
+				com.pwc
+			</p>
+
+			<ul id="menu">
+				<li>
+					<a href="facebook.html">Facebook</a>
+				</li>
+				<li class="current">
+					<a href="google.html">Google+</a>
+				</li>
+				<li>
+					<a href="linkedin.html">LinkedIn</a>
+				</li>
+				<li>
+					<a href="twitter2.html">Twitter</a>
+				</li>
+				<li>
+					<a href="#">About</a>
+				</li>
+			</ul>
+		</div>
+
+		<div
 		style="margin: 50px 0 0 50px; float: left; position: absolute; width: 80%">
-		<a href="#" class="button gray" id="google-get-token">Get Access
-			Token</a>
-		<p class="token"
-			style="position: relative; float: left; margin-left: 30px">Token:</p>
-		<table border="1px" cellspacing="0px">
-			<tr>
-				<td id="google-token"></td>
-			</tr>
-		</table>
-	</div>
-	<br />
-	<div style="margin: 100px 0 0 50px; float: left; position: absolute;width:80%">
+			<!-- <a href="#" class="button gray" id="google-get-token">Get Access
+			Token</a> -->
+			<a id="signinButton" class="button gray">
+				Sign in with Google
+			</a>
+			<p class="token"
+			style="position: relative; float: left; margin-left: 30px">
+				Token:
+			</p>
+			<table border="1px" cellspacing="0px">
+				<tr>
+					<td id="google-token"></td>
+				</tr>
+			</table>
+		</div>
+		<br />
+		<div style="margin: 100px 0 0 50px; float: left; position: absolute;width:80%">
 		<a href="#" class="button gray" id="google-get-me">Get me Profile
 		</a>
-	</div>
-	<!-- <div style="margin: 170px 0 0 50px; float: left; position: absolute;width:80%">
-		
+		</div>
+		<div style="margin: 170px 0 0 50px; float: left; position: absolute;width:80%">
+
 		<a href="#" class="button gray" id="google-insert">insert moments</a>
-	</div> -->
-	<script src="js/libs/json2.js"></script>
-	<script src="js/libs/localstorage.js"></script>
-	<script src="js/libs/modernizr-2.5.3.min.js"></script>
-	<script src="js/libs/jquery-2.1.0.js"></script>
-	<script src="jso.js"></script>
-	<script src="getme_google.js"></script>
-</body>
+		</div>
+		<script src="js/libs/json2.js"></script>
+		<script src="js/libs/localstorage.js"></script>
+		<script src="js/libs/modernizr-2.5.3.min.js"></script>
+		<script src="js/libs/jquery-2.1.0.js"></script>
+		<script src="js/libs/moment.min.js"></script>
+		<script src="js/commComp/config.js"></script>
+		<script src="js/commComp/oauth.js"></script>
+		<script src="js/platform/google.js"></script>
+	</body>
 </html>

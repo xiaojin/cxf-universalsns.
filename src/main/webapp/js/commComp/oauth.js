@@ -1,9 +1,16 @@
 var shared_secret, consumer_key, proxy, callbackUrl, request_tokenURL, auth_tokenURL, access_tokenURL, oauth = null;
-var oauth_information = {};
+var oauth_information = {},googleSignBtnID="";
 var authRequest = null;
 if ( typeof social === "undefined" || !social) {
     var social = {};
 }
+var oauth_google = {
+    signBtnID:'',
+    requestvisibleactions:'',
+    scope:'',
+    cookiepolicy:'',
+    callBackFun:function(){}
+};
 social.tool = {
     queryString : function(query) {
         // This function is anonymous, is executed immediately and
@@ -69,7 +76,6 @@ social.tool = {
 
 
 authRequest = function(platform) {
-    
     if (platform === conf.TWITTER) {
         localStorage.setItem("webSite", conf.TWITTER);
         oauthV1.init();
@@ -93,21 +99,14 @@ authRequest = function(platform) {
     if (platform === conf.FACEBOOK) {
         localStorage.setItem("webSite", conf.FACEBOOK);
         oauthV2.init();
-        // jso_wipe();
         jso_ensureTokens({
-            "facebook" : ["read_stream"]
+            "facebook" : ["publish_actions", "read_stream"]
         });
         jso_dump();
     }
     if (platform === conf.GOOGLEPLUS) {
-        localStorage.setItem("webSite", conf.GOOGLEPLUS);
-        oauthV2.init();
-        jso_wipe();
-        jso_ensureTokens({
-            "google" : ["https://www.googleapis.com/auth/plus.me"],
-        });
-        jso_dump();
-    };
+        oauthV2.googleGetAccessToken();
+    }
 };
 
 var oauthV1 = {
@@ -256,27 +255,59 @@ var oauthV2 = {
                 isDefault : true
             },
             "facebook" : {
-				client_id : "1455916827976099",
-				redirect_uri : "http://127.0.0.1:9090/facebook.html",
+				client_id : conf.FACEBOOK_CLIENTID,
+				redirect_uri : conf.FACEBOOK_CALLBACK,
 				authorization : "https://www.facebook.com/dialog/oauth",
 				presenttoken : "qs"
 			},
 			"linkedin":{
 			    response_type:'code',
-			    client_id:'77b11et5lruzhu',
+			    client_id:conf.LINKEDIN_KEY,
 			    state:'DWQSCA26832plwucs409',
-			    redirect_uri:'http://127.0.0.1:9090/linkedin.html',
+			    redirect_uri:conf.LINKEDIN_CALLBACK,
 			    authorization : "https://www.linkedin.com/uas/oauth2/authorization",
 			}
         });
+    },
+    googleGetAccessToken:function(){
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);   
+    },
+    googleSuccess :function(){
+        oauth_google.callBackFun();
+    },
+    googleError:function(error){
+        console.log(error);
+    },
+    signinCallback:function(authResult) {
+        if (authResult['status']['signed_in']) {
+            // Update the app to reflect a signed in user
+            // Hide the sign-in button now that the user is authorized, for example:
+            // document.getElementById('signinButton').setAttribute('style', 'display: none');
+            localStorage.setItem("tokens-google", JSON.stringify(authResult));
+            oauthV2.googleSuccess();
+            // $("#google-token").text(JSON.parse(localStorage.getItem("tokens-google")).access_token);
+        } else {
+            // Update the app to reflect a signed out user
+            // Possible error values:
+            //   "user_signed_out" - User is signed-out
+            //   "access_denied" - User denied access to your app
+            //   "immediate_failed" - Could not automatically log in the user
+            console.log('Sign-in state: ' + authResult['error']);
+            oauthV2.googleError(authResult['error']);
+        }
     },
     linkedGetAccessToken:function(code,state){
         var parameter = {
             grant_type : 'authorization_code',
             code : code,
-            redirect_uri : 'http://127.0.0.1:9090/linkedin.html',
-            client_id : '77b11et5lruzhu',
-            client_secret : 'wv4Y4t2rJ7sSljsV'
+            redirect_uri : conf.LINKEDIN_CALLBACK,
+            client_id : conf.LINKEDIN_KEY,
+            client_secret : conf.LINKEDIN_SEC
         }; 
 
         function success(data) {
@@ -312,6 +343,41 @@ var oauthV2 = {
         }); 
     }
     
+};
+
+
+function render() {
+    // Additional params including the callback, the rest of the params will
+    // come from the page-level configuration.
+    if (oauth_google.requestvisibleactions === '' || oauth_google.requestvisibleactions === undefined) {
+        oauth_google.requestvisibleactions = "http://schemas.google.com/AddActivity";
+    }
+    if (oauth_google.scope === '' || oauth_google.scope === undefined) {
+        oauth_google.scope = "https://www.googleapis.com/auth/plus.login";
+    }
+    if (oauth_google.cookiepolicy === '' || oauth_google.cookiepolicy === undefined) {
+        oauth_google.cookiepolicy = 'single_host_origin';
+    }
+
+    var additionalParams = {
+        'callback' : oauthV2.signinCallback,
+        'clientid' : conf.GOOGLE_CLIENTID,
+        'requestvisibleactions' : oauth_google.requestvisibleactions,
+        'scope' : oauth_google.scope,
+        'cookiepolicy' : oauth_google.cookiepolicy
+        // 'requestvisibleactions' : 'http://schemas.google.com/AddActivity',
+        // 'scope' : 'https://www.googleapis.com/auth/plus.login',
+        // 'cookiepolicy' : 'single_host_origin'
+    };
+    if (oauth_google.signBtnID === '' || oauth_google.signBtnID === undefined) {
+        console.log("invalid sigin button id");
+    } else {
+        // $('#signinButton').show();
+        $('#' + oauth_google.signBtnID).click(function() {
+            gapi.auth.signIn(additionalParams);
+        });
+    }
+    // gapi.signin.render('signinButton', additionalParams);
 };
 
 

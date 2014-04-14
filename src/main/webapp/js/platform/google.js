@@ -1,30 +1,43 @@
+
 var app = {
 	ready : function() {
 		app.bind();
-		jso_configure({
-            "google" : {
-                client_id : "813483280675-h879tteoivpnmfeujgf2lg1j9t2jk9n7.apps.googleusercontent.com",
-                redirect_uri : "http://localhost:9090/google.html",
-                authorization : "https://accounts.google.com/o/oauth2/auth",
-                isDefault : true
+		var obj = JSON.parse(localStorage.getItem("tokens-google"));
+        if(obj!==null&&obj!==undefined){
+            var current =moment().unix();
+            if(current > obj.expires_at){
+                app.initSigin();
+                localStorage.removeItem("tokens-google");
+            }else
+            {
+                 $("#google-token").text(obj.access_token);
             }
-        });
-		//jso_wipe();
-		jso_ensureTokens({
-            "google" : ["https://www.googleapis.com/auth/plus.me"],
-        });
-
+        }else
+        {       
+            app.initSigin();
+        }
 	},
-	
+	initSigin:function(){
+	        oauth_google.signBtnID="signinButton";
+            oauth_google.requestvisibleactions='http://schemas.google.com/AddActivity';
+            oauth_google.scope='https://www.googleapis.com/auth/plus.login';
+            oauth_google.cookiepolicy='single_host_origin';
+            oauth_google.callBackFun = app.getTokenSuccess;
+            authRequest(conf.GOOGLEPLUS);      
+	},
+    getTokenSuccess:function(){
+        var obj = JSON.parse(localStorage.getItem("tokens-google"));
+        var local_token = obj.access_token;
+        $("#google-token").text(local_token);
+    },
 	getToken: function(){
 		var obj = JSON.parse(localStorage.getItem("tokens-google"));
-		var local_token = obj[0].access_token;
+		var local_token = obj.access_token;
 		$("#google-token").text(local_token);
-		
 	},
 
-	bind : function() {
-	
+
+	bind : function() { 
 		$("#post").click(function() {
 			app.post();
 		});
@@ -68,7 +81,7 @@ var app = {
 		var pa = $("#path").val();
 		var param = $("#parameter").val();
 		var obj = JSON.parse(localStorage.getItem("tokens-google"));
-		var local_token = obj[0].access_token;
+		var local_token = obj.access_token;
 		$("#google-token").val(local_token);
 		$.ajax({
 			url : "publishStatus",
@@ -89,7 +102,7 @@ var app = {
 
     insertMoments : function() {
       var obj = JSON.parse(localStorage.getItem("tokens-google"));
-      var local_token = obj[0].access_token;
+      var local_token = obj.access_token;
       var api_key = "key12345";
         $.ajax({
             url : "insertMoments",
