@@ -41,10 +41,8 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok("error:need config right api key", MediaType.TEXT_PLAIN).build();
 		}
 		if (platform.equalsIgnoreCase("facebook")) {
-			String token = entity.getAccessToken();
-			String url = "https://graph.facebook.com/me?access_token="+token;
-			Facebook facebook = new Facebook(url,RequestType.GET,null);
-			return Response.ok( facebook.getBackData(), MediaType.TEXT_PLAIN).build();
+			Facebook facebook = new Facebook(entity);			
+			return Response.ok( facebook.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
 
@@ -72,12 +70,8 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok("error:need config right api key", MediaType.TEXT_PLAIN).build();
 		}
 		if (platform.equalsIgnoreCase("facebook")) {
-			String url = "https://graph.facebook.com/me/feed";
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("message", entity.getParamter());
-			params.put("access_token", entity.getAccessToken());
-			Facebook facebook = new Facebook(url,RequestType.POST,params);
-			return Response.ok( facebook.getBackData(), MediaType.TEXT_PLAIN).build();
+			Facebook facebook = new Facebook(entity);
+			return Response.ok( facebook.postMessage(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
 
@@ -100,7 +94,6 @@ public class ApiServiceImpl implements ApiService {
 	public Response postData(ApiEntity entity) throws IOException {
 		String platform = entity.getPlatform();
 		String apiKey = entity.getApiKey();
-
 		return Response.ok("post work.." + platform + apiKey, MediaType.TEXT_PLAIN).build();
 
 	}
