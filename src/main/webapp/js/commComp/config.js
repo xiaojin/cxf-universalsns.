@@ -43,7 +43,7 @@ if (ec2) {
         GOOGLE_CALLBACK : "http://127.0.0.1:9090/google.html",
         FACEBOOK_CLIENTID : "1455916827976099",
         FACEBOOK_CALLBACK : "http://127.0.0.1:9090/facebook.html",
-        PROXY : "http://localhost:9090/AccessToken",
+        PROXY : "http://localhost:9090/cxf/service/accessToken",
         TWITTER : "Twitter",
         FACEBOOK : 'Facebook',
         GOOGLEPLUS : "GooglePlus",

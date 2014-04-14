@@ -8,6 +8,7 @@ public class ApiEntity {
 	private String apiKey;
 	private String accessToken;
 	private String paramter;
+	private String tokenURL;
 	public String getPlatform() {
 		return platform;
 	}
@@ -32,5 +33,12 @@ public class ApiEntity {
 	public void setParamter(String paramter) {
 		this.paramter = paramter;
 	}
+	public String getTokenURL() {
+		return tokenURL;
+	}
+	public void setTokenURL(String tokenURL) {
+		this.tokenURL = tokenURL;
+	}
+
 	
 }

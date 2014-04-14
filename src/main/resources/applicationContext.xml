@@ -13,15 +13,16 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	<!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" 
 		/> -->
-
+	<bean id="apiServiceImpl" class="com.pwc.ApiServiceImpl"></bean>
+	<!-- <bean id="accessToken" class="com.pwc.AccessTokenService"></bean> -->
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
-			<ref bean="apiServiceImpl" />
+			<ref bean="apiServiceImpl"/>
+			<!-- <ref bean="accessToken"/> -->
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />
 		</jaxrs:extensionMappings>
 	</jaxrs:server>
-	<bean id="apiServiceImpl" class="com.pwc.ApiServiceImpl" />
 </beans>

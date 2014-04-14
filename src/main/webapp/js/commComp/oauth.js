@@ -51,7 +51,7 @@ social.tool = {
         $.ajax({
             url : opt.url,
             type : opt.type,
-            contentType : 'text/plain',
+            contentType: "application/json; charset=utf-8",
             beforeSend : opt.beforeSend,
             success : opt.success,
             error : opt.error,
@@ -163,14 +163,16 @@ var oauthV1 = {
         function error(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);
         }
-
-
-        social.tool.invokeWebServiceCall({
-            type : 'GET',
-            url : proxy + "?url=" + escape(url),
+     
+        $.ajax({
+            url : "/cxf/service/accessToken/",
+            type : "POST",
             success : success,
-            error : error
+            contentType:"application/json",
+            error : error,
+            data:JSON.stringify({ApiEntity:{tokenURL: escape(url)}})
         });
+
     },
     getAccessToken : function(oauth_information, verifier) {
         oauth.reset();
@@ -200,12 +202,18 @@ var oauthV1 = {
         }
 
 
-        social.tool.invokeWebServiceCall({
-            type : 'GET',
-            url : proxy + "?url=" + escape(url),
+        $.ajax({
+            url : "/cxf/service/accessToken/",
+            type : "POST",
             success : success,
-            error : error
-        });
+            contentType : "application/json",
+            error : error,
+            data : JSON.stringify({
+                ApiEntity : {
+                    tokenURL : escape(url)
+                }
+            })
+        }); 
     },
 
     oauthv1Search : function() {
