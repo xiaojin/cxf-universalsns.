@@ -1,21 +1,20 @@
 var app = {
     ready : function() {
         app.bind();
-         authRequest(conf.FACEBOOK);
-        // jso_configure({
-            // "facebook" : {
-                // client_id : conf.FACEBOOK_CLIENTID,
-                // redirect_uri : conf.FACEBOOK_CALLBACK,
-                // authorization : "https://www.facebook.com/dialog/oauth",
-                // presenttoken : "qs"
-            // }
-        // });
-        // jso_ensureTokens({
-            // "facebook" : ["publish_actions", "read_stream"]
-        // });
-        // jso_dump();
+        jso_configure({
+            "facebook" : {
+                client_id : "1455916827976099",
+                redirect_uri : "http://127.0.0.1:9090/facebook.html",
+                authorization : "https://www.facebook.com/dialog/oauth",
+                presenttoken : "qs"
+            }
+        });
+        jso_ensureTokens({
+            "facebook" : ["publish_actions", "read_stream"]
+        });
+        jso_dump();
     },
-    getToken : function() {            
+    getToken : function() {
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         var local_token = obj[0].access_token;
         $("#facebook-token").text(local_token);
@@ -35,14 +34,13 @@ var app = {
     },
 
     post : function() {
-        var api_key = "key12345";
-        var pa = $("#path").val();
+        var api_key = "123456";
         var param = $("#parameter").val();
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         var local_token = obj[0].access_token;
 
         function success(data) {
-            var status = JSON.parse(data).id;
+            var status = data.id;
             if (status != null && status != undefined) {
                 alert(param +"\n Post successfully");
             }
@@ -60,38 +58,32 @@ var app = {
 
         };
         $.ajax({
-            url : "publishStatus",
+            url : "/cxf/service/message/",
             type : "POST",
             success : success,
             error : error,
-            data : {
-                "platform" : "facebook",
-                "token" : local_token,
-                "path" : pa,
-                "message" : param,
-                "api_key" : api_key
-            }
+            dataType: 'json',
+            contentType:"application/json",
+            data:JSON.stringify({ApiEntity:{platform: 'facebook', apiKey: api_key,accessToken: local_token,paramter: param}})
         });
     },
     get : function() {
-        var api_key = "key12345";
+        var api_key = "123456";
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         var local_token = obj[0].access_token;
 
         function success(data) {
-            var userid = JSON.parse(data).id;
+            var userid = data.id;
             if (userid != null && userid != undefined) {
-                var mybook = JSON.parse(data);
-                var alertMsg = "My Profile \n id:" + userid + '\n' +"homepage: " + mybook.link + '\n' +"first_name: " + mybook.first_name + '\n' +"last_name: " + mybook.last_name + '\n' +"gender: " + mybook.gender + '\n';
+                var alertMsg = "My Profile \n id:" + userid +  '\n' +"first_name: " + data.first_name + '\n' +"last_name: " + data.last_name + '\n' +"gender: " + data.gender + '\n';
                 alert(alertMsg);
             } else {
-                console.log(str);
-                alert(str);
+                alert("no id");
             }
         };
 
         function error(data) {
-            var str = responseString;
+            var str = data.responseText;
             console.log("Response (facebook):");
             console.log(str);
             alert(str);
@@ -99,15 +91,13 @@ var app = {
 
 
         $.ajax({
-            url : "publishStatus",
-            type : "GET",
+            url : "/cxf/service/profile/",
+            type : "POST",
             success : success,
+            dataType: 'json',
+            contentType:"application/json",
             error : error,
-            data : {
-                "platform" : "facebook",
-                "token" : local_token,
-                "api_key" : api_key
-            }
+            data:JSON.stringify({ApiEntity:{platform: 'facebook', apiKey: api_key,accessToken: local_token,paramter: 'paramd'}})
         });
     }
 };
