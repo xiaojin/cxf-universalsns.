@@ -38,10 +38,6 @@ var app = {
 
 
 	bind : function() { 
-		$("#post").click(function() {
-			app.post();
-		});
-		
 		$("#google-get-me").click(function() {
 			app.post();
 		});
@@ -59,11 +55,13 @@ var app = {
 	complete : function(responseString) {
 		var str = responseString;
 	},
-	success : function(responseString) {
-		var str = responseString;
+	success : function(data) {
+		var str = data;
 		console.log("Response (google):");
 		console.log(str);
-		alert(str);
+		if(data.id !=undefined && data.id!=""){
+			alert("id: "+data.id+"\n"+"name: "+data.displayName);
+		}
 
 	},
 	error : function(responseString) {
@@ -77,26 +75,20 @@ var app = {
 	},
 
 	post : function() {
-		var api_key = "key12345";
-		var pa = $("#path").val();
-		var param = $("#parameter").val();
+		var api_key = "123456";
 		var obj = JSON.parse(localStorage.getItem("tokens-google"));
 		var local_token = obj.access_token;
 		$("#google-token").val(local_token);
 		$.ajax({
-			url : "publishStatus",
+			url : "/cxf/service/profile/",
 			type : "POST",
+			dataType: 'json',
+            contentType:"application/json",
 			beforeSend : app.beforeSend,
 			complete : app.complete,
 			success : app.success,
 			error : app.error,
-			data : {
-				"platform" : "google",
-				"token" : local_token,
-				"path" : pa,
-				"api_key":api_key
-				
-			}
+			data:JSON.stringify({ApiEntity:{platform: 'googleplus', apiKey: api_key,accessToken: local_token,paramter: 'param'}})
 		});
 	},
 
@@ -110,7 +102,7 @@ var app = {
             success : app.success,
             error : app.error,
             data : {
-                "platform" : "google",
+                "platform" : "googleplus",
                 "token" : local_token,
                 "message" :JSON.stringify({
                     "target": { "url": "https://developers.google.com/+/plugins/snippet/examples/thing" },

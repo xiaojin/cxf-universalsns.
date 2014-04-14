@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,13 +21,16 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
 import com.pwc.platform.Facebook;
+import com.pwc.platform.GooglePlus;
 import com.pwc.platform.Linkedin;
-import com.pwc.platform.RequestType;
+import com.pwc.platform.SocialMedia;
 import com.pwc.platform.Twitter;
 import com.pwc.sns.HttpConnectionManager;
 
 @Path("/service")
 public class ApiServiceImpl implements ApiService {
+	
+	private SocialMedia sm;
 
 	@Override
 	@POST
@@ -43,21 +44,27 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok("error:need config right api key", MediaType.TEXT_PLAIN).build();
 		}
 		if (platform.equalsIgnoreCase("facebook")) {
-			Facebook facebook = new Facebook(entity);			
-			return Response.ok( facebook.getProfile(), MediaType.TEXT_PLAIN).build();
+			sm = Facebook.getInstance();
+			sm.setEntity(entity);
+			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("twitter")) {
-			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
+			sm = GooglePlus.getInstance();
+			sm.setEntity(entity);
+			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
+		} else if (platform.equalsIgnoreCase("twitter")) {
+			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
+
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
 			return Response.ok(linkedin.getCompanyProfile(), MediaType.TEXT_PLAIN).build();
 		} else {
-			return Response.ok("error:need config platform data" , MediaType.TEXT_PLAIN).build();
+			return Response.ok("error:need config platform data", MediaType.TEXT_PLAIN).build();
 		}
 
 	}
-	
+
 	@Override
 	@POST
 	@Path("/message")
@@ -70,23 +77,24 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok("error:need config right api key", MediaType.TEXT_PLAIN).build();
 		}
 		if (platform.equalsIgnoreCase("facebook")) {
-			Facebook facebook = new Facebook(entity);
-			return Response.ok( facebook.postMessage(), MediaType.TEXT_PLAIN).build();
+			sm = Facebook.getInstance();
+			sm.setEntity(entity);
+			return Response.ok(sm.postMessage(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
 			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("twitter")) {
 			Twitter twitter = new Twitter(entity);			
 			return Response.ok( twitter.postTwitter(), MediaType.TEXT_PLAIN).build();
-
+		} else if (platform.equalsIgnoreCase("twitter")) {
+			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
 			return Response.ok(linkedin.commentOnCompany(), MediaType.TEXT_PLAIN).build();
 		} else {
-			return Response.ok("error:need config platform data" , MediaType.TEXT_PLAIN).build();
+			return Response.ok("error:need config platform data", MediaType.TEXT_PLAIN).build();
 		}
 
 	}
-
 
 	@POST
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -104,7 +112,7 @@ public class ApiServiceImpl implements ApiService {
 	public Response get() throws IOException {
 		return Response.ok("get works..", MediaType.TEXT_PLAIN).build();
 	}
-	
+
 	@POST
 	@Path("/favlist")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -133,7 +141,7 @@ public class ApiServiceImpl implements ApiService {
 			String url = URLDecoder.decode(entity.getTokenURL(), "UTF-8");
 			getMethod.setURI(new URI(url));
 			HttpResponse response = httpclient.execute(getMethod);
-			int responseCode = response.getStatusLine().getStatusCode();			
+			int responseCode = response.getStatusLine().getStatusCode();
 			ResponseHandler<String> handler = new BasicResponseHandler();
 			if (responseCode == 200) {
 				responseString = handler.handleResponse(response);
@@ -145,8 +153,8 @@ public class ApiServiceImpl implements ApiService {
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
+		}
+
 		ResponseBuilder builder = Response.ok(responseString, MediaType.TEXT_PLAIN);
 		builder.header("Access-Control-Allow-Origin", "*");
 		return builder.build();
