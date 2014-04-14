@@ -5,17 +5,22 @@ import java.util.Map;
 
 import com.pwc.ApiEntity;
 
-public class Facebook {
-
+public class Facebook extends SocialMedia{
+	
 	private String backData="" ;
-	private ApiEntity entity;
 
+	private static Facebook fb;
+	public static Facebook getInstance(){
+		if(fb == null){
+			return new Facebook();
+		}else{
+			return fb;
+		}
+	}
 	public String getBackData(){
 		return backData;
 	}
-	public Facebook(ApiEntity entity){
-		this.entity = entity;
-	}
+	
 	public String getProfile(){
 		String token = entity.getAccessToken();
 		String url = "https://graph.facebook.com/me?access_token="+token;
