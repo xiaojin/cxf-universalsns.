@@ -1,3 +1,41 @@
+.social-tableCenter {
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.social-table-btnContainer {
+	padding: 10px 20px;
+}
+.title-bar-left {
+	background: rgb(247,247,247);
+	height: 50px;
+	position: relative;
+}
+.title-bar-left h2 {
+	margin: 0;
+	line-height: 50px;
+	text-transform: capitalize;
+	text-align: center;
+	color: #3276b1;
+	font-size: 22px;
+}
+.head-title {
+	position: absolute;
+	top: -13px;
+	right: 200px;
+	font-size: 20px;
+	color: #3276b1;
+}
+.pwc-logo {
+	margin-right: 10px;
+	float: right;
+	margin-top: -42px;
+	width: 34px;
+	height: 34px;
+}
+
+
 * {
 	margin: 0;
 	padding: 0
@@ -20,7 +58,7 @@ img {
 
 body {
 	font: .8em Arial, Tahoma, Verdana;
-	background: #fff url(../images/bg.gif) repeat-x;
+	/*background: #fff url(../images/bg.gif) repeat-x;*/
 	color: #777;
 }
 
