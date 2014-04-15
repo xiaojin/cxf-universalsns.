@@ -101,7 +101,10 @@ var twitter = {
                     if (JSON.parse(data).length == 0) {
                         alert("You failed to post yet");
                     } else {
-                        alert(JSON.parse(data).created_at +':\n'+ JSON.parse(data).text);
+                        var result = JSON.parse(data).created_at +':\n'+ JSON.parse(data).text;
+                        var mycomment = "<label class='alert alert-success comment-style'>"+result+"</label>";
+                            $("#status").append(mycomment);
+                        // alert(JSON.parse(data).created_at +':\n'+ JSON.parse(data).text);
                     }
                 }
             }
