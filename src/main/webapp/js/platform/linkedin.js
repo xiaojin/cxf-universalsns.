@@ -2,15 +2,31 @@ var hasToken = false;
 var link = {
     //count=1&start=5
     listLinkedPeople : function(oauth_information) {
-        var sourceUrl = "https://api.linkedin.com/v1/companies/2414183:(id,name,description,company-type,ticker,website-url)";
+        var sourceUrl = "https://api.linkedin.com/v1/companies/162479:(id,name,description,company-type,ticker,website-url)";
         var accesstoken =JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
         var url = sourceUrl+'?'+"oauth2_access_token="+accesstoken;
         
         function success(data) {
             console.log(data);
-            alert(data);
-            // window.location.href = "http://localhost:9090/overall.html";
-        }
+            var company =$.xml2json($(data)[2]);
+            if(company.id !=undefined){
+                $("#companyid").html(company.id);
+                $("#companyName").html(company.name);
+                $("#companyurl").html(company.website_url);
+                $("#companytype").html(company.company_type.name);
+                $("#companydesc").html(company.description);
+             }
+             else{
+                 $("#companyid").html("");
+                 $("#companyName").html("");
+                 $("#companyurl").html("");
+                 $("#companytype").html("");
+                 $("#companydesc").html(company.message);
+                 $("#companydesc").addClass("alert alert-danger");
+                 
+             }
+            }
+    
 
         function error(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);
@@ -58,24 +74,22 @@ var link = {
        var accesstoken =JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
         var url = sourceUrl+'?'+"oauth2_access_token="+accesstoken;
         function success(data) {
-             var msg = '', isxml = true, backurl='';
-            try {
-                backurl = $(data).find("update").text();
-                
-            } catch(e) {
-                isxml = false;
-            }
-            if (isxml) {                           
-                console.log(data);
-                alert(data);
-                url = $(data).find("update-url").text();
-                $("#commandLine").show();
-                $("#commandLine").click(function(){
-                    window.open("https://www.linkedin.com/company/devtestco","_blank");
-                });
-            } else {
-                alert(data);
-            }
+             var comment =$.xml2json($(data)[2]);
+            if(comment.update-url !=undefined){
+                var mycomment = "<label class='alert alert-success comment-style'>"+$("#commandValue").val()+"</label>";
+                $("#comment").append(mycomment);
+            }else
+            {
+                // $("#comment").html(comment.message);
+                alert(comment.message);
+            }                          
+                // console.log(data);
+                // alert(data);
+                // url = $(data).find("update-url").text();
+                // $("#commandLine").show();
+                // $("#commandLine").click(function(){
+                    // window.open("https://www.linkedin.com/company/devtestco","_blank");
+                // });
 
 
             
@@ -141,7 +155,7 @@ var link = {
     oauthLinkedIn : function() {
         var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
         if(lineninToken!=null && lineninToken.access_token!=undefined){
-             $("#linkedin-token").text(lineninToken.access_token);
+             $("#linkedin-token").html(lineninToken.access_token);
         }else
         {
              authRequest(conf.LINKEDIN);
@@ -149,9 +163,10 @@ var link = {
        
     },
     ready : function() {
+         $("#linkedin-token").html("");
          var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
          if(lineninToken!=null && lineninToken.access_token!=undefined){
-             $("#linkedin-token").text(lineninToken.access_token);
+             $("#linkedin-token").html(lineninToken.access_token);
          }
         $("#linkedin-get-token").click(link.oauthLinkedIn);
         $("#linkedinComp").click(link.listLinkedPeople);

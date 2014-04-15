@@ -22,7 +22,7 @@ var twitter = {
                     alert(JSON.parse(data).errors[0].message);
                     window.location.href = conf.TWITTER_CALLBACK;
                     localStorage.clear();
-                    $("#twitter-token").text("");
+                    $("#twitter-token").html("");
                 } else {
                     if (JSON.parse(data).length == 0) {
                         alert("You haven't add any favourite list yet");
@@ -96,7 +96,7 @@ var twitter = {
                     alert(JSON.parse(data).errors[0].message);
                     window.location.href = conf.TWITTER_CALLBACK;;
                     localStorage.clear();
-                    $("#twitter-token").text("");
+                    $("#twitter-token").html("");
                 } else {
                     if (JSON.parse(data).length == 0) {
                         alert("You failed to post yet");
@@ -118,7 +118,7 @@ var twitter = {
     oauthTwitter : function() {
         var twitterToken = JSON.parse(localStorage.getItem("twitteroauth"));
         if(twitterToken!=null && twitterToken.oauth_token!=undefined){
-             $("#twitter-token").text(twitterToken.oauth_token);
+             $("#twitter-token").html(twitterToken.oauth_token);
              alert("Got one");
         }else
         {
@@ -134,7 +134,7 @@ var twitter = {
 
         var twitterToken = JSON.parse(localStorage.getItem("twitteroauth"));
         if (twitterToken != null && twitterToken.oauth_token != undefined) {
-            $("#twitter-token").text(twitterToken.oauth_token);
+            $("#twitter-token").html(twitterToken.oauth_token);
         }
 
     }
