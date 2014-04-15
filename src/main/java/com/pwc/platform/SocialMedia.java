@@ -10,8 +10,8 @@ public abstract class SocialMedia {
 		return entity;
 	}
 
-	public void setEntity(ApiEntity entêity) {
-		this.entity = entêity;
+	public void setEntity(ApiEntity entity) {
+		this.entity = entity;
 	}
 
 	public abstract String getProfile();
