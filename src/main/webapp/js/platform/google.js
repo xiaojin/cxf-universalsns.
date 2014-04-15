@@ -56,13 +56,11 @@ var app = {
 		var str = responseString;
 	},
 	success : function(data) {
-		var str = data;
 		console.log("Response (google):");
-		console.log(str);
+		console.log(data);
 		if(data.id !=undefined && data.id!=""){
 			alert("id: "+data.id+"\n"+"name: "+data.displayName);
 		}
-
 	},
 	error : function(responseString) {
 
@@ -82,8 +80,8 @@ var app = {
 		$.ajax({
 			url : "/cxf/service/profile/",
 			type : "POST",
-			dataType: 'json',
             contentType:"application/json",
+            dataType: 'json',
 			beforeSend : app.beforeSend,
 			complete : app.complete,
 			success : app.success,
@@ -95,21 +93,18 @@ var app = {
     insertMoments : function() {
       var obj = JSON.parse(localStorage.getItem("tokens-google"));
       var local_token = obj.access_token;
-      var api_key = "key12345";
+      var api_key = "123456";
+        var param = JSON.stringify({
+            "target": { "url": "https://developers.google.com/+/plugins/snippet/examples/thing" },
+            "type": "http://schemas.google.com/AddActivity"});
         $.ajax({
-            url : "insertMoments",
+            url : "/cxf/service/message/",
             type : "POST",
             success : app.success,
             error : app.error,
-            data : {
-                "platform" : "googleplus",
-                "token" : local_token,
-                "message" :JSON.stringify({
-                    "target": { "url": "https://developers.google.com/+/plugins/snippet/examples/thing" },
-                    "type": "http://schemas.google.com/AddActivity"
-                }),
-                "api_key" : api_key
-            }
+            dataType: 'json',
+            contentType:"application/json",
+            data:JSON.stringify({ApiEntity:{platform: 'googleplus', apiKey: api_key,accessToken: local_token,paramter: param}})
         });
     }
 

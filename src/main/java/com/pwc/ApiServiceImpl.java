@@ -48,14 +48,12 @@ public class ApiServiceImpl implements ApiService {
 			sm.setEntity(entity);
 			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
-			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
-		} else if (platform.equalsIgnoreCase("twitter")) {
 			sm = GooglePlus.getInstance();
 			sm.setEntity(entity);
 			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("twitter")) {
-			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
-
+			Twitter twitter = new Twitter(entity);			
+			return Response.ok( twitter.getMyFavList(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
 			return Response.ok(linkedin.getCompanyProfile(), MediaType.TEXT_PLAIN).build();
@@ -81,12 +79,12 @@ public class ApiServiceImpl implements ApiService {
 			sm.setEntity(entity);
 			return Response.ok(sm.postMessage(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("googleplus")) {
-			return Response.ok( platform + apiKey, MediaType.TEXT_PLAIN).build();
+			sm = GooglePlus.getInstance();
+			sm.setEntity(entity);
+			return Response.ok(sm.postMessage(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("twitter")) {
 			Twitter twitter = new Twitter(entity);			
 			return Response.ok( twitter.postTwitter(), MediaType.TEXT_PLAIN).build();
-		} else if (platform.equalsIgnoreCase("twitter")) {
-			return Response.ok(platform + apiKey, MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
 			return Response.ok(linkedin.commentOnCompany(), MediaType.TEXT_PLAIN).build();
