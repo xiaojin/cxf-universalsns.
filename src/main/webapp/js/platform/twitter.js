@@ -161,6 +161,9 @@ var twitter = {
        
     },
     ready : function() {  
+        $("#googleURL").click(function(){
+           window.location.href=conf.GOOGLE_CALLBACK; 
+        });
         $("#twitter-get-token").click(twitter.oauthTwitter);
         $("#twitterFav").click(twitter.listFavList);       
         $("#sharecommand").click(twitter.postStatuses); 

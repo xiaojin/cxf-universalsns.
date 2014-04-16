@@ -43,6 +43,9 @@ var app = {
 		$("#google-insert").click(function() {
 			app.insertMoments();
 		});
+		$("#googleURL").click(function(){
+           window.location.href=conf.GOOGLE_CALLBACK; 
+        });
 	},
 
 	getProfile : function() {
