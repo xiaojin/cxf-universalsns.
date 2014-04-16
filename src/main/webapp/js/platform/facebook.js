@@ -56,7 +56,7 @@ var app = {
             var str = responseString;
             console.log("Response (facebook):");
             console.log(str);
-
+ 			alert("You failed to post yet");
         };
         $.ajax({
             url : "/cxf/service/message/",
@@ -89,7 +89,7 @@ var app = {
             var str = data.responseText;
             console.log("Response (facebook):");
             console.log(str);
-            alert(str);
+            alert("You failed to get profile");
         }
 
 
