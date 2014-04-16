@@ -1,5 +1,7 @@
 package com.pwc.sns;
-
+/**
+ * Entity Class SignObject used in @see com.pwc.sns.OauthSignature.java
+ */
 public class SignObject {
 	private String consumerKey;
 	private String consumerKeySec;
@@ -8,6 +10,7 @@ public class SignObject {
 	private REQUESTTYPE requestType;
 	private String reqURI;
 	private String reqQuery;
+	
 	public enum REQUESTTYPE{
 		GET("GET"), 
 		POST("POST"),
@@ -22,49 +25,101 @@ public class SignObject {
 			return this.type;
 		}
 	}
+	/**
+	 * @return consumerKey String
+	 */
 	public String getConsumerKey() {
 		return consumerKey;
 	}
+	/**
+	 * 
+	 * @param consumerKey
+	 */
 	public void setConsumerKey(String consumerKey) {
 		this.consumerKey = consumerKey;
 	}
+	/**
+	 * 
+	 * @return consumerKeySec String
+	 */
 	public String getConsumerKeySec() {
 		return consumerKeySec;
 	}
+	/**
+	 * @param consumerKeySec
+	 */
 	public void setConsumerKeySec(String consumerKeySec) {
 		this.consumerKeySec = consumerKeySec;
 	}
+	/**
+	 * 
+	 * @return accessToken
+	 */
 	public String getAccessToken() {
 		return accessToken;
 	}
+	/**
+	 * 
+	 * @param accessToken
+	 */
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+	/**
+	 * 
+	 * @return accessTokenSec String
+	 */
 	public String getAccessTokenSec() {
 		return accessTokenSec;
 	}
+	/**
+	 * 
+	 * @param accessTokenSec
+	 */
 	public void setAccessTokenSec(String accessTokenSec) {
 		this.accessTokenSec = accessTokenSec;
 	}
+	/**
+	 * 
+	 * @return requestType
+	 */
 	public REQUESTTYPE getRequestType() {
 		return requestType;
 	}
+	/**
+	 * 
+	 * @param requestType
+	 */
 	public void setRequestType(REQUESTTYPE requestType) {
 		this.requestType = requestType;
 	}
+	/**
+	 * 
+	 * @return reqURI
+	 */
 	public String getReqURI() {
 		return reqURI;
 	}
+	/**
+	 * 
+	 * @param reqURI
+	 */
 	public void setReqURI(String reqURI) {
 		this.reqURI = reqURI;
 	}
+	/**
+	 * 
+	 * @return reqQuery
+	 */
 	public String getReqQuery() {
 		return reqQuery;
 	}
+	/**
+	 * 
+	 * @param reqQuery
+	 */
 	public void setReqQuery(String reqQuery) {
 		this.reqQuery = reqQuery;
 	}
-	
-	
 	
 }

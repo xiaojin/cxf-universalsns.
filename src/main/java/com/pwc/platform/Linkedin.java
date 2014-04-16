@@ -7,14 +7,28 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+/**
+ * Class Linkedin used to implement the API Linkedin provided
+ */
+
 import com.pwc.ApiEntity;
-public class Linkedin {
+import com.pwc.sns.HttpXmlClient;
+public class Linkedin{
 	private ApiEntity entity;
 	private String backData="" ;
+	
+	/**
+	 * @param entity
+	 */
 	public Linkedin(ApiEntity entity){
 		this.entity = entity;
 	}
-	
+	/**
+	 * Implement the Linkedin API  Get Company profile
+	 * <br/>
+	 * https://api.linkedin.com/v1/companies/{company id}:(id,name,description,company-type,ticker,website-url)
+	 * @return
+	 */
 	public String getCompanyProfile(){
 		String url="";
 		try {
@@ -26,7 +40,12 @@ public class Linkedin {
 		backData = HttpXmlClient.get(url);
 		return backData;
 	}
-	
+	/**
+	 * Implement the Linkedin API create company comments
+	 * <br/>
+	 * https://api.linkedin.com/v1/companies/{company id}/shares
+	 * @return
+	 */
 	public String commentOnCompany(){
 		JSONObject jsonObj = new JSONObject(entity.getLinkedinEntity().getMessage());
 		Map<String, String> head = new HashMap<String, String>();
@@ -35,4 +54,5 @@ public class Linkedin {
 		backData = HttpXmlClient.post(entity.getTokenURL(),head,jsonObj.toString());	
 		return backData;
 	}
+
 }

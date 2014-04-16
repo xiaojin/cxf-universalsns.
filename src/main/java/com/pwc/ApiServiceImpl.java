@@ -27,11 +27,35 @@ import com.pwc.platform.SocialMedia;
 import com.pwc.platform.Twitter;
 import com.pwc.sns.HttpConnectionManager;
 
+/**
+ * Implementation of the interface of {@link ApiService}
+ */
+
 @Path("/service")
 public class ApiServiceImpl implements ApiService {
 	
 	private SocialMedia sm;
 
+	/**
+	 * Handle the request profile from the client
+	 ** 
+	 * Request type POST
+	 **
+	 * Request data type application/JSON<br/>
+	 * Request URL path for example http://localhost:9090/cxf/service/profile <br/>
+	 * Request data  {@link ApiEntity}<br/>
+	 * 
+	 * Facebook get user profile<br/>
+	 * Google+  get user profile<br/>
+	 * Twitter get user profile<br/>
+	 * Linkedin get company profile<br/>
+	 * 
+	 * @see com.pwc.ApiService#postProfile(com.pwc.ApiEntity)<br/>
+	 * 
+	 * @param entity, instance of  {@link ApiEntity}<br/>
+	 * 
+	 * @return the profile data from each platform to request client<br/>
+	 */
 	@Override
 	@POST
 	@Path("/profile")
@@ -63,6 +87,23 @@ public class ApiServiceImpl implements ApiService {
 
 	}
 
+	/**
+	 * Handle the request of posting status to the platform action from the client<br/>
+	 * 
+	 * Request type POST<br/>
+	 * Request data type application/JSON<br/>
+	 * Request URL path for example http://localhost:9090/cxf/service/message <br/>
+	 * Request data  {@link ApiEntity}<br/>
+	 * 
+	 * Facebook post message to the platform<br/>
+	 * Google+  post user moments to the console of app<br/>
+	 * Twitter  post tweeting <br/>
+	 * Linkedin post comments on company<br/>
+	 * 
+	 * @param entity, instance of  {@link ApiEntity}<br/>
+	 * 
+	 * @return the response status data to request client<br/>
+	 */
 	@Override
 	@POST
 	@Path("/message")
@@ -94,22 +135,23 @@ public class ApiServiceImpl implements ApiService {
 
 	}
 
-	@POST
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response postData(ApiEntity entity) throws IOException {
-		String platform = entity.getPlatform();
-		String apiKey = entity.getApiKey();
-		return Response.ok("post work.." + platform + apiKey, MediaType.TEXT_PLAIN).build();
-
-	}
-
-	@Override
-	@GET
-	@Path("/text")
-	public Response get() throws IOException {
-		return Response.ok("get works..", MediaType.TEXT_PLAIN).build();
-	}
+	/**
+	 * Handle the request of get favorite tweet from the client<br/>
+	 * 
+	 * Request type POST<br/>
+	 * Request data type application/JSON<br/>
+	 * Request URL path for example http://localhost:9090/cxf/service/favlist <br/>
+	 * Request data  {@link ApiEntity}<br/>
+	 * 
+	 * Facebook not support yet<br/>
+	 * Google+  not support yet<br/>
+	 * Twitter  get favorite tweets <br/>
+	 * Linkedin not support yet<br/>
+	 * 
+	 * @param entity, instance of  {@link ApiEntity}<br/>
+	 * 
+	 * @return the tweet data to request client<br/>
+	 */
 
 	@POST
 	@Path("/favlist")
@@ -125,7 +167,24 @@ public class ApiServiceImpl implements ApiService {
 		}
 
 	}
-	
+
+	/**
+	 * Proxy for access token request <br/>
+	 * 
+	 * Request type POST<br/>
+	 * Request data type application/JSON<br/>
+	 * Request URL path for example http://localhost:9090/cxf/service/acessToken <br/>
+	 * Request data  {@link ApiEntity}<br/>
+	 * 
+	 * Facebook get accessToken<br/>
+	 * Google+  get accessToken<br/>
+	 * Twitter  get accessToken<br/>
+	 * Linkedin get accessToken<br/>
+	 * 
+	 * @param entity, instance of  {@link ApiEntity}<br/>
+	 * 
+	 * @return the access_token data to request client<br/>
+	 */	
 	@POST
 	@Path("/accessToken")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

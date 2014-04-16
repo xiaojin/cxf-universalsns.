@@ -9,17 +9,32 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.pwc.ApiEntity;
+import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.SignObject;
 import com.pwc.sns.SignObject.REQUESTTYPE;
 
+/**
+ * Class Twitter used to implement the API Twitter provided
+ */
 public class Twitter {
 	private  ApiEntity entity;
 	private String backData="" ;
+	
+	/**
+	 * Construction method
+	 * @param entity
+	 */
 	public Twitter(ApiEntity entity){
 		this.entity = entity;
 	}
 	
+	/**
+	 * Implementation of Twitter update tweet API
+	 * <br/>
+	 * "https://api.twitter.com/1.1/statuses/update.json"
+	 * @return Status code of posting tweet
+	 */
 	public String postTwitter(){ 
 		SignObject sign = new SignObject();
 		OauthSignature signMethod = new OauthSignature();
@@ -43,6 +58,12 @@ public class Twitter {
 		backData = HttpXmlClient.post(sign.getReqURI(),head,statusUpdate);	
 		return backData;
 	}
+	/**
+	 * Implementation of Twitter get favorite list API
+	 * <br/>
+	 * https://api.twitter.com/1.1/favorites/list.json
+	 * @return Latest 20 favorite list
+	 */
 	
 	public String getMyFavList(){ 
 		String url="";

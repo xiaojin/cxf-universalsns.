@@ -14,6 +14,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+/**
+ * Implement Multithread HttpClient
+ */
 public class HttpConnectionManager {
 
 	private static HttpParams httpParams;
@@ -38,6 +41,9 @@ public class HttpConnectionManager {
 //		register.register(new Scheme("https",SSLSocketFactory.getSocketFactory(),443));
 //		connectionManager = new ThreadSafeClientConnManager(httpParams,register);
 	}
+	/**
+	 * @return instance of HttpClient
+	 */
 	public static HttpClient getHttpClient(){
 		return new DefaultHttpClient(connectionManager,httpParams);
 	}

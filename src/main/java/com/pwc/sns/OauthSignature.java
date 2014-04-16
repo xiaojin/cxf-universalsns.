@@ -12,8 +12,16 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 import com.pwc.sns.SignObject;
+/**
+ * OAuth signature method
+ * 
+ */
 public class OauthSignature {
-	
+	/**
+	 * Implement the Twitter OAuth 1.0 signature method.
+	 * @param sign
+	 * @return Signature String
+	 */
 	public String geneateTwitterSignature (SignObject sign){
         String oauth_signature_method = "HMAC-SHA1";
         String oauth_consumer_key = sign.getConsumerKey();
@@ -54,7 +62,14 @@ public class OauthSignature {
         System.out.println("authorization_header_string=" + authorization_header_string);
         return authorization_header_string;
 	}
-	
+	/**
+	 * 
+	 * @param baseString
+	 * @param keyString
+	 * @return Encode String
+	 * @throws GeneralSecurityException
+	 * @throws UnsupportedEncodingException
+	 */
 	private static String computeSignature(String baseString, String keyString) throws GeneralSecurityException, UnsupportedEncodingException {
 		 
         SecretKey secretKey = null;

@@ -1,4 +1,4 @@
-package com.pwc.platform;
+package com.pwc.sns;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
