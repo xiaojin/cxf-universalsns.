@@ -67,7 +67,7 @@ var app = {
 		var str = responseString;
 		console.log("Response (google):");
 		console.log(str);
-		alert( str);
+		alert("You failed to post yet");
 
 		
 	},

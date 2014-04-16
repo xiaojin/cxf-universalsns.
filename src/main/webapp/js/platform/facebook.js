@@ -42,19 +42,20 @@ var app = {
         function success(data) {
             var status = data.id;
             if (status != null && status != undefined) {
-                alert(param +"\n Post successfully");
+                // alert(param +"\n Post successfully");
+                 var mycomment = "<label class='alert alert-success comment-style'>"+param+"</label>";
+                 $("#status").append(mycomment);
             }
             else
             {
                 console.log(data);
-                alert(data);
+                alert("You failed to post yet");
             }
         };
         function error(responseString) {
             var str = responseString;
             console.log("Response (facebook):");
             console.log(str);
-            alert(str);
 
         };
         $.ajax({
@@ -75,8 +76,10 @@ var app = {
         function success(data) {
             var userid = data.id;
             if (userid != null && userid != undefined) {
-                var alertMsg = "My Profile \n id:" + userid +  '\n' +"first_name: " + data.first_name + '\n' +"last_name: " + data.last_name + '\n' +"gender: " + data.gender + '\n';
-                alert(alertMsg);
+				$("#user-id").html(data.id);
+            	$("#name").html(data.name);
+            	$("#gender").html(data.gender);
+            	$("#link").html(data.link);
             } else {
                 alert("no id");
             }

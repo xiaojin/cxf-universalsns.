@@ -1,55 +1,127 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
+	<head>
 
-<link rel="stylesheet" type="text/css" href="css/screen.css"
-	media="screen" />
-
-<title>SocialMediaFramework</title>
-</head>
-<body>
-	<div id="content">
-		<p id="top">com.pwc</p>
-
-		<ul id="menu">
-			<li class="current"><a href="facebook.html">Facebook</a></li>
-			<li><a href="google.html">Google+</a></li>
-			<li><a href="linkedin.html">LinkedIn</a></li>
-			<li><a href="twitter2.html">Twitter</a></li>
-			<li><a href="#">About</a></li>
+		<link rel="stylesheet" type="text/css" href="css/screen.css"
+		media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"
+		media="screen" />
+		<title>SocialMediaFramework</title>
+	</head>
+	<body>
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="facebook.html">Facebook</a>
+			</li>
+			<li>
+				<a href="google.html">Google+</a>
+			</li>
+			<li>
+				<a href="linkedin.html">LinkedIn</a>
+			</li>
+			<li>
+				<a href="twitter2.html">Twitter</a>
+			</li>
+			<li>
+				<a href="#">About</a>
+			</li>
 		</ul>
-	</div>
-
-	<div
-		style="margin: 50px 0 0 50px; float: left; position: absolute; width: 80%">
-		<a href="#" class="button gray" id="facebook-get-token">Get Access
-			Token</a>
-		<p class="token"
-			style="position: relative; float: left; margin-left: 30px">Token:</p>
-		<table border="1px" cellspacing="0px">
-			<tr>
-				<td id="facebook-token"></td>
-			</tr>
+		<h2 class="head-title">Socail Framework</h2>
+		<img src="images/pwc_logo.png" class="pwc-logo"/>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th class="text-center">Function</th>
+					<th class="text-center">Demo</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr >
+					<td>
+					<div class="social-tableCenter">
+						<p class="text-center">
+							<strong><h4>Access token</h4></strong>
+						</p>
+						<p>
+							<small>Allows a Consumer application to use an OAuth request_token to request user authorization</small>
+						</p>
+					</div><td class="">
+					<div class="social-table-btnContainer">
+						<div  class="col-xs-12 col-md-8" style="margin-bottom: 10px";>
+							<a href="#" class="btn btn-primary btn-xs" id="facebook-get-token">Get Access Token</a>
+						</div>
+						<div  class="col-xs-12 col-md-8" id="facebook-token">
+							scsadadasds
+						</div>
+					</div></td>
+				</tr>
+				<tr >
+					<td>
+					<div class="social-tableCenter">
+						<p class="text-center">
+							<strong><h4>GET Profile</h4></strong>
+						</p>
+						<p>
+							<small>Returns user's profile information.</small>
+						</p>
+					</div><td class="">
+					<div class="social-table-btnContainer">
+						<div  class="col-xs-12 col-md-8" style="margin-bottom: 10px";>
+							<a href="#" class="btn btn-primary btn-xs" id="facebook-get">Get Profile</a>
+						</div>
+						<div  class="col-md-12" >
+							<table class="table">
+								<tbody class="table-striped">
+									<tr>
+										<td>User ID</td>
+										<td id="user-id"></td>
+									</tr>
+											<tr>
+										<td>Name</td>
+										<td id="name"></td>
+									</tr>
+									<tr>
+										<td>Gender</td>
+										<td id="gender"></td>
+									</tr>
+											<tr>
+										<td>Link</td>
+										<td id="link"></td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div></td>
+				</tr>
+				<tr >
+					<td>
+					<div class="social-tableCenter">
+						<p class="text-center">
+							<strong><h4>POST statuses/update</h4></strong>
+						</p>
+						<p>
+							<small>Updates the authenticating user's current status.</small>
+						</p>
+					</div><td class="">
+					<div class="social-table-btnContainer">
+						<div  class="col-xs-12 col-md-8" style="margin-bottom: 10px";>
+							<a href="#" class="btn btn-primary btn-xs"  id="facebook-post-status">Post</a>
+							 <input id="parameter" style="width: 260px;" value='"Hello, World."' /></span>
+						</div>
+						<div  class="col-xs-12 col-md-8 " id="status" ></div>
+					</div></td>
+				</tr>
+			</tbody>
 		</table>
-	</div>
-
-	<div style="margin: 100px 0 0 50px; float: left; position: absolute">
-		<a href="#" class="button gray" id="facebook-post-status">POST
-			Status</a> <span class="parameter">Parameter: <input
-			id="parameter" style="width: 320px;" value='"Hello, World."' /></span>
-	</div>
-	<div style="margin: 150px 0 0 50px; float: left; position: absolute">
-		<a href="#" class="button gray" id="facebook-get">Get
-			Me</a> 
-	</div>
-	<script src="js/libs/json2.js"></script>
-	<script src="js/libs/localstorage.js"></script>
-	<script src="js/libs/modernizr-2.5.3.min.js"></script>
-	<script src="js/libs/jquery-2.1.0.js"></script>
-	<script src="js/libs/moment.min.js"></script>
-	<script src="js/libs/jso.js"></script>
-	<script src="js/commComp/config.js"></script>
-	<script src="js/commComp/oauth.js"></script>
-	<script src="js/platform/facebook.js"></script>
-</body>
+		<script src="js/libs/json2.js"></script>
+		<script src="js/libs/localstorage.js"></script>
+		<script src="js/libs/modernizr-2.5.3.min.js"></script>
+		<script src="js/libs/jquery-2.1.0.js"></script>
+		<script src="js/libs/moment.min.js"></script>
+		<script src="js/libs/jso.js"></script>
+		<script src="js/commComp/config.js"></script>
+		<script src="js/commComp/oauth.js"></script>
+		<script src="js/platform/facebook.js"></script>
+	</body>
 </html>
