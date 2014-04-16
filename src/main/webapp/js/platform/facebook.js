@@ -3,8 +3,8 @@ var app = {
         app.bind();
         jso_configure({
             "facebook" : {
-                client_id : "1455916827976099",
-                redirect_uri : "http://127.0.0.1:9090/facebook.html",
+                client_id : conf.FACEBOOK_CLIENTID,
+                redirect_uri : conf.FACEBOOK_CALLBACK,
                 authorization : "https://www.facebook.com/dialog/oauth",
                 presenttoken : "qs"
             }

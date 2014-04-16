@@ -6,7 +6,7 @@ var twitter = {
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
             var sourceUrl = "https://api.twitter.com/1.1/favorites/list.json";
-            var parameters = "count=1";
+            var parameters = "count=4";
             var action = "Get";
             var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
             var url = oauth.sign({
@@ -27,7 +27,38 @@ var twitter = {
                     if (JSON.parse(data).length == 0) {
                         alert("You haven't add any favourite list yet");
                     } else {
-                        alert(JSON.parse(data)[0].user.description);
+                        var results = JSON.parse(data);
+                        if(results.length >0){
+                            var temple = Handlebars.compile($("#twitter-list-template").html()); 
+                            $("#favList").html("");
+
+                            Handlebars.registerHelper('userName', function() {
+                                return this.user.name;
+                            }); 
+
+                            Handlebars.registerHelper('userID', function() {
+                                return this.user.id;
+                            });
+                            Handlebars.registerHelper('userDesc', function() {
+                                return this.user.description;
+                            });
+
+
+                            var context = {
+                                "li_related" : results
+                            };
+                             $("#favList").append(temple(context));                            
+                            // for (var i = 0; i< results.length; i++) {
+                                // var fav = results[i];
+                                // var $item = $favTable;
+                                // $item.find(".tweetID").html(fav.id);
+                                // $item.find(".tweetDesc").html(fav.text);
+                                // $item.find(".userName").html(fav.user.name);
+                                // $item.find(".userID").html(fav.user.id);
+                                // $item.find(".userDesc").html(fav.user.description);
+                                // $("#favList").append($item);
+                            // }
+                        }
                     }
                 }
             }
