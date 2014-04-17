@@ -54,5 +54,23 @@ public class Linkedin{
 		backData = HttpXmlClient.post(entity.getTokenURL(),head,jsonObj.toString());	
 		return backData;
 	}
+	public String postComments() {
+		String url="";
+		try {
+			url = URLDecoder.decode(entity.getTokenURL(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Map<String, String> head = new HashMap<String, String>();
+		head.put("Content-Type", "application/xml");
+		head.put("Accept", "text/plain");
+		String message = entity.getLinkedinEntity().getMessage();
+		String xml ="<?xml version='1.0' encoding='UTF-8'?><update-comment><comment>"+message+"</comment></update-comment>";
+		
+		backData = HttpXmlClient.post(url,head,xml);	
+		// TODO Auto-generated method stub
+		return backData;
+	}
 
 }

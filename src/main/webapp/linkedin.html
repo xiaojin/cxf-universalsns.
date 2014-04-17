@@ -28,7 +28,7 @@
 		</ul>
 		<h2 class="head-title">Socail Framework</h2>
 		<img src="images/pwc_logo.png" class="pwc-logo"/>
-				<table class="table table-bordered">
+		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th class="text-center">Function</th>
@@ -36,7 +36,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr >
+				<tr  class="">
 					<td>
 					<div class="social-tableCenter">
 						<p class="text-center">
@@ -55,7 +55,7 @@
 						</div>
 					</div></td>
 				</tr>
-				<tr >
+				<tr class="">
 					<td>
 					<div class="social-tableCenter">
 						<p class="text-center">
@@ -65,9 +65,15 @@
 							<small>Use the Company Profile API to find companies using a company ID, a universal name, or an email domain. You can retrieve data for individual or multiple companies. The API returns a list of companies with matching profiles. Each entry can contain the basic company information available in the company profile (such as company ID, logo, site URL, and more) and handles to additional company content (such as RSS stream or Twitter feed).</small>
 						</p>
 						<ul class="bg-success alert">
-							<li>http://api.linkedin.com/v1/companies/162479</li>
-							<li>http://api.linkedin.com/v1/companies/universal-name=linkedin</li>
-							<li>http://api.linkedin.com/v1/companies?email-domain=apple.com</li>
+							<li>
+								http://api.linkedin.com/v1/companies/162479
+							</li>
+							<li>
+								http://api.linkedin.com/v1/companies/universal-name=linkedin
+							</li>
+							<li>
+								http://api.linkedin.com/v1/companies?email-domain=apple.com
+							</li>
 						</ul>
 					</div><td >
 					<div class="social-table-btnContainer">
@@ -81,11 +87,11 @@
 										<td>Company ID</td>
 										<td id="companyid"></td>
 									</tr>
-											<tr>
+									<tr>
 										<td>Company Name</td>
 										<td id="companyName"></td>
 									</tr>
-											<tr>
+									<tr>
 										<td>Company Website</td>
 										<td id="companyurl"></td>
 									</tr>
@@ -95,12 +101,14 @@
 									</tr>
 								</tbody>
 							</table>
-							<p style="margin-left: 10px;">Company Desc</p>
+							<p style="margin-left: 10px;">
+								Company Desc
+							</p>
 							<p id="companydesc"></p>
 						</div>
 					</div></td>
 				</tr>
-				<tr >
+				<tr class="">
 					<td>
 					<div class="social-tableCenter">
 						<p class="text-center">
@@ -109,13 +117,14 @@
 						<p>
 							<small>Use the Company Share API to share updates and content to company followers on behalf of a particular company. The LinkedIn member making the call must be an admin of the company on behalf of whom content is being shared.</small>
 						</p>
-						<p class="bg-danger alert"><small>
-							For the purposes of testing, Linkedin provided a special LinkedIn Company Page that is available for all developers to use. This company page doesn't require the authenticated user making the API call to be an administrator of the company: http://www.linkedin.com/company/devtestco (Company ID 2414183)
-						</small></p>
+						<p class="bg-danger alert">
+							<small> For the purposes of testing, Linkedin provided a special LinkedIn Company Page that is available for all developers to use. This company page doesn't require the authenticated user making the API call to be an administrator of the company: http://www.linkedin.com/company/devtestco (Company ID 2414183) </small>
+						</p>
 					</div><td class="">
 					<div class="social-table-btnContainer">
 						<div  class="col-md-10" >
-							My comment :<input id="commandValue" style="margin-left: 15px; width: 40%";>
+							My comment :
+							<input id="commandValue" style="margin-left: 15px; width: 40%";>
 						</div>
 						<div  class="col-xs-12 col-md-8" style="margin-bottom: 10px; margin-top: 20px";>
 							<a href="#" class="btn btn-primary btn-xs"  id="sharecommand">Post Comments</a>
@@ -123,47 +132,98 @@
 						<div  class="col-xs-12 col-md-8" id="comment" ></div>
 					</div></td>
 				</tr>
+				<tr >
+					<td>
+					<div class="social-tableCenter">
+						<p class="text-center">
+							<strong><h4>Get user feed</h4></strong>
+						</p>
+						<p>
+							<small>My feed</small>
+						</p>
+					</div><td>
+					<div class="social-table-btnContainer">
+						<div  class="col-xs-12 col-md-8" style="margin-bottom: 10px";>
+							<a href="#" class="btn btn-primary btn-xs" id="linkedin-get-feed">Get my feed</a>
+						</div>
+						<div  class="col-xs-12 col-md-8" id="linkedin-feedBack">
+							<ul id="myfeeds">
+								<li class="hidden myfeedli">
+									<div class="feed-body">
+										<img class="my-photo" src="https://static.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_65x65_v1.png">
+										<div style="overflow: hidden;">
+											<div class="feed-content">
+												<div class="linkedin-name">
+													<a href="#"></a>
+												</div>
+												<div class="linkedin-content">
+													<span></span>
+												</div>
+											</div>
+											<div class="linkedin-comment">
+												<ul class="feed-list">
+													<li class="feed-item hidden">
+														<img class="feed-photo" src="https://static.licdn.com/scds/common/u/img/themes/katy/ghosts/profiles/ghost_profile_30x30_v1.png">
+														<p class="feed-comment" style="overflow: hidden;">
+															<a href="#" class="feed-person"></a>
+															<span class="feed-text"> </span>
+															<small class="timestamp"></small>
+														</p>
+													</li>
+												</ul>
+												<div class="linkedinMycomment">
+													<input class="commentValue"></input>
+													<span><a href="#" class="btn-primary btn-sm postShare"> comment</a><span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					</td>
+				</tr>
 			</tbody>
 		</table>
-		
-		
-		
-		
+
 		<!-- <div
 		style="margin: 50px 0 0 50px; float: left; position: absolute; width: 80%">
-			<a href="#" class="button gray" id="linkedin-get-token">Get Access
-			Token</a>
-			<p class="token"
-			style="position: relative; float: left; margin-left: 30px">
-				Token:
-			</p>
-			<table border="1px" cellspacing="0px">
-				<tr>
-					<td id="linkedin-token"></td>
-				</tr>
-			</table>
+		<a href="#" class="button gray" id="linkedin-get-token">Get Access
+		Token</a>
+		<p class="token"
+		style="position: relative; float: left; margin-left: 30px">
+		Token:
+		</p>
+		<table border="1px" cellspacing="0px">
+		<tr>
+		<td id="linkedin-token"></td>
+		</tr>
+		</table>
 		</div>
 		<br /> -->
 		<!-- <div style="margin: 100px 0 0 50px; float: left; position: absolute;width:80%">
-			<a href="#" class="button gray" id="linkedinComp">Company Profile</a>
+		<a href="#" class="button gray" id="linkedinComp">Company Profile</a>
 		</div>
 		<div style="margin: 150px 0 0 50px; float: left; position: absolute;width:80%">
-			<a href="#" class="button gray" id="sharecommand">Post Comments on Company</a>
+		<a href="#" class="button gray" id="sharecommand">Post Comments on Company</a>
 		</div>
 		<div style="margin: 170px 0 0 500px; float: left; position: absolute;width:80%">
-			<a href="#"  id="commandLine">RESULT LINK *after opeing the link,wait 30 sec, then refresh the window</a>
+		<a href="#"  id="commandLine">RESULT LINK *after opeing the link,wait 30 sec, then refresh the window</a>
 		</div>
 		<div style="margin: 200px 0 0 60px; float: left; position: absolute;width:80%">
-			my command :
-			<input id="commandValue">
-			</input>
+		my command :
+		<input id="commandValue">
+		</input>
 		</div> -->
 
 		<script src="js/libs/jquery-2.1.0.js"></script>
 		<script src="js/libs/json2.js"></script>
 		<script src="js/libs/jquery.xml2json.js"></script>
+		<script src="js/libs/handlebars.js"></script>
 		<script src="js/libs/bootstrap.js"></script>
 		<script src="js/libs/localstorage.js"></script>
+		<script src="js/libs/moment.min.js"></script>
 		<script src="js/libs/modernizr-2.5.3.min.js"></script>
 		<script src="js/libs/OAuthSimple.js"></script>
 		<script src="js/libs/jso.js"></script>

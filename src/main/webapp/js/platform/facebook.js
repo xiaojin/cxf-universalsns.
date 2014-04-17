@@ -40,8 +40,9 @@ var app = {
         var param = $("#parameter").val();
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         var local_token = obj[0].access_token;
-
+        
         function success(data) {
+            social.tool.loading.hide();
             var status = data.id;
             if (status != null && status != undefined) {
                 // alert(param +"\n Post successfully");
@@ -55,16 +56,21 @@ var app = {
             }
         };
         function error(responseString) {
+            social.tool.loading.hide();
             var str = responseString;
             console.log("Response (facebook):");
             console.log(str);
  			alert("You failed to post yet");
         };
+        function before(jqXHR) {
+            social.tool.loading.show();
+        }        
         $.ajax({
             url : "/cxf/service/message/",
             type : "POST",
             success : success,
             error : error,
+            beforeSend : before,
             dataType: 'json',
             contentType:"application/json",
             data:JSON.stringify({ApiEntity:{platform: 'facebook', apiKey: api_key,accessToken: local_token,paramter: param}})
@@ -77,6 +83,7 @@ var app = {
 
         function success(data) {
             var userid = data.id;
+            social.tool.loading.hide();
             if (userid != null && userid != undefined) {
 				$("#user-id").html(data.id);
             	$("#name").html(data.name);
@@ -88,13 +95,17 @@ var app = {
         };
 
         function error(data) {
+            social.tool.loading.hide();
             var str = data.responseText;
             console.log("Response (facebook):");
             console.log(str);
             alert("You failed to get profile");
         }
 
-
+        function before(jqXHR) {
+            social.tool.loading.show();
+        }
+        
         $.ajax({
             url : "/cxf/service/profile/",
             type : "POST",
@@ -102,6 +113,7 @@ var app = {
             dataType: 'json',
             contentType:"application/json",
             error : error,
+            beforeSend : before,
             data:JSON.stringify({ApiEntity:{platform: 'facebook', apiKey: api_key,accessToken: local_token,paramter: 'paramd'}})
         });
     }

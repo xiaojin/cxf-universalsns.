@@ -157,3 +157,105 @@ td {
 	-moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, .8);
 	box-shadow: inset 0px 0px 3px rgba(0, 0, 0, .8);
 }
+
+/**
+ * 	Linkedin Style
+ */
+
+#linkedin-feedBack .feed-body
+{
+	border: 1px solid gray;
+	border-radius: 10px;
+	padding: 7px 8px;
+}
+#linkedin-feedBack .feed-content
+{
+	margin-bottom: 10px;
+}
+#linkedin-feedBack .linkedin-name
+{
+	
+}
+#linkedin-feedBack .linkedin-content
+{
+	
+}
+#linkedin-feedBack .linkedin-comment
+{
+	background-color: #F4F4F4;
+	margin-left: 16px;
+	padding: 5px 14px;
+	margin-right: 16px;
+}
+.linkedin-comment .feed-list
+{
+	list-style-type: none;
+}
+#myfeeds
+{
+	list-style-type: none;
+}
+.linkedin-comment .timestamp
+{
+	display: block;
+}
+#linkedin-feedBack .feed-item
+{
+	position: relative;
+	overflow: hidden;
+}
+
+#linkedin-feedBack .feed-photo {
+	width: 30px;
+	height: 30px;
+	float: left;
+	display: block;
+	margin-right: 7px;
+	margin-top: 8px;
+}
+#linkedin-feedBack .my-photo
+{	
+	width: 65px;
+	height: 65px;
+	float: left;
+	display: block;
+	margin-right: 8px;
+	margin-top:1px;
+	
+}
+#linkedin-feedBack .feed-entry
+{
+	margin-bottom:30px;
+}
+#linkedin-feedBack .feed-comment
+{
+	
+}
+#linkedin-feedBack .linkedinMycomment
+{
+	
+}
+.ess-loading-mask {
+	width: 150px;
+	height: 150px;
+	text-align: center;
+	background: rgba(196,196,198,0.7);
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	background-image: url(../images/loading.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 30%;
+	padding-top: 108px;
+	border-radius: 8px;
+	color: white;
+	font-weight:bolder;
+	z-index:1000000;
+}
+.ess-loading-indicator-wrapper{
+	position: absolute;
+	left:0px;
+	top:0px;
+	background:rgba(0,0,0,0.1);
+	z-index:100000;
+}

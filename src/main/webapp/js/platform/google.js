@@ -57,6 +57,7 @@ var app = {
 			var str = responseString;
 		};
 		function success(data) {
+		    social.tool.loading.hide();
 			console.log("Response (google):");
 			console.log(data);
 			if (data.id != undefined && data.id != "") {
@@ -68,13 +69,16 @@ var app = {
 			}
 		};
 		function error(responseString) {
-
+            social.tool.loading.hide();
 			var str = responseString;
 			console.log("Response (google):");
 			console.log(str);
 			alert("You failed to get profile");
 
 		};
+            function before(jqXHR) {
+                social.tool.loading.show();
+            }		
 		$.ajax({
 			url : "/cxf/service/profile/",
 			type : "POST",
@@ -83,6 +87,7 @@ var app = {
 			complete : complete,
 			success : success,
 			error : error,
+			beforeSend : before,
 			data : JSON.stringify({
 				ApiEntity : {
 					platform : 'googleplus',
@@ -99,6 +104,7 @@ var app = {
 		var local_token = obj.access_token;
 		var api_key = "123456";
 		function success(data) {
+		    social.tool.loading.hide();
 			var status = data.id;
 			if (status != null && status != undefined) {
 				// alert(param +"\n Post successfully");
@@ -110,11 +116,16 @@ var app = {
 			}
 		};
 		function error(responseString) {
+		    social.tool.loading.hide();
 			var str = responseString;
 			console.log("Response (facebook):");
 			console.log(str);
 			alert("You failed to insert moments");
 		};
+		
+            function before(jqXHR) {
+                social.tool.loading.show();
+            }		
 		var param = JSON.stringify({
 			"target" : {
 				"url" : "https://developers.google.com/+/plugins/snippet/examples/thing"
@@ -125,6 +136,7 @@ var app = {
 			url : "/cxf/service/message/",
 			type : "POST",
 			success : success,
+			beforeSend : before,
 			error : error,
 			dataType : 'json',
 			contentType : "application/json",
