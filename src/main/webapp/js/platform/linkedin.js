@@ -134,7 +134,7 @@ var link = {
             social.tool.loading.show();
         }
 
-        //getInfo
+        //getInfo scope=self
 
   
         $.ajax({
@@ -151,7 +151,7 @@ var link = {
                     apiKey : '123456',
                     linkedinEntity : {
                         personID : "me",
-                        parameters:"scope=self"
+                        parameters:""
                     }
                 }
             })
