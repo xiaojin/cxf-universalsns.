@@ -128,7 +128,7 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok( twitter.postTwitter(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
-			return Response.ok(linkedin.commentOnCompany(), MediaType.TEXT_PLAIN).build();
+			return Response.ok(linkedin.postComments(), MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("error:need config platform data", MediaType.TEXT_PLAIN).build();
 		}
@@ -174,8 +174,22 @@ public class ApiServiceImpl implements ApiService {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response postCommentst(ApiEntity entity) throws IOException {
 		if (entity.getPlatform().equalsIgnoreCase("linkedin")) {
+			Linkedin linkedin = new Linkedin(entity);			
+			return Response.ok(linkedin.commentOnCompany(), MediaType.TEXT_PLAIN).build();		
+		}else
+		{
+			return Response.ok("no supported", MediaType.TEXT_PLAIN).build();
+		}
+	}
+	
+	@POST
+	@Path("/feed_get")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getFeed(ApiEntity entity) throws IOException {
+		if (entity.getPlatform().equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
-			return Response.ok(linkedin.postComments(), MediaType.TEXT_PLAIN).build();		
+			return Response.ok(linkedin.getPeopleFeed(), MediaType.TEXT_PLAIN).build();		
 		}else
 		{
 			return Response.ok("no supported", MediaType.TEXT_PLAIN).build();

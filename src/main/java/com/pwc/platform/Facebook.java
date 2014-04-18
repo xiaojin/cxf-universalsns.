@@ -3,6 +3,8 @@ package com.pwc.platform;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.pwc.platform.RequestURL.FacebookUrl;
+import com.pwc.platform.RequestURL.GooglePlusUrl;
 import com.pwc.sns.HttpXmlClient;
 
 /**
@@ -42,7 +44,16 @@ public class Facebook extends SocialMedia{
 	 */
 	public String getProfile(){
 		String token = entity.getAccessToken();
-		String url = "https://graph.facebook.com/me?access_token="+token;
+		String url= FacebookUrl.GET_PROFILE_URL;
+		FacebookEntity facebook = entity.getFacebookEntity();
+		if("me".equals(facebook.getPersonID())){
+			url = url.replaceAll("\\{id\\}", "me");
+		}
+		else{
+			url = url.replaceAll("\\{id\\}", facebook.getPersonID());
+		}
+		url = url + "?" +"access_token="+token;
+//		String url = "https://graph.facebook.com/me?access_token="+token;
 		backData = HttpXmlClient.get(url);
 		return backData;
 	}
@@ -54,10 +65,19 @@ public class Facebook extends SocialMedia{
 	 * @return
 	 */
 	public String postMessage(){
-		String url = "https://graph.facebook.com/me/feed";
+		String token = entity.getAccessToken();
+		String url= FacebookUrl.POST_FEED_URL;
+		FacebookEntity facebook = entity.getFacebookEntity();
+		if("me".equals(facebook.getPersonID())){
+			url = url.replaceAll("\\{id\\}", "me");
+		}
+		else{
+			url = url.replaceAll("\\{id\\}", facebook.getPersonID());
+		}
+//		String url = "https://graph.facebook.com/me/feed";
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("message", entity.getParamter());
-		params.put("access_token", entity.getAccessToken());
+		params.put("message", facebook.getParameters());
+		params.put("access_token",token);
 		backData = HttpXmlClient.post(url,params);
 		return backData;
 	}

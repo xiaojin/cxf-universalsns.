@@ -5,17 +5,16 @@ var twitter = {
         var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
-            var sourceUrl = "https://api.twitter.com/1.1/favorites/list.json";
-            var parameters = "count=4";
-            var action = "Get";
-            var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
-            var url = oauth.sign({
-                action : action,
-                path : sourceUrl,
-                parameters : parameters,
-                signatures : oauth_information
-            }).signed_url;
-            console.log(url);
+            // var sourceUrl = "https://api.twitter.com/1.1/favorites/list.json";
+            // var parameters = "count=4";
+            // var action = "Get";
+            // var url = oauth.sign({
+                // action : action,
+                // path : sourceUrl,
+                // parameters : parameters,
+                // signatures : oauth_information
+            // }).signed_url;
+            var api_key = "123456";
             function success(data) {
                 social.tool.loading.hide();
                 console.log(data);
@@ -48,16 +47,6 @@ var twitter = {
                                 "li_related" : results
                             };
                             $("#favList").append(temple(context));
-                            // for (var i = 0; i< results.length; i++) {
-                            // var fav = results[i];
-                            // var $item = $favTable;
-                            // $item.find(".tweetID").html(fav.id);
-                            // $item.find(".tweetDesc").html(fav.text);
-                            // $item.find(".userName").html(fav.user.name);
-                            // $item.find(".userID").html(fav.user.id);
-                            // $item.find(".userDesc").html(fav.user.description);
-                            // $("#favList").append($item);
-                            // }
                         }
                     }
                 }
@@ -81,11 +70,17 @@ var twitter = {
                 error : error,
                 beforeSend : before,
                 data : JSON.stringify({
-                    ApiEntity : {
-                        tokenURL : escape(url),
-                        platform : "twitter",
-                    }
-                })
+                        ApiEntity : {
+                            platform : "twitter",
+                            accessToken : JSON.stringify(oauth_information),
+                            apiKey : api_key,
+                            twitterEntity : {
+                                consumerKeySec : conf.TWITTER_SEC,
+                                consumerKey : conf.TWITTER_KEY,
+                                count : '4'
+                            }
+                        }
+                    })
             });
 
         } else {
@@ -97,7 +92,6 @@ var twitter = {
         var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
-            var sourceUrl = "https://api.twitter.com/1.1/statuses/update.json";
             var status = $("#commandValue").val();
             var api_key = "123456";
             if (status == null || status == undefined) {

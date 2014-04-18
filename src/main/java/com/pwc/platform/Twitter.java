@@ -17,7 +17,7 @@ import com.pwc.sns.SignObject.REQUESTTYPE;
 /**
  * Class Twitter used to implement the API Twitter provided
  */
-public class Twitter {
+public class Twitter implements RequestURL{
 	private  ApiEntity entity;
 	private String backData="" ;
 	
@@ -51,7 +51,7 @@ public class Twitter {
 		sign.setRequestType(REQUESTTYPE.POST);
 		sign.setReqURI("https://api.twitter.com/1.1/statuses/update.json");
 		
-		String headString = signMethod.geneateTwitterSignature(sign);       
+		String headString = signMethod.geneateTwitterSignaturePostHead(sign);       
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Authorization", headString);
 		head.put("Content-Type", "application/x-www-form-urlencoded");
@@ -66,14 +66,33 @@ public class Twitter {
 	 */
 	
 	public String getMyFavList(){ 
-		String url="";
-		try {
-			url = URLDecoder.decode(entity.getTokenURL(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		backData = HttpXmlClient.get(url);
+		SignObject sign = new SignObject();
+		OauthSignature signMethod = new OauthSignature();
+		String consumKey =entity.getTwitterEntity().getConsumerKey();
+		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
+		String count = entity.getTwitterEntity().getCount();
+		JSONObject tokenMsg = new JSONObject(entity.getAccessToken());
+		String statusUpdate = "count="+ count;
+		sign.setAccessToken(tokenMsg.getString("oauth_token"));
+		sign.setAccessTokenSec((String)tokenMsg.get("oauth_token_secret"));
+		sign.setConsumerKey(consumKey);
+		sign.setConsumerKeySec(comsumKeysec);
+		sign.setReqQuery(statusUpdate);
+		sign.setRequestType(REQUESTTYPE.GET);
+		sign.setReqURI(TwitterUrl.GET_MYFAVLIST);
+		
+		String url = signMethod.generateTwitterSignatureGETURL(sign);   		
+		backData = HttpXmlClient.get(url);	
 		return backData;
+		
+//		String url="";
+//		try {
+//			url = URLDecoder.decode(entity.getTokenURL(), "UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		backData = HttpXmlClient.get(url);
+//		return backData;
 	}
 }

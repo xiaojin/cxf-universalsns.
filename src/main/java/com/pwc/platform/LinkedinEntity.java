@@ -6,7 +6,9 @@ package com.pwc.platform;
  */
 public class LinkedinEntity {
 	private String message;
-	
+	private String parameters;
+	private String companyID;
+	private String personID;
 	/**
 	 * 
 	 * @return String message
@@ -22,5 +24,52 @@ public class LinkedinEntity {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	/**
+	 * 
+	 * @return parameters
+	 */
+	public String getParameters() {
+		return parameters;
+	}
+	
+	/**
+	 * 
+	 * @param parameters
+	 */
+	public void setParameters(String parameters) {
+		this.parameters = parameters;
+	}
+	/**
+	 * 
+	 * @return companyID
+	 */
+	public String getCompanyID() {
+		return companyID;
+	}
+
+	/**
+	 * 
+	 * @param companyID
+	 */
+	public void setCompanyID(String companyID) {
+		this.companyID = companyID;
+	}
+	
+	/**
+	 * @return personID
+	 */
+	public String getPersonID() {
+		return personID;
+	}
+	
+	/**
+	 * @param personID
+	 */
+	public void setPersonID(String personID) {
+		this.personID = personID;
+	}
+	
+	
 	
 }

@@ -138,7 +138,6 @@ authRequest = function(platform) {
         jso_ensureTokens({
             "facebook" : ["publish_actions", "read_stream"]
         });
-        jso_dump();
     }
     if (platform === conf.GOOGLEPLUS) {
         oauthV2.googleGetAccessToken();
@@ -285,19 +284,12 @@ var oauthV1 = {
             }
         }
     }
-
 };
 
 
 var oauthV2 = {
     init : function() {
         jso_configure({
-            "google" : {
-                client_id : "813483280675-h879tteoivpnmfeujgf2lg1j9t2jk9n7.apps.googleusercontent.com",
-                redirect_uri : "http://localhost:9090/google.html",
-                authorization : "https://accounts.google.com/o/oauth2/auth",
-                isDefault : true
-            },
             "facebook" : {
 				client_id : conf.FACEBOOK_CLIENTID,
 				redirect_uri : conf.FACEBOOK_CALLBACK,
@@ -399,8 +391,13 @@ var oauthV2 = {
             })
         }); 
         
+    },
+    // user for facebook to store the access_token at local
+    oauthSearch :function() {
+        oauthV2.init();
+        jso_dump(); 
     }
-    
+
 };
 
 

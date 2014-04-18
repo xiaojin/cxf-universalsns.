@@ -9,7 +9,7 @@ public class TwitterEntity {
 	private String consumerKeySec;
 	private String consumerKey;
 	private String status;
-
+	private String count;
 	/**
 	 * 
 	 * @return String consumerKeySec
@@ -52,6 +52,22 @@ public class TwitterEntity {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	/**
+	 * 
+	 * @return count
+	 */
+	public String getCount() {
+		return count;
+	}
+	/**
+	 * 
+	 * @param count
+	 */
+	public void setCount(String count) {
+		this.count = count;
+	}
+	
+	
 	
 	
 }

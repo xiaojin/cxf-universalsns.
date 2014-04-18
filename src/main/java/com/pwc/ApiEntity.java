@@ -3,6 +3,8 @@ package com.pwc;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.pwc.platform.FacebookEntity;
+import com.pwc.platform.GooglePlusEntity;
 import com.pwc.platform.LinkedinEntity;
 import com.pwc.platform.TwitterEntity;
 /**
@@ -10,7 +12,7 @@ import com.pwc.platform.TwitterEntity;
  * 
  */
 @XmlRootElement(name = "ApiEntity") 
-@XmlSeeAlso({TwitterEntity.class, LinkedinEntity.class})
+@XmlSeeAlso({TwitterEntity.class, LinkedinEntity.class,GooglePlusEntity.class,FacebookEntity.class})
 public class ApiEntity {
 	private String platform;
 	private String apiKey;
@@ -19,6 +21,8 @@ public class ApiEntity {
 	private String tokenURL;
 	private TwitterEntity twitterEntity;
 	private LinkedinEntity linkedinEntity;
+	private GooglePlusEntity googlePlusEntity;
+	private FacebookEntity facebookEntity;
 	/**
 	 * @return platform
 	 */
@@ -103,6 +107,38 @@ public class ApiEntity {
 	public void setLinkedinEntity(LinkedinEntity linkedinEntity) {
 		this.linkedinEntity = linkedinEntity;
 	}
-
+	/**
+	 * 
+	 * @return googlePlusEntity
+	 */
+	public GooglePlusEntity getGooglePlusEntity() {
+		return googlePlusEntity;
+	}
+	/**
+	 * 
+	 * @param googlePlusEntity
+	 */
+	public void setGooglePlusEntity(GooglePlusEntity googlePlusEntity) {
+		this.googlePlusEntity = googlePlusEntity;
+	}
 	
+	/**
+	 * 
+	 * @return facebookEntity
+	 */
+	public FacebookEntity getFacebookEntity() {
+		return facebookEntity;
+	}
+	
+	/**
+	 * 
+	 * @param facebookEntity
+	 */
+	public void setFacebookEntity(FacebookEntity facebookEntity) {
+		this.facebookEntity = facebookEntity;
+	}
+	
+	
+	
+		
 }

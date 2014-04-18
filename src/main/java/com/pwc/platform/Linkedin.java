@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import com.pwc.ApiEntity;
 import com.pwc.sns.HttpXmlClient;
-public class Linkedin{
+public class Linkedin implements RequestURL{
 	private ApiEntity entity;
 	private String backData="" ;
 	
@@ -30,13 +30,9 @@ public class Linkedin{
 	 * @return
 	 */
 	public String getCompanyProfile(){
-		String url="";
-		try {
-			url = URLDecoder.decode(entity.getTokenURL(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String url= LinkedinUrl.GET_COMPANY_PROFILE;
+		url = url+entity.getLinkedinEntity().getCompanyID()+":"+entity.getLinkedinEntity().getParameters();
+		url = url + "?" + "oauth2_access_token=" + entity.getAccessToken();
 		backData = HttpXmlClient.get(url);
 		return backData;
 	}
@@ -47,21 +43,37 @@ public class Linkedin{
 	 * @return
 	 */
 	public String commentOnCompany(){
+		String url= LinkedinUrl.CTEATE_COMPANY_SHARE;
+		url = url.replaceAll("\\{id\\}", entity.getLinkedinEntity().getCompanyID());
+		url = url + "?" + "oauth2_access_token=" + entity.getAccessToken();
 		JSONObject jsonObj = new JSONObject(entity.getLinkedinEntity().getMessage());
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Content-Type", "application/json");
 		head.put("Accept", "text/plain");
-		backData = HttpXmlClient.post(entity.getTokenURL(),head,jsonObj.toString());	
+		backData = HttpXmlClient.post(url,head,jsonObj.toString());	
 		return backData;
 	}
-	public String postComments() {
-		String url="";
-		try {
-			url = URLDecoder.decode(entity.getTokenURL(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public String getPeopleFeed(){
+		String url = LinkedinUrl.GET_FEED;
+		LinkedinEntity linkedin = entity.getLinkedinEntity();
+		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
+		if("me".equals(linkedin.getPersonID())){
+			
 		}
+		else{
+			url = url.replaceAll("\\~", "id="+entity.getLinkedinEntity().getCompanyID());
+		}
+		url = url + "?"+param+"&oauth2_access_token=" + entity.getAccessToken();
+		backData = HttpXmlClient.get(url);
+		return backData;
+	}
+	
+	public String postComments() {
+		String url = LinkedinUrl.POST_FEED;
+		LinkedinEntity linkedin = entity.getLinkedinEntity();
+		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
+		url = url.replaceAll("key\\=\\{key\\}", linkedin.getParameters());
+		url = url + "?"+"oauth2_access_token=" + entity.getAccessToken();
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Content-Type", "application/xml");
 		head.put("Accept", "text/plain");

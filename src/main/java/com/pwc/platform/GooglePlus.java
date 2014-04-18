@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.pwc.platform.RequestURL.GooglePlusUrl;
+import com.pwc.platform.RequestURL.LinkedinUrl;
 import com.pwc.sns.HttpXmlClient;
 
 /**
@@ -37,10 +39,18 @@ public class GooglePlus extends SocialMedia {
 	 */
 	@Override
 	public String getProfile() {
-		String url = "https://content.googleapis.com/plus/v1/people/me";
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("Authorization", "Bearer " + entity.getAccessToken());
-		return HttpXmlClient.get(url, params);
+		String url= GooglePlusUrl.GET_PEROPLE_PROFILE;
+		GooglePlusEntity googlePlus = entity.getGooglePlusEntity();
+		if("me".equals(googlePlus.getPersonID())){
+			url = url.replaceAll("\\{id\\}", "me");
+		}
+		else{
+			url = url.replaceAll("\\{id\\}", googlePlus.getPersonID());
+		}
+//		String url = "https://content.googleapis.com/plus/v1/people/me";
+		Map<String, String> head = new HashMap<String, String>();
+		head.put("Authorization", "Bearer " + entity.getAccessToken());
+		return HttpXmlClient.get(url, head);
 	}
 
 	/**
@@ -51,8 +61,16 @@ public class GooglePlus extends SocialMedia {
 	 */
 	@Override
 	public String postMessage() {
-		String url = "https://www.googleapis.com/plus/v1/people/me/moments/vault";
-		JSONObject jsonObj = new JSONObject(entity.getParamter());
+		String url= GooglePlusUrl.ADD_MOMENTS;
+		GooglePlusEntity googlePlus = entity.getGooglePlusEntity();
+		if("me".equals(googlePlus.getPersonID())){
+			url = url.replaceAll("\\{id\\}", "me");
+		}
+		else{
+			url = url.replaceAll("\\{id\\}", googlePlus.getPersonID());
+		}
+//	String url = "https://www.googleapis.com/plus/v1/people/me/moments/vault";
+		JSONObject jsonObj = new JSONObject(googlePlus.getParameters());
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Content-Type", "application/json");
 		head.put("Authorization", "Bearer " + entity.getAccessToken());

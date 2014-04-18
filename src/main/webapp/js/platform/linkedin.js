@@ -52,9 +52,8 @@ var link = {
     uploadFeed : function(key, message) {
         var updateKey = key;
         var myMessage = message;
-        var sourceUrl = "https://api.linkedin.com/v1/people/~/network/updates/key=" + updateKey + "/update-comments";
+        var param = "key=" + updateKey ;
         var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
-        var url = sourceUrl + '?' + "oauth2_access_token=" + accesstoken;
 
         function success(data) {
             console.log(data);
@@ -78,7 +77,7 @@ var link = {
         //getInfo
 
         $.ajax({
-            url : "/cxf/service/comments/",
+            url : "/cxf/service/message/",
             type : "POST",
             success : success,
             beforeSend : before,
@@ -86,11 +85,12 @@ var link = {
             error : error,
             data : JSON.stringify({
                 ApiEntity : {
-                    tokenURL : escape(url),
+                    accessToken : accesstoken,
                     platform : "linkedin",
                     apiKey : '123456',
                     linkedinEntity : {
-                        message : myMessage
+                        message : myMessage,
+                        parameters:param
                     }
                 }
             })
@@ -100,10 +100,7 @@ var link = {
 
     getFeed : function(pauth_information) {
         $(".feed-entry").remove();
-        var sourceUrl = "https://api.linkedin.com/v1/people/~/network/updates";
         var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
-        var url = sourceUrl + '?scope=self&' + "oauth2_access_token=" + accesstoken;
-
         function success(data) {
             social.tool.loading.hide();
             console.log(data);
@@ -139,8 +136,9 @@ var link = {
 
         //getInfo
 
+  
         $.ajax({
-            url : "/cxf/service/profile/",
+            url : "/cxf/service/feed_get/",
             type : "POST",
             success : success,
             beforeSend : before,
@@ -148,20 +146,25 @@ var link = {
             error : error,
             data : JSON.stringify({
                 ApiEntity : {
-                    tokenURL : escape(url),
+                    accessToken : accesstoken,
                     platform : "linkedin",
-                    apiKey : '123456'
+                    apiKey : '123456',
+                    linkedinEntity : {
+                        personID : "me",
+                        parameters:"scope=self"
+                    }
                 }
             })
-        });
+        }); 
+
     },
 
-    //count=1&start=5
-    listLinkedPeople : function(oauth_information) {
-        var sourceUrl = "https://api.linkedin.com/v1/companies/162479:(id,name,description,company-type,ticker,website-url)";
+    
+    listCompanyProfile : function(oauth_information) {
+        // var sourceUrl = "https://api.linkedin.com/v1/companies/162479:(id,name,description,company-type,ticker,website-url)";
         var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
-        var url = sourceUrl + '?' + "oauth2_access_token=" + accesstoken;
-
+        // var url = sourceUrl + '?' + "oauth2_access_token=" + accesstoken;
+        var company = 162479;
         function success(data) {
             console.log(data);
             social.tool.loading.hide();
@@ -197,7 +200,6 @@ var link = {
             social.tool.loading.show();
         }
 
-        //getInfo
 
         $.ajax({
             url : "/cxf/service/profile/",
@@ -208,27 +210,31 @@ var link = {
             beforeSend : before,
             data : JSON.stringify({
                 ApiEntity : {
-                    tokenURL : escape(url),
+                    accessToken : accesstoken,
                     platform : "linkedin",
-                    apiKey : '123456'
+                    apiKey : '123456',
+                    linkedinEntity : {
+                        parameters : '(id,name,description,company-type,ticker,website-url)',
+                        companyID:company
+                    }
                 }
             })
-        });
+        }); 
+
     },
-    shareCommand : function() {
-        var sourceUrl = "https://api.linkedin.com/v1/companies/2414183/shares";
-        var parameters = $("#commandValue").val();
-        if (parameters == null || parameters == undefined) {
-            parameters = "Hello, from our social framework";
+    shareComment : function() {
+        var company = 2414183;
+        var comments = $("#commandValue").val();
+        if (comments == null || comments == undefined) {
+            comments = "Hello, from our social framework";
         }
         var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
-        var url = sourceUrl + '?' + "oauth2_access_token=" + accesstoken;
         function success(data) {
              social.tool.loading.hide();
             var comment = $.xml2json($(data)[2]);
              var error = $.xml2json($(data)[2]).error_code;
             if (error === undefined) {
-            if (comment.update - url != undefined) {
+            if (comment.update_url != undefined) {
                 var mycomment = "<label class='alert alert-success comment-style'>" + $("#commandValue").val() + "</label>";
                 $("#comment").append(mycomment);
             } else {
@@ -238,18 +244,10 @@ var link = {
             }else {
                 alert(error + '\n' + $.xml2json($(data)[2]).message);
             }
-            // console.log(data);
-            // alert(data);
-            // url = $(data).find("update-url").text();
-            // $("#commandLine").show();
-            // $("#commandLine").click(function(){
-            // window.open("https://www.linkedin.com/company/devtestco","_blank");
-            // });
-
-            // window.location.href = "http://localhost:9090/overall.html";
         }
 
         function error(jqXHR, textStatus, errorThrown) {
+            social.tool.loading.hide();
             console.log(errorThrown);
         }
 
@@ -260,7 +258,7 @@ var link = {
         //getInfo
 
         $.ajax({
-            url : "/cxf/service/message/",
+            url : "/cxf/service/comments/",
             type : "POST",
             contentType : "application/json",
             success : success,
@@ -269,17 +267,17 @@ var link = {
             data : JSON.stringify({
                 ApiEntity : {
                     platform : "linkedin",
-                    accessToken : localStorage.getItem("authInfo"),
+                    accessToken : accesstoken,
                     apiKey : '123456',
-                    tokenURL : url,
                     linkedinEntity : {
                         message : JSON.stringify({
                             "visibility" : {
                                 "code" : "anyone"
                             },
-                            "comment" : parameters,
+                            "comment" : comments,
                             "title" : 'SDC Soical Framework'
-                        })
+                        }),
+                        companyID:company
                     }
                 }
             })
@@ -304,8 +302,8 @@ var link = {
             $("#linkedin-token").html(lineninToken.access_token);
         }
         $("#linkedin-get-token").click(link.oauthLinkedIn);
-        $("#linkedinComp").click(link.listLinkedPeople);
-        $("#sharecommand").click(link.shareCommand);
+        $("#linkedinComp").click(link.listCompanyProfile);
+        $("#sharecommand").click(link.shareComment);
         $("#commandLine").hide();
 
         $("#linkedin-get-feed").click(link.getFeed);
