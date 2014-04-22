@@ -8,6 +8,7 @@ public interface RequestURL {
 	interface TwitterUrl{
 		String UPDATE_STATUS="https://api.twitter.com/1.1/statuses/update.json";
 		String GET_MYFAVLIST="https://api.twitter.com/1.1/favorites/list.json";
+		String GET_PEOPLE_PROFILE="https://api.twitter.com/1.1/account/verify_credentials.json";
 	}
 	
 	interface GooglePlusUrl{
@@ -16,7 +17,7 @@ public interface RequestURL {
 	}
 	interface LinkedinUrl{
 		String GET_COMPANY_PROFILE="https://api.linkedin.com/v1/companies/";
-		String GET_PEOPLE_PROFILE="http://api.linkedin.com/v1/people/";
+		String GET_PEOPLE_PROFILE="https://api.linkedin.com/v1/people/~";
 		String CTEATE_COMPANY_SHARE="https://api.linkedin.com/v1/companies/{id}/shares";
 		String GET_FEED="https://api.linkedin.com/v1/people/~/network/updates";
 		String POST_FEED="https://api.linkedin.com/v1/people/~/network/updates/key={key}/update-comments";

@@ -57,15 +57,16 @@ var app = {
             var str = responseString;
         };
         function success(data) {
+            var user = $.xml2json(data);
+            var userid = user.id;
             social.tool.loading.hide();
-            console.log("Response (google):");
-            console.log(data);
-            if (data.id != undefined && data.id != "") {
-                $("#user-id").html(data.id);
-                $("#name").html(data.displayName);
-                $("#link").html(data.url);
+            if (userid != null && userid != undefined) {
+                $("#user-id").html(user.id);
+                $("#name").html(user.username);
+                $("#gender").html(user.gender);
+                $("#link").html(user.link);
             } else {
-                alert("You failed to get profile");
+               alert("You failed to get profile");
             }
         };
         function error(responseString) {
@@ -85,7 +86,7 @@ var app = {
             url : "/cxf/service/profile/",
             type : "POST",
             contentType : "application/json",
-            dataType : 'json',
+            dataType : 'xml',
             complete : complete,
             success : success,
             error : error,

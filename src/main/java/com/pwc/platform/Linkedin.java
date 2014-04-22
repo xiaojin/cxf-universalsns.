@@ -1,10 +1,22 @@
 package com.pwc.platform;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import net.sf.json.JSON;
+import net.sf.json.xml.XMLSerializer;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -12,6 +24,7 @@ import org.json.JSONObject;
  */
 
 import com.pwc.ApiEntity;
+import com.pwc.service.PlatformResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 public class Linkedin implements RequestURL{
 	private ApiEntity entity;
@@ -83,6 +96,56 @@ public class Linkedin implements RequestURL{
 		backData = HttpXmlClient.post(url,head,xml);	
 		// TODO Auto-generated method stub
 		return backData;
+	}
+	
+	public String getPeopleProfile(){
+		String url = LinkedinUrl.GET_PEOPLE_PROFILE;
+		LinkedinEntity linkedin = entity.getLinkedinEntity();
+		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
+		if(!("me".equals(linkedin.getPersonID()))){
+			url = url.replaceAll("\\~", "id="+linkedin.getPersonID());
+		}
+		if(!("".equals(param))){
+			url = url + ":" + param;
+		}
+		url = url + "?"+param+"&oauth2_access_token=" + entity.getAccessToken();
+		backData = HttpXmlClient.get(url);
+		int index = backData.indexOf("error");
+		if(index ==-1){		
+			XMLSerializer xmlSerializer = new XMLSerializer(); 
+			JSON json = xmlSerializer.read(backData);
+			JSONObject backjson = new JSONObject(json.toString());
+			PlatformResponseEntity response = new PlatformResponseEntity();
+			response.setId(backjson.getString("id"));
+			response.setPlatform("linkedin");
+			response.setUsername(backjson.getString("first-name")+" "+backjson.getString("last-name"));
+			JSONArray obj = (JSONArray) backjson.get("site-standard-profile-request");			
+			if(obj.get(0) !=null){
+				response.setLink((String)obj.get(0));
+			}
+			else{
+				response.setLink("");
+			}
+			
+			response.setGender("");
+			response.setDescription(backjson.getString("headline"));
+			 JAXBContext context;
+			 OutputStream steam = null;
+			try {
+				context = JAXBContext.newInstance(PlatformResponseEntity.class);
+		        Marshaller m = context.createMarshaller();
+		        steam = new ByteArrayOutputStream();
+		        m.marshal(response, steam);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String newString = steam.toString();
+			return newString;	
+		}
+		else{
+			return backData;
+		}
 	}
 
 }

@@ -77,10 +77,10 @@ public class ApiServiceImpl implements ApiService {
 			return Response.ok(sm.getProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("twitter")) {
 			Twitter twitter = new Twitter(entity);			
-			return Response.ok( twitter.getMyFavList(), MediaType.TEXT_PLAIN).build();
+			return Response.ok( twitter.getPeopleProfile(), MediaType.TEXT_PLAIN).build();
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
-			return Response.ok(linkedin.getCompanyProfile(), MediaType.TEXT_PLAIN).build();
+			return Response.ok(linkedin.getPeopleProfile(), MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("error:need config platform data", MediaType.TEXT_PLAIN).build();
 		}
@@ -162,6 +162,21 @@ public class ApiServiceImpl implements ApiService {
 		if (entity.getPlatform().equalsIgnoreCase("twitter")) {
 			Twitter twitter = new Twitter(entity);
 			return Response.ok(twitter.getMyFavList(), MediaType.TEXT_PLAIN).build();		
+		}else
+		{
+			return Response.ok("no supported", MediaType.TEXT_PLAIN).build();
+		}
+	}
+	
+	@POST
+	@Path("/companyProfile")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getOther(ApiEntity entity) throws IOException {
+		
+		if (entity.getPlatform().equalsIgnoreCase("linkedin")) {
+			Linkedin linkedin = new Linkedin(entity);
+			return Response.ok(linkedin.getCompanyProfile(), MediaType.TEXT_PLAIN).build();		
 		}else
 		{
 			return Response.ok("no supported", MediaType.TEXT_PLAIN).build();

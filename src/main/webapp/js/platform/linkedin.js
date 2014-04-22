@@ -202,7 +202,7 @@ var link = {
 
 
         $.ajax({
-            url : "/cxf/service/profile/",
+            url : "/cxf/service/companyProfile/",
             type : "POST",
             success : success,
             contentType : "application/json",
@@ -283,6 +283,64 @@ var link = {
             })
         });
     },
+    
+    getUserProfile :function(){
+        var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
+        var company = 162479;
+        function success(data) {
+            console.log(data);
+            social.tool.loading.hide();
+            var error = $.xml2json(data).error_code;
+            if (error === undefined) {
+            var user = $.xml2json(data);
+            if (user != undefined) {
+                $("#user-id").html(user.id);
+                $("#name").html(user.username);
+                $("#user-desc").html(user.description);
+                $("#link").html(user.link);
+            } else {
+                $("#user-id").html();
+                $("#name").html();
+                $("#user-desc").html();
+                $("#link").html();
+
+            }
+            }else {
+                alert(error + '\n' + $.xml2json(data).message);
+            }
+        }
+
+        function error(jqXHR, textStatus, errorThrown) {
+             social.tool.loading.hide();
+            console.log(errorThrown);
+        }
+
+        function before(jqXHR) {
+            social.tool.loading.show();
+        }
+
+
+        $.ajax({
+            url : "/cxf/service/profile/",
+            type : "POST",
+            success : success,
+            contentType : "application/json",
+            dataType : 'xml',
+            error : error,
+            beforeSend : before,
+            data : JSON.stringify({
+                ApiEntity : {
+                    accessToken : accesstoken,
+                    platform : "linkedin",
+                    apiKey : '123456',
+                    linkedinEntity : {
+                        personID : "me",
+                        parameters : '(id,first-name,last-name,headline,site_standard_profile_request)'
+                    }
+                }
+            })
+        });         
+    },
     oauthLinkedIn : function() {
         var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
         if (lineninToken != null && lineninToken.access_token != undefined) {
@@ -302,6 +360,7 @@ var link = {
             $("#linkedin-token").html(lineninToken.access_token);
         }
         $("#linkedin-get-token").click(link.oauthLinkedIn);
+        $("#linkedin-get-profile").click(link.getUserProfile);
         $("#linkedinComp").click(link.listCompanyProfile);
         $("#sharecommand").click(link.shareComment);
         $("#commandLine").hide();

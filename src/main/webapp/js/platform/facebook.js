@@ -71,7 +71,7 @@ var app = {
             success : success,
             error : error,
             beforeSend : before,
-            dataType : 'json',
+            dataType : 'xml',
             contentType : "application/json",
             data : JSON.stringify({
                 ApiEntity : {
@@ -92,13 +92,14 @@ var app = {
         var local_token = obj[0].access_token;
 
         function success(data) {
-            var userid = data.id;
+            var user = $.xml2json(data);
+            var userid = user.id;
             social.tool.loading.hide();
             if (userid != null && userid != undefined) {
-                $("#user-id").html(data.id);
-                $("#name").html(data.name);
-                $("#gender").html(data.gender);
-                $("#link").html(data.link);
+                $("#user-id").html(user.id);
+                $("#name").html(user.username);
+                $("#gender").html(user.gender);
+                $("#link").html(user.link);
             } else {
                 alert("no id");
             }
@@ -121,8 +122,8 @@ var app = {
             url : "/cxf/service/profile/",
             type : "POST",
             success : success,
-            dataType : 'json',
             contentType : "application/json",
+            dataType : 'xml',
             error : error,
             beforeSend : before,
             data : JSON.stringify({

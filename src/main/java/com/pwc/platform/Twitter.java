@@ -1,14 +1,21 @@
 package com.pwc.platform;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import org.json.JSONObject;
 
 import com.pwc.ApiEntity;
+import com.pwc.service.PlatformResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.SignObject;
@@ -95,4 +102,47 @@ public class Twitter implements RequestURL{
 //		backData = HttpXmlClient.get(url);
 //		return backData;
 	}
+	
+	public String getPeopleProfile(){
+		SignObject sign = new SignObject();
+		OauthSignature signMethod = new OauthSignature();
+		String consumKey =entity.getTwitterEntity().getConsumerKey();
+		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
+		JSONObject tokenMsg = new JSONObject(entity.getAccessToken());
+		String statusUpdate = "";
+		sign.setAccessToken(tokenMsg.getString("oauth_token"));
+		sign.setAccessTokenSec((String)tokenMsg.get("oauth_token_secret"));
+		sign.setConsumerKey(consumKey);
+		sign.setConsumerKeySec(comsumKeysec);
+		sign.setReqQuery(statusUpdate);
+		sign.setRequestType(REQUESTTYPE.GET);
+		sign.setReqURI(TwitterUrl.GET_PEOPLE_PROFILE);
+		
+		String url = signMethod.generateTwitterSignatureGETURL(sign);   		
+		backData = HttpXmlClient.get(url);	
+		
+		JSONObject backjson = new JSONObject(backData);
+		PlatformResponseEntity response = new PlatformResponseEntity();
+		response.setId(backjson.get("id").toString());
+		response.setPlatform("twitter");
+		response.setUsername(backjson.getString("name"));
+		response.setLink("");
+		response.setGender("");
+		response.setDescription(backjson.getString("description"));
+		 JAXBContext context;
+		 OutputStream steam = null;
+		try {
+			context = JAXBContext.newInstance(PlatformResponseEntity.class);
+	        Marshaller m = context.createMarshaller();
+	        steam = new ByteArrayOutputStream();
+	        m.marshal(response, steam);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String newString = steam.toString();
+		return newString;
+		
+	}
+	
 }

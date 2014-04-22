@@ -155,6 +155,64 @@ var twitter = {
         }
 
     },
+    getUserProfile:function(){
+       var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
+        if (oauth_information != null && oauth_information != undefined) {
+            oauthV1.init();
+            var api_key = "123456";
+            function success(data) {
+                social.tool.loading.hide();
+                console.log(data); 
+                var id = $.xml2json(data).id;                              
+                if (id == undefined) {
+                    alert("error");
+                    window.location.href = conf.TWITTER_CALLBACK;
+                    localStorage.clear();
+                    $("#twitter-token").html("");
+                } else {
+                    var user = $.xml2json(data);
+                    $("#user-id").html(user.id);
+                    $("#name").html(user.username);
+                    $("#desc").html(user.description);
+                }
+            }
+
+            function error(jqXHR, textStatus, errorThrown) {
+                social.tool.loading.hide();
+                console.log(errorThrown);
+            }
+
+            function before(jqXHR) {
+                social.tool.loading.show();
+            }
+
+
+            $.ajax({
+                url : "/cxf/service/profile/",
+                type : "POST",
+                success : success,
+                contentType : "application/json",
+                dataType : 'xml',
+                error : error,
+                beforeSend : before,
+                data : JSON.stringify({
+                        ApiEntity : {
+                            platform : "twitter",
+                            accessToken : JSON.stringify(oauth_information),
+                            apiKey : api_key,
+                            twitterEntity : {
+                                consumerKeySec : conf.TWITTER_SEC,
+                                consumerKey : conf.TWITTER_KEY,
+                            }
+                        }
+                    })
+            });
+
+        } else {
+            alert("get token first");
+        }
+        
+    },
     oauthTwitter : function() {
         var twitterToken = JSON.parse(localStorage.getItem("twitteroauth"));
         if (twitterToken != null && twitterToken.oauth_token != undefined) {
@@ -170,6 +228,7 @@ var twitter = {
             window.location.href = conf.GOOGLE_CALLBACK;
         });
         $("#twitter-get-token").click(twitter.oauthTwitter);
+        $("#twitter-get-profile").click(twitter.getUserProfile);
         $("#twitterFav").click(twitter.listFavList);
         $("#sharecommand").click(twitter.postStatuses);
         oauthV1.oauthv1Search();

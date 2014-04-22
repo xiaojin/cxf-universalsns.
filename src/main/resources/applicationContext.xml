@@ -14,11 +14,12 @@
 	<!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" 
 		/> -->
 	<bean id="apiServiceImpl" class="com.pwc.ApiServiceImpl"></bean>
-	<!-- <bean id="accessToken" class="com.pwc.AccessTokenService"></bean> -->
+<!-- 	<bean id="apiServiceFacebook" class="com.pwc.ApiServiceFacebookImpl"></bean>
+ -->	<!-- <bean id="accessToken" class="com.pwc.AccessTokenService"></bean> -->
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="apiServiceImpl"/>
-			<!-- <ref bean="accessToken"/> -->
+			<!--  <ref bean="apiServiceFacebook"/> -->
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />

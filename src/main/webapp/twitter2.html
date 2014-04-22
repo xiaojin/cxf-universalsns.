@@ -55,7 +55,45 @@
 						</div>
 					</div></td>
 				</tr>
+				
 				<tr >
+					<td>
+					<div class="social-tableCenter">
+						<p class="text-center">
+							<strong><h4>GET Profile</h4></strong>
+						</p>
+						<p>
+							<small>Returns user's profile information.</small>
+						</p>
+					</div>
+					</td>
+					<td class="">
+					<div class="social-table-btnContainer">
+						<div  class="col-xs-12 col-md-8" style="margin-bottom: 10px";>
+							<a href="#" class="btn btn-primary btn-xs" id="twitter-get-profile">Get Profile</a>
+						</div>
+						<div  class="col-md-12" >
+							<table class="table">
+								<tbody class="table-striped">
+									<tr>
+										<td>User ID</td>
+										<td id="user-id"></td>
+									</tr>									
+									<tr>
+										<td>Name</td>
+										<td id="name"></td>
+									</tr>
+									<tr>
+										<td>About yourself</td>
+										<td id="desc"></td>
+									</tr>																	
+								</tbody>
+							</table>
+						</div>
+					</div></td>
+				</tr>								
+				
+				<tr class="hidden">
 					<td>
 					<div class="social-tableCenter">
 						<p class="text-center">
@@ -97,6 +135,7 @@
 			</tbody>
 		</table>
 		<script src="js/libs/jquery-2.1.0.js"></script>
+		<script src="js/libs/jquery.xml2json.js"></script>
 		<script src="js/libs/bootstrap.js"></script>
 		<script src="js/libs/handlebars.js"></script>
 		<script src="js/libs/json2.js"></script>
