@@ -1,21 +1,17 @@
 package com.pwc.platform;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.pwc.ApiEntity;
-import com.pwc.service.PlatformResponseEntity;
+import com.pwc.service.ErrorResponse;
+import com.pwc.service.ProfileResponseEntity;
+import com.pwc.service.ResponseHandler;
+import com.pwc.service.StatusResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.SignObject;
@@ -62,8 +58,27 @@ public class Twitter implements RequestURL{
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Authorization", headString);
 		head.put("Content-Type", "application/x-www-form-urlencoded");
-		backData = HttpXmlClient.post(sign.getReqURI(),head,statusUpdate);	
-		return backData;
+		backData = HttpXmlClient.post(sign.getReqURI(),head,statusUpdate);
+		StatusResponseEntity statusBack = new StatusResponseEntity();
+		String newString="";
+		try{
+			int index = backData.indexOf("error");
+			if(index ==-1)
+			{
+				JSONObject backjson = new JSONObject(backData);
+				statusBack.setId(backjson.get("id_str").toString());
+				statusBack.setMessage("Success");
+				newString = ResponseHandler.statusObjectToXMLhandler(statusBack);				
+			}
+			else
+			{
+				newString = this.parseErrorMessage(backData);
+			}
+
+		}catch(JSONException e){
+			newString = this.parseErrorMessage();			
+		}		
+		return newString;
 	}
 	/**
 	 * Implementation of Twitter get favorite list API
@@ -120,29 +135,52 @@ public class Twitter implements RequestURL{
 		
 		String url = signMethod.generateTwitterSignatureGETURL(sign);   		
 		backData = HttpXmlClient.get(url);	
-		
-		JSONObject backjson = new JSONObject(backData);
-		PlatformResponseEntity response = new PlatformResponseEntity();
-		response.setId(backjson.get("id").toString());
-		response.setPlatform("twitter");
-		response.setUsername(backjson.getString("name"));
-		response.setLink("");
-		response.setGender("");
-		response.setDescription(backjson.getString("description"));
-		 JAXBContext context;
-		 OutputStream steam = null;
-		try {
-			context = JAXBContext.newInstance(PlatformResponseEntity.class);
-	        Marshaller m = context.createMarshaller();
-	        steam = new ByteArrayOutputStream();
-	        m.marshal(response, steam);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String newString ="";
+		try{
+			JSONObject backjson = new JSONObject(backData);
+			ProfileResponseEntity response = new ProfileResponseEntity();
+			response.setId(backjson.get("id").toString());
+			response.setPlatform("twitter");
+			response.setUsername(backjson.getString("name"));
+			response.setLink("");
+			response.setGender("");
+			response.setDescription(backjson.getString("description"));
+			newString = ResponseHandler.profileObjectToXMLhandler(response);			
+		}catch(JSONException e){
+			newString = this.parseErrorMessage();			
 		}
-		String newString = steam.toString();
 		return newString;
-		
 	}
 	
+	private String parseErrorMessage(String data){
+		String statusReturn = "";
+		try{
+			JSONObject backjson = new JSONObject(backData);
+			JSONArray array = backjson.getJSONArray("errors");			
+			if(array.get(0) != null){
+				JSONObject backerror = (JSONObject) array.get(0);
+				ErrorResponse error = new ErrorResponse();
+				error.setErrorCode(backerror.get("code").toString());
+				error.setMessage(backerror.getString("message"));
+				statusReturn = ResponseHandler.errorObjectToXMLhandler(error);	
+			}
+			else
+			{
+				statusReturn = this.parseErrorMessage();
+			}
+
+		}catch(JSONException e){
+			statusReturn = this.parseErrorMessage();
+		}
+		return statusReturn;
+	}
+	
+	private String parseErrorMessage(){
+		String serverError ="";
+		ErrorResponse error = new ErrorResponse();
+		error.setErrorCode("0");
+		error.setMessage("Internal Server Error");
+		serverError = ResponseHandler.errorObjectToXMLhandler(error);
+		return serverError;
+	}
 }

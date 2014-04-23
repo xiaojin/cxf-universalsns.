@@ -103,6 +103,7 @@ var twitter = {
                     url : "/cxf/service/message/",
                     type : "POST",
                     contentType : "application/json",
+                    dataType : 'xml',
                     success : success,
                     error : error,
                     beforeSend : before,
@@ -123,21 +124,19 @@ var twitter = {
             }
             function success(data) {
                 social.tool.loading.hide();
-                if (JSON.parse(data).errors != undefined) {
-                    alert(JSON.parse(data).errors[0].message);
+                var id = $.xml2json(data).id;
+                if (id == undefined) {
+                    var error = $.xml2json(data);
+                    alert(error.message);
                     window.location.href = conf.TWITTER_CALLBACK;
                     ;
                     localStorage.clear();
                     $("#twitter-token").html("");
                 } else {
-                    if (JSON.parse(data).length == 0) {
-                        alert("You failed to post yet");
-                    } else {
-                        var result = JSON.parse(data).created_at + ':\n' + JSON.parse(data).text;
-                        var mycomment = "<label class='alert alert-success comment-style'>" + result + "</label>";
+                        var result =  $.xml2json(data);
+                        var mycomment = "<label class='alert alert-success comment-style'>" + status + "</label>";
                         $("#status").append(mycomment);
                         // alert(JSON.parse(data).created_at +':\n'+ JSON.parse(data).text);
-                    }
                 }
             }
 

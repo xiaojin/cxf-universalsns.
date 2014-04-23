@@ -44,13 +44,13 @@ var app = {
 
         function success(data) {
             social.tool.loading.hide();
-            var status = data.id;
-            if (status != null && status != undefined) {
+            var id = $.xml2json(data).id;
+            if (id != undefined) {
                 var mycomment = "<label class='alert alert-success comment-style'>" + param + "</label>";
                 $("#status").append(mycomment);
             } else {
-                console.log(data);
-                alert("You failed to post yet");
+                console.log($.xml2json(data).toString);
+                alert($.xml2json(data).message);
             }
         };
         function error(responseString) {

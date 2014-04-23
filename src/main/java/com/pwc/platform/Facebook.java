@@ -1,22 +1,21 @@
 package com.pwc.platform;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
-import org.json.JSONObject;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 import net.sf.json.xml.XMLSerializer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.pwc.platform.RequestURL.FacebookUrl;
-import com.pwc.service.PlatformResponseEntity;
+import com.pwc.service.ErrorResponse;
+import com.pwc.service.ProfileResponseEntity;
+import com.pwc.service.ResponseHandler;
+import com.pwc.service.StatusResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 
 /**
@@ -67,29 +66,23 @@ public class Facebook extends SocialMedia{
 		// String url = "https://graph.facebook.com/me?access_token="+token;
 		backData = HttpXmlClient.get(url);
 		int index = backData.indexOf("error");
-		if (index == -1) {
-
+		String newString ="";
+		if (index == -1) {	
+			try{
 			JSONObject backjson = new JSONObject(backData);
-			PlatformResponseEntity response = new PlatformResponseEntity();
+			ProfileResponseEntity response = new ProfileResponseEntity();
 			response.setId(backjson.getString("id"));
 			response.setPlatform("facebook");
 			response.setUsername(backjson.getString("name"));
 			response.setLink(backjson.getString("link"));
-			response.setGender(backjson.getString("gender"));
-			JAXBContext context;
-			OutputStream steam = null;
-			try {
-				context = JAXBContext.newInstance(PlatformResponseEntity.class);
-				Marshaller m = context.createMarshaller();
-				steam = new ByteArrayOutputStream();
-				m.marshal(response, steam);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			response.setGender(backjson.getString("gender"));				
+			newString = ResponseHandler.profileObjectToXMLhandler(response);
+			}catch(JSONException e){
+				newString = this.parseErrorMessage();
 			}
-			String newString = steam.toString();
 			return newString;
 		} else {
+			backData = this.parseErrorMessage(backData);
 			return backData;
 		}
 	}
@@ -115,14 +108,43 @@ public class Facebook extends SocialMedia{
 		params.put("message", facebook.getParameters());
 		params.put("access_token",token);
 		backData = HttpXmlClient.post(url,params);
-		backData = this.hadlerResponse(backData);
+		int index = backData.indexOf("error");
+		if(index ==-1){		
+			JSONObject backjson = new JSONObject(backData);
+			StatusResponseEntity statusBack = new StatusResponseEntity();
+			statusBack.setId(backjson.get("id").toString());
+			statusBack.setMessage("Success");
+			backData = ResponseHandler.statusObjectToXMLhandler(statusBack);				
+		}
+		else
+		{
+			backData = this.parseErrorMessage(backData);
+		}
 		return backData;
 	}
-	
-	private String hadlerResponse(String response) {		
-		XMLSerializer serializer = new XMLSerializer();
-		JSON json = JSONSerializer.toJSON(response); 
-		String xml = serializer.write(json);
-		return xml;
+
+	private String parseErrorMessage(String data){
+		String statusReturn = "";
+		JSONObject backjson = new JSONObject(data);
+		try{
+			JSONObject errorObj = (JSONObject) backjson.get("error");			
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode(errorObj.get("error_subcode").toString());
+			error.setMessage(errorObj.getString("message"));
+			statusReturn = ResponseHandler.errorObjectToXMLhandler(error);			
+		}catch(JSONException e){
+			statusReturn = this.parseErrorMessage();
+		}
+		return statusReturn;
 	}
+	
+	private String parseErrorMessage(){
+		String serverError ="";
+		ErrorResponse error = new ErrorResponse();
+		error.setErrorCode("0");
+		error.setMessage("Internal Server Error");
+		serverError = ResponseHandler.errorObjectToXMLhandler(error);
+		return serverError;
+	}
+	
 }

@@ -110,11 +110,11 @@ var app = {
         var api_key = "123456";
         function success(data) {
             social.tool.loading.hide();
-            var status = data.id;
-            if (status != null && status != undefined) {
+             var id = $.xml2json(data).id;
+            if (id != undefined) {
                 // alert(param +"\n Post successfully");
-                var mycomment = "<label class='alert alert-success comment-style'>" + data.id + "</label>";
-                $("#status").append(mycomment);
+                var mycomment = "<label class='alert alert-success comment-style'> Success </label>";
+                $("#status").html(mycomment);
             } else {
                 console.log(data);
                 alert("You failed to insert moments");
@@ -144,7 +144,7 @@ var app = {
             success : success,
             beforeSend : before,
             error : error,
-            dataType : 'json',
+            dataType : 'xml',
             contentType : "application/json",
             data : JSON.stringify({
                 ApiEntity : {

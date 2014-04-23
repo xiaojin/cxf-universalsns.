@@ -58,11 +58,11 @@ var link = {
         function success(data) {
             console.log(data);
             social.tool.loading.hide();
-            var error = $.xml2json($(data)[2]).error_code;
-            if (error === undefined) {
+            var errorCode = $.xml2json(data).errorCode;
+            if (errorCode === undefined) {
                 link.getFeed();
             } else {
-                alert(error + '\n' + $.xml2json($(data)[2]).message);
+                alert(error + '\n' +$.xml2json(data).message);
             }
         }
 
@@ -82,6 +82,7 @@ var link = {
             success : success,
             beforeSend : before,
             contentType : "application/json",
+            dataType : 'xml',
             error : error,
             data : JSON.stringify({
                 ApiEntity : {

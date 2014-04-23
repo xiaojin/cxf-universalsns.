@@ -1,20 +1,23 @@
 package com.pwc.service;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 
-@XmlRootElement(name = "platform")
+@XmlRootElement(name = "socialframework")
 @XmlType(propOrder = {"platform", "id", "username", "description","link","gender"})
 //@XmlSeeAlso({})
-public class PlatformResponseEntity {
+public class ProfileResponseEntity {
 	private String platform;
 	private String id;
 	private String username;
 	private String description;
 	private String link;
 	private String gender;
+	
+	public ProfileResponseEntity (){
+		
+	}
 	
 	public String getPlatform() {
 		return platform;

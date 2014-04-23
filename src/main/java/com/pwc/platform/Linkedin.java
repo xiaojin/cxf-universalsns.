@@ -1,31 +1,24 @@
 package com.pwc.platform;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.pwc.ApiEntity;
+import com.pwc.service.ErrorResponse;
+import com.pwc.service.ProfileResponseEntity;
+import com.pwc.service.ResponseHandler;
+import com.pwc.service.StatusResponseEntity;
+import com.pwc.sns.HttpXmlClient;
 /**
  * Class Linkedin used to implement the API Linkedin provided
  */
-
-import com.pwc.ApiEntity;
-import com.pwc.service.PlatformResponseEntity;
-import com.pwc.sns.HttpXmlClient;
 public class Linkedin implements RequestURL{
 	private ApiEntity entity;
 	private String backData="" ;
@@ -85,7 +78,7 @@ public class Linkedin implements RequestURL{
 		String url = LinkedinUrl.POST_FEED;
 		LinkedinEntity linkedin = entity.getLinkedinEntity();
 		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
-		url = url.replaceAll("key\\=\\{key\\}", linkedin.getParameters());
+		url = url.replaceAll("key\\=\\{key\\}", param);
 		url = url + "?"+"oauth2_access_token=" + entity.getAccessToken();
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Content-Type", "application/xml");
@@ -93,9 +86,24 @@ public class Linkedin implements RequestURL{
 		String message = entity.getLinkedinEntity().getMessage();
 		String xml ="<?xml version='1.0' encoding='UTF-8'?><update-comment><comment>"+message+"</comment></update-comment>";
 		
-		backData = HttpXmlClient.post(url,head,xml);	
+		backData = HttpXmlClient.post(url,head,xml);
+		StatusResponseEntity statusBack = new StatusResponseEntity();
+		String newString="";
+		try{
+			if("".equals(backData)){				
+				statusBack.setId("1111111");
+				statusBack.setMessage("Success");
+				newString = ResponseHandler.statusObjectToXMLhandler(statusBack);				
+			}else
+			{
+				newString = this.parseErrorMessage(backData);			
+			}
+		}catch(JSONException e){
+			newString = this.parseErrorMessage();			
+		}
+		
+		return newString;
 		// TODO Auto-generated method stub
-		return backData;
 	}
 	
 	public String getPeopleProfile(){
@@ -115,7 +123,7 @@ public class Linkedin implements RequestURL{
 			XMLSerializer xmlSerializer = new XMLSerializer(); 
 			JSON json = xmlSerializer.read(backData);
 			JSONObject backjson = new JSONObject(json.toString());
-			PlatformResponseEntity response = new PlatformResponseEntity();
+			ProfileResponseEntity response = new ProfileResponseEntity();
 			response.setId(backjson.getString("id"));
 			response.setPlatform("linkedin");
 			response.setUsername(backjson.getString("first-name")+" "+backjson.getString("last-name"));
@@ -125,27 +133,41 @@ public class Linkedin implements RequestURL{
 			}
 			else{
 				response.setLink("");
-			}
-			
+			}			
 			response.setGender("");
 			response.setDescription(backjson.getString("headline"));
-			 JAXBContext context;
-			 OutputStream steam = null;
-			try {
-				context = JAXBContext.newInstance(PlatformResponseEntity.class);
-		        Marshaller m = context.createMarshaller();
-		        steam = new ByteArrayOutputStream();
-		        m.marshal(response, steam);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String newString = steam.toString();
+			String newString = ResponseHandler.profileObjectToXMLhandler(response);
 			return newString;	
 		}
 		else{
+			backData = this.parseErrorMessage(backData);
 			return backData;
 		}
 	}
-
+	
+	private String parseErrorMessage(String data){
+		String statusReturn = "";
+		XMLSerializer xmlSerializer = new XMLSerializer(); 
+		JSON json = xmlSerializer.read(data);
+		JSONObject backjson = new JSONObject(json.toString());
+		try{
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode(backjson.getString("error-code"));
+			error.setMessage(backjson.getString("message"));
+			statusReturn = ResponseHandler.errorObjectToXMLhandler(error);			
+		}catch(JSONException e){
+			statusReturn = this.parseErrorMessage();
+		}
+		return statusReturn;
+	}
+	
+	private String parseErrorMessage(){
+		String serverError ="";
+		ErrorResponse error = new ErrorResponse();
+		error.setErrorCode("0");
+		error.setMessage("Internal Server Error");
+		serverError = ResponseHandler.errorObjectToXMLhandler(error);
+		return serverError;
+	}
+	
 }

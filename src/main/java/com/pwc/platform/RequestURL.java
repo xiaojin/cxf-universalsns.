@@ -6,7 +6,7 @@ public interface RequestURL {
 		String POST_FEED_URL = "https://graph.facebook.com/{id}/feed";
 	}
 	interface TwitterUrl{
-		String UPDATE_STATUS="https://api.twitter.com/1.1/statuses/update.json";
+		String UPDATE_STATUS="http://api.twitter.com/1.1/statuses/update.json";
 		String GET_MYFAVLIST="https://api.twitter.com/1.1/favorites/list.json";
 		String GET_PEOPLE_PROFILE="https://api.twitter.com/1.1/account/verify_credentials.json";
 	}
