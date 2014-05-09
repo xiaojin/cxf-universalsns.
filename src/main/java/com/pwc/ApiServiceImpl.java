@@ -297,7 +297,7 @@ public class ApiServiceImpl implements ApiService {
 		OauthSignObject sign = new OauthSignObject();
 		String returnString="";
 		sign.setReqURI("https://api.twitter.com/oauth/request_token");
-		sign.setCallBackURL("http://127.0.0.1:9090/myCallback");
+		sign.setCallBackURL("http://127.0.0.1:9090/twitterCallback");
 		sign.setConsumerKey("Do4IL2vG2ZaprFPxS4jJAOeM3");
 		sign.setConsumerKeySec("IYejfCFa4Hl58FaQjwgUcconXUnqajUOqRyeKzRCiPGpSms0Q4");
 		sign.setRequestType(REQUESTTYPE.GET);

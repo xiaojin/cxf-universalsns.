@@ -74,7 +74,7 @@ public class CallbackServlet extends HttpServlet {
 		OauthSignature oauthsign = new OauthSignature();
 		OauthSignObject sign = new OauthSignObject();
 		sign.setReqURI("https://api.twitter.com/oauth/access_token");
-		sign.setCallBackURL("http://127.0.0.1:9090/myCallback");
+		sign.setCallBackURL("http://127.0.0.1:9090/twitterCallback");
 		sign.setConsumerKey("Do4IL2vG2ZaprFPxS4jJAOeM3");
 		sign.setConsumerKeySec("IYejfCFa4Hl58FaQjwgUcconXUnqajUOqRyeKzRCiPGpSms0Q4");
 		sign.setAccessToken(oauth_token);
