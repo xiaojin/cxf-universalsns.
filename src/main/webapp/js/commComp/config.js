@@ -32,7 +32,8 @@ var conf = {};
 	        TWITTER : "Twitter",
 	        FACEBOOK : 'Facebook',
 	        GOOGLEPLUS : "GooglePlus",
-	        LINKEDIN : "LinkedIn"
+	        LINKEDIN : "LinkedIn",
+	        HOSTURL:"http://54.187.87.218:9090"
 	    };
 	} else {
 	    conf = {
@@ -56,7 +57,8 @@ var conf = {};
 	        TWITTER : "Twitter",
 	        FACEBOOK : 'Facebook',
 	        GOOGLEPLUS : "GooglePlus",
-	        LINKEDIN : "LinkedIn"
+	        LINKEDIN : "LinkedIn",
+	        HOSTURL:"http://127.0.0.1:9090"
 	    };
 	}	
 	

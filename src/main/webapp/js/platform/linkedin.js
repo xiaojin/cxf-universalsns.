@@ -53,7 +53,7 @@ var link = {
         var updateKey = key;
         var myMessage = message;
         var param = "key=" + updateKey ;
-        var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
+        var accesstoken = JSON.parse(localStorage.getItem("tokens-linkedin")).access_token;
 
         function success(data) {
             console.log(data);
@@ -77,7 +77,7 @@ var link = {
         //getInfo
 
         $.ajax({
-            url : "/cxf/service/message/",
+            url : conf.HOSTURL+"/cxf/service/message/",
             type : "POST",
             success : success,
             beforeSend : before,
@@ -101,7 +101,7 @@ var link = {
 
     getFeed : function(pauth_information) {
         $(".feed-entry").remove();
-        var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
+        var accesstoken = JSON.parse(localStorage.getItem("tokens-linkedin")).access_token;
         function success(data) {
             social.tool.loading.hide();
             console.log(data);
@@ -139,7 +139,7 @@ var link = {
 
   
         $.ajax({
-            url : "/cxf/service/feed_get/",
+            url : conf.HOSTURL+"/cxf/service/feed_get/",
             type : "POST",
             success : success,
             beforeSend : before,
@@ -163,7 +163,7 @@ var link = {
     
     listCompanyProfile : function(oauth_information) {
         // var sourceUrl = "https://api.linkedin.com/v1/companies/162479:(id,name,description,company-type,ticker,website-url)";
-        var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
+        var accesstoken = JSON.parse(localStorage.getItem("tokens-linkedin")).access_token;
         // var url = sourceUrl + '?' + "oauth2_access_token=" + accesstoken;
         var company = 162479;
         function success(data) {
@@ -203,7 +203,7 @@ var link = {
 
 
         $.ajax({
-            url : "/cxf/service/companyProfile/",
+            url : conf.HOSTURL+"/cxf/service/companyProfile/",
             type : "POST",
             success : success,
             contentType : "application/json",
@@ -229,7 +229,7 @@ var link = {
         if (comments == null || comments == undefined) {
             comments = "Hello, from our social framework";
         }
-        var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
+        var accesstoken = JSON.parse(localStorage.getItem("tokens-linkedin")).access_token;
         function success(data) {
              social.tool.loading.hide();
             var comment = $.xml2json($(data)[2]);
@@ -259,7 +259,7 @@ var link = {
         //getInfo
 
         $.ajax({
-            url : "/cxf/service/comments/",
+            url : conf.HOSTURL+"/cxf/service/comments/",
             type : "POST",
             contentType : "application/json",
             success : success,
@@ -286,7 +286,7 @@ var link = {
     },
     
     getUserProfile :function(){
-        var accesstoken = JSON.parse(localStorage.getItem("takends-linkedin")).access_token;
+        var accesstoken = JSON.parse(localStorage.getItem("tokens-linkedin")).access_token;
         var company = 162479;
         function success(data) {
             console.log(data);
@@ -322,7 +322,7 @@ var link = {
 
 
         $.ajax({
-            url : "/cxf/service/profile/",
+            url : conf.HOSTURL+"/cxf/service/profile/",
             type : "POST",
             success : success,
             contentType : "application/json",
@@ -343,7 +343,7 @@ var link = {
         });         
     },
     oauthLinkedIn : function() {
-        var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
+        var lineninToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
         if (lineninToken != null && lineninToken.access_token != undefined) {
             $("#linkedin-token").html(lineninToken.access_token);
         } else {
@@ -356,7 +356,7 @@ var link = {
         $("#googleURL").click(function() {
             window.location.href = conf.GOOGLE_CALLBACK;
         });
-        var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
+        var lineninToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
         if (lineninToken != null && lineninToken.access_token != undefined) {
             $("#linkedin-token").html(lineninToken.access_token);
         }

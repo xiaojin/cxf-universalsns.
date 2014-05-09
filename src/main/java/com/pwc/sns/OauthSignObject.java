@@ -2,7 +2,7 @@ package com.pwc.sns;
 /**
  * Entity Class SignObject used in @see com.pwc.sns.OauthSignature.java
  */
-public class SignObject {
+public class OauthSignObject {
 	private String consumerKey;
 	private String consumerKeySec;
 	private String accessToken;
@@ -10,6 +10,8 @@ public class SignObject {
 	private REQUESTTYPE requestType;
 	private String reqURI;
 	private String reqQuery;
+	private String callBackURL;
+	private String oauthVerify;
 	
 	public enum REQUESTTYPE{
 		GET("GET"), 
@@ -121,5 +123,35 @@ public class SignObject {
 	public void setReqQuery(String reqQuery) {
 		this.reqQuery = reqQuery;
 	}
+   /**
+    * 
+    * @return callBackURL
+    */
+	public String getCallBackURL() {
+		return callBackURL;
+	}
+	/**
+	 * 
+	 * @param callBackURL
+	 */
+	public void setCallBackURL(String callBackURL) {
+		this.callBackURL = callBackURL;
+	}
+	/**
+	 * 
+	 * @return oauthVerify
+	 */
+	public String getOauthVerify() {
+		return oauthVerify;
+	}
+	/**
+	 * 
+	 * @param oauthVerify
+	 */
+	public void setOauthVerify(String oauthVerify) {
+		this.oauthVerify = oauthVerify;
+	}
+	
+	
 	
 }

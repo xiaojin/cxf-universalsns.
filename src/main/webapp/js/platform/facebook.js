@@ -66,7 +66,7 @@ var app = {
 
 
         $.ajax({
-            url : "/cxf/service/message/",
+            url : conf.HOSTURL+"/cxf/service/message/",
             type : "POST",
             success : success,
             error : error,
@@ -119,7 +119,7 @@ var app = {
 
 
         $.ajax({
-            url : "/cxf/service/profile/",
+            url : conf.HOSTURL+"/cxf/service/profile/",
             type : "POST",
             success : success,
             contentType : "application/json",

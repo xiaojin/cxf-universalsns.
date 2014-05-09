@@ -26,5 +26,28 @@
     <servlet-name>EnvServlet</servlet-name>
     <url-pattern>/EnvServlet</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>tokenCallBack</servlet-name>
+    <servlet-class>com.pwc.servlet.CallbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>tokenCallBack</servlet-name>
+    <url-pattern>/twitterCallback</url-pattern>
+  </servlet-mapping> 
+   <servlet>
+    <servlet-name>linkedinCallBack</servlet-name>
+    <servlet-class>com.pwc.servlet.LinkedinCallbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>linkedinCallBack</servlet-name>
+    <url-pattern>/linkedinCallback</url-pattern>
+  </servlet-mapping> 
+     <servlet>
+    <servlet-name>facebookCallBack</servlet-name>
+    <servlet-class>com.pwc.servlet.FacebookCallbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>facebookCallBack</servlet-name>
+    <url-pattern>/facebookCallBack</url-pattern>
+  </servlet-mapping> 
 </web-app>

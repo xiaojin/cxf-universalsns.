@@ -119,7 +119,7 @@ authRequest = function(platform) {
     }
     if (platform === conf.LINKEDIN) {
         localStorage.setItem("webSite", conf.LINKEDIN);
-        var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
+        var lineninToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
         if(lineninToken!=null && lineninToken.access_token!=undefined){
             link.listLinkedPeople();
         }else{
@@ -200,7 +200,7 @@ var oauthV1 = {
         }
      
         $.ajax({
-            url : "/cxf/service/accessToken/",
+            url : conf.HOSTURL+"/cxf/service/accessToken/",
             type : "POST",
             success : success,
             contentType:"application/json",
@@ -227,7 +227,9 @@ var oauthV1 = {
             });
             
                if (localStorage.getItem("webSite") == conf.TWITTER) {
-                   localStorage.setItem("twitteroauth", JSON.stringify(oauth_information));
+                   localStorage.setItem("tokens-twitter", JSON.stringify(oauth_information));
+                   window.location.replace(conf.TWITTER_CALLBACK);
+                   // window.location.href=conf.TWITTER_CALLBACK;
                    // twitter.listFavList(oauth_information);
                }
         }
@@ -238,7 +240,7 @@ var oauthV1 = {
 
 
         $.ajax({
-            url : "/cxf/service/accessToken/",
+            url : conf.HOSTURL+"/cxf/service/accessToken/",
             type : "POST",
             success : success,
             contentType : "application/json",
@@ -253,7 +255,7 @@ var oauthV1 = {
 
     oauthv1Search : function() {
         if (localStorage.getItem("webSite") === conf.TWITTER) {
-            var twitterToken = JSON.parse(localStorage.getItem("twitteroauth"));
+            var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
             if (twitterToken != null && twitterToken.oauth_token != undefined) {
 
             } else {
@@ -269,7 +271,7 @@ var oauthV1 = {
                 }
             }
         }else if(localStorage.getItem("webSite") === conf.LINKEDIN){
-            var lineninToken = JSON.parse(localStorage.getItem("takends-linkedin"));
+            var lineninToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
             if (lineninToken != null && lineninToken.access_token != undefined) {
                 // link.listLinkedPeople();
             } else {
@@ -349,7 +351,7 @@ var oauthV2 = {
         function success(data) {
             var responseString = JSON.parse(data);
             if (responseString!=null&&responseString.access_token!=undefined) {
-                     localStorage.setItem("takends-linkedin", data);
+                     localStorage.setItem("tokens-linkedin", data);
                      $("#linkedin-token").text(responseString.access_token);
                      // overall.listLinkedPeople();
             }
@@ -379,7 +381,7 @@ var oauthV2 = {
         // }); 
         
         $.ajax({
-            url : "/cxf/service/accessToken/",
+            url : conf.HOSTURL+"/cxf/service/accessToken/",
             type : "POST",
             success : success,
             contentType : "application/json",

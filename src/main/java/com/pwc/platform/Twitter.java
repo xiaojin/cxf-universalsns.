@@ -14,8 +14,8 @@ import com.pwc.service.ResponseHandler;
 import com.pwc.service.StatusResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.OauthSignature;
-import com.pwc.sns.SignObject;
-import com.pwc.sns.SignObject.REQUESTTYPE;
+import com.pwc.sns.OauthSignObject;
+import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 
 /**
  * Class Twitter used to implement the API Twitter provided
@@ -39,7 +39,7 @@ public class Twitter implements RequestURL{
 	 * @return Status code of posting tweet
 	 */
 	public String postTwitter(){ 
-		SignObject sign = new SignObject();
+		OauthSignObject sign = new OauthSignObject();
 		OauthSignature signMethod = new OauthSignature();
 		String consumKey =entity.getTwitterEntity().getConsumerKey();
 		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
@@ -88,7 +88,7 @@ public class Twitter implements RequestURL{
 	 */
 	
 	public String getMyFavList(){ 
-		SignObject sign = new SignObject();
+		OauthSignObject sign = new OauthSignObject();
 		OauthSignature signMethod = new OauthSignature();
 		String consumKey =entity.getTwitterEntity().getConsumerKey();
 		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
@@ -118,8 +118,9 @@ public class Twitter implements RequestURL{
 //		return backData;
 	}
 	
+	
 	public String getPeopleProfile(){
-		SignObject sign = new SignObject();
+		OauthSignObject sign = new OauthSignObject();
 		OauthSignature signMethod = new OauthSignature();
 		String consumKey =entity.getTwitterEntity().getConsumerKey();
 		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();

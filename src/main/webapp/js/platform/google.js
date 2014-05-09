@@ -83,7 +83,7 @@ var app = {
 
 
         $.ajax({
-            url : "/cxf/service/profile/",
+            url : conf.HOSTURL+"/cxf/service/profile/",
             type : "POST",
             contentType : "application/json",
             dataType : 'xml',
@@ -139,7 +139,7 @@ var app = {
             "type" : "http://schemas.google.com/AddActivity"
         });
         $.ajax({
-            url : "/cxf/service/message/",
+            url : conf.HOSTURL+"/cxf/service/message/",
             type : "POST",
             success : success,
             beforeSend : before,

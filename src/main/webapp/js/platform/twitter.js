@@ -2,7 +2,7 @@ var hasToken = false;
 var twitter = {
     //count=1&start=5
     listFavList : function() {
-        var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
+        var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
             // var sourceUrl = "https://api.twitter.com/1.1/favorites/list.json";
@@ -63,7 +63,7 @@ var twitter = {
 
 
             $.ajax({
-                url : "/cxf/service/favlist/",
+                url : conf.HOSTURL+"/cxf/service/favlist/",
                 type : "POST",
                 success : success,
                 contentType : "application/json",
@@ -89,7 +89,7 @@ var twitter = {
 
     },
     postStatuses : function() {
-        var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
+        var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
             var status = $("#commandValue").val();
@@ -100,7 +100,7 @@ var twitter = {
                 status = escape(status).replace(/\@/g, '%40').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/\+/g, '%2B');
 
                 $.ajax({
-                    url : "/cxf/service/message/",
+                    url : conf.HOSTURL+"/cxf/service/message/",
                     type : "POST",
                     contentType : "application/json",
                     dataType : 'xml',
@@ -155,7 +155,7 @@ var twitter = {
 
     },
     getUserProfile:function(){
-       var oauth_information = JSON.parse(localStorage.getItem("twitteroauth"));
+       var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
             var api_key = "123456";
@@ -187,7 +187,7 @@ var twitter = {
 
 
             $.ajax({
-                url : "/cxf/service/profile/",
+                url : conf.HOSTURL+"/cxf/service/profile/",
                 type : "POST",
                 success : success,
                 contentType : "application/json",
@@ -213,7 +213,7 @@ var twitter = {
         
     },
     oauthTwitter : function() {
-        var twitterToken = JSON.parse(localStorage.getItem("twitteroauth"));
+        var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (twitterToken != null && twitterToken.oauth_token != undefined) {
             $("#twitter-token").html(twitterToken.oauth_token);
             alert("Got one");
@@ -232,7 +232,7 @@ var twitter = {
         $("#sharecommand").click(twitter.postStatuses);
         oauthV1.oauthv1Search();
 
-        var twitterToken = JSON.parse(localStorage.getItem("twitteroauth"));
+        var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (twitterToken != null && twitterToken.oauth_token != undefined) {
             $("#twitter-token").html(twitterToken.oauth_token);
         }

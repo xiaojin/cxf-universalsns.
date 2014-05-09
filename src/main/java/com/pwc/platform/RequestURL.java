@@ -9,6 +9,8 @@ public interface RequestURL {
 		String UPDATE_STATUS="http://api.twitter.com/1.1/statuses/update.json";
 		String GET_MYFAVLIST="https://api.twitter.com/1.1/favorites/list.json";
 		String GET_PEOPLE_PROFILE="https://api.twitter.com/1.1/account/verify_credentials.json";
+		String REQUEST_TOKEN_URL="https://api.twitter.com/oauth/request_token";
+		String ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token";
 	}
 	
 	interface GooglePlusUrl{
