@@ -1,5 +1,6 @@
 package com.pwc;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,6 +27,8 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.pwc.sns.ConfigProperty;
 import com.pwc.platform.Facebook;
 import com.pwc.platform.GooglePlus;
 import com.pwc.platform.Linkedin;
@@ -62,8 +65,7 @@ import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 public class ApiServiceImpl implements ApiService {
 	
 	private SocialMedia sm;
-	protected Properties properties = new Properties();
-
+	
 	/**
 	 * Handle the request profile from the client
 	 ** 
@@ -293,13 +295,17 @@ public class ApiServiceImpl implements ApiService {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response requestToken() throws IOException {
+		Properties loadProperties = new Properties();
+		loadProperties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));	
+		final String TOKEN_SCORE_FILE = "src/main/resources/access.properties";
+		
 		OauthSignature oauthsign = new OauthSignature();
 		OauthSignObject sign = new OauthSignObject();
 		String returnString="";
-		sign.setReqURI("https://api.twitter.com/oauth/request_token");
-		sign.setCallBackURL("http://127.0.0.1:9090/twitterCallback");
-		sign.setConsumerKey("Do4IL2vG2ZaprFPxS4jJAOeM3");
-		sign.setConsumerKeySec("IYejfCFa4Hl58FaQjwgUcconXUnqajUOqRyeKzRCiPGpSms0Q4");
+		sign.setReqURI(loadProperties.getProperty("TWITTER_REQUESTTOKEN_URL"));
+		sign.setCallBackURL(loadProperties.getProperty("TWITTER_CALLBACK"));
+		sign.setConsumerKey(loadProperties.getProperty("TWITTER_KEY"));
+		sign.setConsumerKeySec(loadProperties.getProperty("TWITTER_SEC"));
 		sign.setRequestType(REQUESTTYPE.GET);
 		String url = oauthsign.handlerTwitterRequestTokenURL(sign);
 		
@@ -310,6 +316,7 @@ public class ApiServiceImpl implements ApiService {
 		InputStream inSteam = null;
 		FileOutputStream outputStream =null;
 		try {
+			Properties properties = new Properties(); 
 			getMethod.setURI(new URI(url));
 			HttpResponse callBackresponse = httpclient.execute(getMethod);
 			int responseCode = callBackresponse.getStatusLine().getStatusCode();
@@ -322,7 +329,7 @@ public class ApiServiceImpl implements ApiService {
 				oauth_token = params[0].substring(params[0].indexOf("=")+1);				
 				oauth_token_sec= params[1].substring(params[1].indexOf("=")+1);			
 				
-				File file = new File("src/main/resources/access.properties");				 
+				File file = new File(TOKEN_SCORE_FILE);				 
 				inSteam = new FileInputStream(file);
 				properties.load(inSteam);
 				inSteam.close();
@@ -331,14 +338,10 @@ public class ApiServiceImpl implements ApiService {
 				properties.put("OAUTH_TOKEN_SEC", oauth_token_sec);
 				properties.store(outputStream, "");	
 				outputStream.close();				
-				res = Response.seeOther(new URI("https://api.twitter.com/oauth/authenticate?oauth_token="+oauth_token));
-				System.out.println(returnString);
-				
+				res = Response.seeOther(new URI(loadProperties.getProperty("TWITTER_AUTHTOKEN_URL")+oauth_token));				
 			} else if (responseCode == 401) {
 				returnString = handler.handleResponse(callBackresponse);
-				System.out.println(returnString);
-			}
-			
+			}			
 				
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -353,30 +356,19 @@ public class ApiServiceImpl implements ApiService {
 		return  res.build();
 	}
 	
-	/**
-	 * 
-	 * 77l30ewfcf20ev
-	 * Secret Key:
-	 * lPB9GfOZ2RV3PnCR
-	 * OAuth User Token:
-	 * 3d78482f-fe5c-4e1b-9947-f18f1dbaa10e
-	 * OAuth User Secret:
-	 * 518f34cd-cdb5-413e-b4d8-9780188fa14a
-	 * 
-	 * 
-	 */
-	
 	@GET
 	@Path("/linkedinRequest")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response linkedinRequestToken() throws IOException {
+		Properties properties = new Properties();
+		properties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));
 		Oauth2Signature oauthsign = new Oauth2Signature();
 		Oauth2SignObject sign = new Oauth2SignObject();
-		sign.setAuthenticationServerUrl("https://www.linkedin.com/uas/oauth2/authorization");
-		sign.setCallBackURL("http://127.0.0.1:9090/linkedinCallback");
+		sign.setAuthenticationServerUrl(properties.getProperty("LINKEDIN_AUTHTOKEN_URL"));
+		sign.setCallBackURL(properties.getProperty("LINKEDIN_CALLBACK"));
 		sign.setScope("r_basicprofile rw_nus rw_company_admin");
-		sign.setClientId("77l30ewfcf20ev");
+		sign.setClientId(properties.getProperty("LINKEDIN_KEY"));
 		String url = oauthsign.handlerAuthCodeRequest(sign);
 		ResponseBuilder res=null;
 		try {		
@@ -394,12 +386,14 @@ public class ApiServiceImpl implements ApiService {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response facebookRequestToken() throws IOException {
+		Properties properties = new Properties();
+		properties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));
 		Oauth2Signature oauthsign = new Oauth2Signature();
 		Oauth2SignObject sign = new Oauth2SignObject();
-		sign.setAuthenticationServerUrl("https://www.facebook.com/dialog/oauth");
-		sign.setCallBackURL("http://127.0.0.1:9090/facebookCallBack");
+		sign.setAuthenticationServerUrl(properties.getProperty("FACEBOOK_AUTHTOKEN_URL"));
+		sign.setCallBackURL(properties.getProperty("FACEBOOK_CALLBACK"));
 		sign.setScope("read_stream publish_actions");
-		sign.setClientId("481141291987497");
+		sign.setClientId(properties.getProperty("FACEBOOK_CLIENTID"));
 		String url = oauthsign.handlerAuthCodeRequest(sign);
 		ResponseBuilder res=null;
 		try {		
@@ -408,10 +402,25 @@ public class ApiServiceImpl implements ApiService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return  res.build();
 	}
 	
+	@GET
+	@Path("/googleRequest")
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response googleRequestToken() throws IOException {
+//		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow();
+		String url = "";
+		ResponseBuilder res=null;
+		try {		
+			res = Response.seeOther(new URI(url));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  res.build();
+	}
 	
 }
 

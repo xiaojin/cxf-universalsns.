@@ -1,5 +1,6 @@
 package com.pwc.servlet;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 
+import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
@@ -80,12 +82,15 @@ public class LinkedinCallbackServlet extends HttpServlet{
 		} else {
 			Oauth2Signature oauthsign = new Oauth2Signature();
 			Oauth2SignObject sign = new Oauth2SignObject();
-			sign.setAuthenticationServerUrl("https://www.linkedin.com/uas/oauth2/accessToken");
-			sign.setCallBackURL("http://127.0.0.1:9090/linkedinCallback");
+			Properties properties = new Properties();
+			properties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));
+			
+			sign.setAuthenticationServerUrl(properties.getProperty("LINKEDIN_ACCESSTOKEN_URL"));
+			sign.setCallBackURL(properties.getProperty("LINKEDIN_CALLBACK"));
 			sign.setGrantType("authorization_code");
 			sign.setCode(code);
-			sign.setClientId("77l30ewfcf20ev");
-			sign.setClientSecret("lPB9GfOZ2RV3PnCR");
+			sign.setClientId(properties.getProperty("LINKEDIN_KEY"));
+			sign.setClientSecret(properties.getProperty("LINKEDIN_SEC"));
 			String url = oauthsign.handlerLinkedinAccessTokenRequest(sign);
 
 			HttpClient httpclient = null;
@@ -99,10 +104,10 @@ public class LinkedinCallbackServlet extends HttpServlet{
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				if (responseCode == 200) {
 					returnString = handler.handleResponse(callBackresponse);
-					System.out.println(returnString);
 				} else if (responseCode == 401) {
 					returnString = handler.handleResponse(callBackresponse);
-					System.out.println(returnString);
+				}else{
+					returnString = "Internal server error";
 				}
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block

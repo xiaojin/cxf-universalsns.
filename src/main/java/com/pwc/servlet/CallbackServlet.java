@@ -24,9 +24,9 @@ import org.apache.http.impl.client.BasicResponseHandler;
 
 import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
-import com.pwc.sns.OauthSignature;
 import com.pwc.sns.OauthSignObject;
 import com.pwc.sns.OauthSignObject.REQUESTTYPE;
+import com.pwc.sns.OauthSignature;
 
 public class CallbackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -71,12 +71,14 @@ public class CallbackServlet extends HttpServlet {
 				flag=false;
 			}
 		}
+		Properties configProperties = new Properties();
+		configProperties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));
 		OauthSignature oauthsign = new OauthSignature();
 		OauthSignObject sign = new OauthSignObject();
-		sign.setReqURI("https://api.twitter.com/oauth/access_token");
-		sign.setCallBackURL("http://127.0.0.1:9090/twitterCallback");
-		sign.setConsumerKey("Do4IL2vG2ZaprFPxS4jJAOeM3");
-		sign.setConsumerKeySec("IYejfCFa4Hl58FaQjwgUcconXUnqajUOqRyeKzRCiPGpSms0Q4");
+		sign.setReqURI(configProperties.getProperty("TWITTER_ACCESSTOKEN_URL"));
+		sign.setCallBackURL(configProperties.getProperty("TWITTER_CALLBACK"));
+		sign.setConsumerKey(configProperties.getProperty("TWITTER_KEY"));
+		sign.setConsumerKeySec(configProperties.getProperty("TWITTER_SEC"));
 		sign.setAccessToken(oauth_token);
 		sign.setAccessTokenSec(oauth_token_secret);
 		sign.setOauthVerify(varifier);
@@ -93,10 +95,10 @@ public class CallbackServlet extends HttpServlet {
 			ResponseHandler<String> handler = new BasicResponseHandler();
 			if (responseCode == 200) {
 				returnString = handler.handleResponse(callBackresponse);
-				System.out.println(returnString);
 			} else if (responseCode == 401) {
 				returnString = handler.handleResponse(callBackresponse);
-				System.out.println(returnString);
+			}else{
+				returnString =  "Internal server error";
 			}
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

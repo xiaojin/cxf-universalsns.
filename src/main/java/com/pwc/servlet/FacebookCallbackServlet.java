@@ -1,5 +1,6 @@
 package com.pwc.servlet;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
@@ -18,6 +19,7 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
+import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
@@ -71,13 +73,15 @@ public class FacebookCallbackServlet extends HttpServlet{
 			returnString = "{error:"+error+";errormessage:"+errorDesc+"}";
 			response.sendError(200, returnString);
 		} else {
+			Properties properties = new Properties();
+			properties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));
 			Oauth2Signature oauthsign = new Oauth2Signature();
 			Oauth2SignObject sign = new Oauth2SignObject();
-			sign.setAuthenticationServerUrl("https://graph.facebook.com/oauth/access_token");
-			sign.setCallBackURL("http://127.0.0.1:9090/facebookCallBack");
+			sign.setAuthenticationServerUrl(properties.getProperty("FACEBOOK_ACCESSTOKEN_URL"));
+			sign.setCallBackURL(properties.getProperty("FACEBOOK_CALLBACK"));
 			sign.setCode(code);
-			sign.setClientId("481141291987497");
-			sign.setClientSecret("fae20b93713ad59a2c2adc4683d5ab0e");
+			sign.setClientId(properties.getProperty("FACEBOOK_CLIENTID"));
+			sign.setClientSecret(properties.getProperty("FACEBOOK_SEC"));
 			String url = oauthsign.handlerFacebookAccessTokenRequest(sign);
 
 			HttpClient httpclient = null;
@@ -91,13 +95,12 @@ public class FacebookCallbackServlet extends HttpServlet{
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				if (responseCode == 200) {
 					returnString = handler.handleResponse(callBackresponse);
-					System.out.println(returnString);
 				} else if (responseCode == 401) {
 					returnString = handler.handleResponse(callBackresponse);
-					System.out.println(returnString);
 				}else if (responseCode == 400) {
 					returnString = handler.handleResponse(callBackresponse);
-					System.out.println(returnString);
+				}else{
+					returnString =  "Internal server error";
 				}
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
