@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "messageback")
 @XmlType(propOrder = {"id", "message"})
 //@XmlSeeAlso({})
-public class StatusResponseEntity {
+public class StatusResponseEntity{
 	private String id ;
 	private String message;
 	

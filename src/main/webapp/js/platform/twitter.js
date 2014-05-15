@@ -5,15 +5,6 @@ var twitter = {
         var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
             oauthV1.init();
-            // var sourceUrl = "https://api.twitter.com/1.1/favorites/list.json";
-            // var parameters = "count=4";
-            // var action = "Get";
-            // var url = oauth.sign({
-                // action : action,
-                // path : sourceUrl,
-                // parameters : parameters,
-                // signatures : oauth_information
-            // }).signed_url;
             var api_key = "123456";
             function success(data) {
                 social.tool.loading.hide();
@@ -214,11 +205,17 @@ var twitter = {
     },
     oauthTwitter : function() {
         var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
-        if (twitterToken != null && twitterToken.oauth_token != undefined) {
-            $("#twitter-token").html(twitterToken.oauth_token);
+        if (twitterToken != null && twitterToken.access_token != undefined) {
+            $("#twitter-token").html(twitterToken.access_token);
             alert("Got one");
         } else {
-            authRequest(conf.TWITTER);
+            // authRequest(conf.TWITTER);
+            var sns = SNS();
+            sns.twitter_token(function(){
+            // var ss = localStorage.getItem("tokens-facebook");
+            var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
+            $("#twitter-token").html(twitterToken.access_token);
+        });
         }
 
     },
@@ -230,11 +227,12 @@ var twitter = {
         $("#twitter-get-profile").click(twitter.getUserProfile);
         $("#twitterFav").click(twitter.listFavList);
         $("#sharecommand").click(twitter.postStatuses);
-        oauthV1.oauthv1Search();
-
+        // oauthV1.oauthv1Search();
+    
+       
         var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
-        if (twitterToken != null && twitterToken.oauth_token != undefined) {
-            $("#twitter-token").html(twitterToken.oauth_token);
+        if (twitterToken != null && twitterToken.access_token != undefined) {
+            $("#twitter-token").html(twitterToken.access_token);
         }
 
     }

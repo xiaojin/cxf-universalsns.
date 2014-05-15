@@ -347,7 +347,13 @@ var link = {
         if (lineninToken != null && lineninToken.access_token != undefined) {
             $("#linkedin-token").html(lineninToken.access_token);
         } else {
-            authRequest(conf.LINKEDIN);
+            // authRequest(conf.LINKEDIN);
+            var sns = SNS();
+            sns.linkedin_token(function(){
+            // var ss = localStorage.getItem("tokens-facebook");
+            var linkedinToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
+            $("#linkedin-token").html(linkedinToken.access_token);
+        });
         }
 
     },
@@ -368,7 +374,7 @@ var link = {
 
         $("#linkedin-get-feed").click(link.getFeed);
 
-        oauthV1.oauthv1Search();
+        // oauthV1.oauthv1Search();
     }
 };
 

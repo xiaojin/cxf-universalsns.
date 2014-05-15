@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "error")
 @XmlType(propOrder = {"errorCode", "message"})
-public class ErrorResponse {
+public class ErrorResponseEntity {
 	private String errorCode;
 	private String message;
 	

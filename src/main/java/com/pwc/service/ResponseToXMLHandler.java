@@ -8,9 +8,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 
-public class ResponseHandler {
+public class ResponseToXMLHandler {
+	
+	public ResponseToXMLHandler (){
+		
+	}
 
-	public static String profileObjectToXMLhandler(ProfileResponseEntity response){
+	public  String profileObjectToXMLhandler(ProfileResponseEntity response){
 		JAXBContext context;
 		OutputStream steam = null;
 		try {
@@ -25,11 +29,11 @@ public class ResponseHandler {
 		return steam.toString();
 	}
 	
-	public static String errorObjectToXMLhandler(ErrorResponse error){
+	public  String errorObjectToXMLhandler(ErrorResponseEntity error){
 		JAXBContext context;
 		OutputStream steam = null;
 		try {
-			context = JAXBContext.newInstance(ErrorResponse.class);
+			context = JAXBContext.newInstance(ErrorResponseEntity.class);
 			Marshaller m = context.createMarshaller();
 			steam = new ByteArrayOutputStream();
 			m.marshal(error, steam);
@@ -40,7 +44,8 @@ public class ResponseHandler {
 		return steam.toString();
 	}
 	
-	public static String statusObjectToXMLhandler(StatusResponseEntity status){
+	public  String statusObjectToXMLhandler(StatusResponseEntity status){
+//		String type = ObjectToXMLString(status);
 		JAXBContext context;
 		OutputStream steam = null;
 		try {
@@ -48,6 +53,21 @@ public class ResponseHandler {
 			Marshaller m = context.createMarshaller();
 			steam = new ByteArrayOutputStream();
 			m.marshal(status, steam);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return steam.toString();
+	}
+	
+	public String tokenResponseToXMLHandler(TokenResponseEntity token){
+		JAXBContext context;
+		OutputStream steam = null;
+		try {
+			context = JAXBContext.newInstance(TokenResponseEntity.class);
+			Marshaller m = context.createMarshaller();
+			steam = new ByteArrayOutputStream();
+			m.marshal(token, steam);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

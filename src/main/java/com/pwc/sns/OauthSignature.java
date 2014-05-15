@@ -17,6 +17,12 @@ import com.pwc.sns.OauthSignObject;
  * 
  */
 public class OauthSignature {
+	/**
+	 * Implement the Twitter API's signature method.
+	 * Handle GET URL for Twitter
+	 * @param sign
+	 * @return String
+	 */
 	public String generateTwitterSignatureGETURL(OauthSignObject sign){
         String oauth_signature_method = "HMAC-SHA1";
         String oauth_consumer_key = sign.getConsumerKey();
@@ -66,7 +72,8 @@ public class OauthSignature {
 	
 	
 	/**
-	 * Implement the Twitter OAuth 1.0 signature method.
+	 * Implement the Twitter API's signature method
+	 * Handle POST method Head
 	 * @param sign
 	 * @return Signature String
 	 */
@@ -110,7 +117,12 @@ public class OauthSignature {
         System.out.println("authorization_header_string=" + authorization_header_string);
         return authorization_header_string;
 	}
-	
+	/**
+	 * Implement the Twitter OAuth 1.0's step one method : Request Token URL
+	 * Generate the request token URL
+	 * @param sign
+	 * @return String
+	 */
 	public String handlerTwitterRequestTokenURL(OauthSignObject sign){
         String oauth_signature_method = "HMAC-SHA1";
         String oauth_consumer_key = sign.getConsumerKey();
@@ -148,8 +160,13 @@ public class OauthSignature {
 	   System.out.println("authorization_url_string=" + authorization_url_string);
 	   return authorization_url_string;
 	}
-
 	
+	/**
+	 * Implement the Twitter OAuth 1.0's step three method : Access Token URL
+	 * Generate the access token URL
+	 * @param sign
+	 * @return String
+	 */
 	public String handlerTwitterAccessTokenURL(OauthSignObject sign){
         String oauth_signature_method = "HMAC-SHA1";
         String oauth_consumer_key = sign.getConsumerKey();

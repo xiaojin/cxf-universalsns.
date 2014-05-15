@@ -11,16 +11,26 @@ var app = {
                 $("#google-token").text(obj.access_token);
             }
         } else {
-            app.initSigin();
+            // app.initSigin();
+            $("#signinButton").click(function(){
+                app.initSigin();
+            });
         }
     },
     initSigin : function() {
-        oauth_google.signBtnID = "signinButton";
-        oauth_google.requestvisibleactions = 'http://schemas.google.com/AddActivity';
-        oauth_google.scope = 'https://www.googleapis.com/auth/plus.login';
-        oauth_google.cookiepolicy = 'single_host_origin';
-        oauth_google.callBackFun = app.getTokenSuccess;
-        authRequest(conf.GOOGLEPLUS);
+        // oauth_google.signBtnID = "signinButton";
+        // oauth_google.requestvisibleactions = 'http://schemas.google.com/AddActivity';
+        // oauth_google.scope = 'https://www.googleapis.com/auth/plus.login';
+        // oauth_google.cookiepolicy = 'single_host_origin';
+        // oauth_google.callBackFun = app.getTokenSuccess;
+        // authRequest(conf.GOOGLEPLUS);
+           var sns = SNS();
+           sns.google_token(function(){
+            // var ss = localStorage.getItem("tokens-facebook");
+            var obj = JSON.parse(localStorage.getItem("tokens-google"));
+            $("#google-token").html(obj.access_token);
+            });
+        
     },
     getTokenSuccess : function() {
         var obj = JSON.parse(localStorage.getItem("tokens-google"));

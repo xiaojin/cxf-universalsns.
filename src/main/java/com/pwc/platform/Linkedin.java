@@ -11,9 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.pwc.ApiEntity;
-import com.pwc.service.ErrorResponse;
+import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ProfileResponseEntity;
-import com.pwc.service.ResponseHandler;
+import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.StatusResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 /**
@@ -93,7 +93,7 @@ public class Linkedin implements RequestURL{
 			if("".equals(backData)){				
 				statusBack.setId("1111111");
 				statusBack.setMessage("Success");
-				newString = ResponseHandler.statusObjectToXMLhandler(statusBack);				
+				newString = new ResponseToXMLHandler().statusObjectToXMLhandler(statusBack);				
 			}else
 			{
 				newString = this.parseErrorMessage(backData);			
@@ -136,7 +136,7 @@ public class Linkedin implements RequestURL{
 			}			
 			response.setGender("");
 			response.setDescription(backjson.getString("headline"));
-			String newString = ResponseHandler.profileObjectToXMLhandler(response);
+			String newString = new ResponseToXMLHandler().profileObjectToXMLhandler(response);
 			return newString;	
 		}
 		else{
@@ -151,10 +151,10 @@ public class Linkedin implements RequestURL{
 		JSON json = xmlSerializer.read(data);
 		JSONObject backjson = new JSONObject(json.toString());
 		try{
-			ErrorResponse error = new ErrorResponse();
+			ErrorResponseEntity error = new ErrorResponseEntity();
 			error.setErrorCode(backjson.getString("error-code"));
 			error.setMessage(backjson.getString("message"));
-			statusReturn = ResponseHandler.errorObjectToXMLhandler(error);			
+			statusReturn = new ResponseToXMLHandler().errorObjectToXMLhandler(error);			
 		}catch(JSONException e){
 			statusReturn = this.parseErrorMessage();
 		}
@@ -163,10 +163,10 @@ public class Linkedin implements RequestURL{
 	
 	private String parseErrorMessage(){
 		String serverError ="";
-		ErrorResponse error = new ErrorResponse();
+		ErrorResponseEntity error = new ErrorResponseEntity();
 		error.setErrorCode("0");
 		error.setMessage("Internal Server Error");
-		serverError = ResponseHandler.errorObjectToXMLhandler(error);
+		serverError = new ResponseToXMLHandler().errorObjectToXMLhandler(error);
 		return serverError;
 	}
 	

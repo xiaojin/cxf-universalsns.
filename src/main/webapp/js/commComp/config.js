@@ -33,7 +33,11 @@ var conf = {};
 	        FACEBOOK : 'Facebook',
 	        GOOGLEPLUS : "GooglePlus",
 	        LINKEDIN : "LinkedIn",
-	        HOSTURL:"http://54.187.87.218:9090"
+	        HOSTURL:"http://54.187.87.218:9090",
+	        TWITTER_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/twitterRequest",
+            LINKEDIN_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/linkedinRequest",
+            GOOGLE_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/googleRequest",
+            FACEBOOK_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/facebookRequest"
 	    };
 	} else {
 	    conf = {
@@ -58,7 +62,11 @@ var conf = {};
 	        FACEBOOK : 'Facebook',
 	        GOOGLEPLUS : "GooglePlus",
 	        LINKEDIN : "LinkedIn",
-	        HOSTURL:"http://127.0.0.1:9090"
+	        HOSTURL:"http://127.0.0.1:9090",
+	        TWITTER_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/twitterRequest",
+	        LINKEDIN_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/linkedinRequest",
+	        GOOGLE_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/googleRequest",
+	        FACEBOOK_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/facebookRequest"
 	    };
 	}	
 	

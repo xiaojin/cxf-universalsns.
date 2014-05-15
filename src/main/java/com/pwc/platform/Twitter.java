@@ -1,17 +1,22 @@
 package com.pwc.platform;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.pwc.ApiEntity;
-import com.pwc.service.ErrorResponse;
+import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ProfileResponseEntity;
-import com.pwc.service.ResponseHandler;
+import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.StatusResponseEntity;
+import com.pwc.servlet.SNSConstants;
+import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.OauthSignObject;
@@ -23,13 +28,20 @@ import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 public class Twitter implements RequestURL{
 	private  ApiEntity entity;
 	private String backData="" ;
-	
+	private Properties properties = new Properties();
 	/**
 	 * Construction method
 	 * @param entity
 	 */
 	public Twitter(ApiEntity entity){
 		this.entity = entity;
+		try {
+			properties.load(new ByteArrayInputStream(ConfigProperty
+					.getConfigBinary()));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	/**
@@ -41,13 +53,13 @@ public class Twitter implements RequestURL{
 	public String postTwitter(){ 
 		OauthSignObject sign = new OauthSignObject();
 		OauthSignature signMethod = new OauthSignature();
-		String consumKey =entity.getTwitterEntity().getConsumerKey();
-		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
+		String consumKey =properties.getProperty(SNSConstants.TWITTER_KEY);
+		String comsumKeysec = properties.getProperty(SNSConstants.TWITTER_SEC);
 		String status = entity.getTwitterEntity().getStatus();
 		JSONObject tokenMsg = new JSONObject(entity.getAccessToken());
 		String statusUpdate = "status="+ status;
-		sign.setAccessToken(tokenMsg.getString("oauth_token"));
-		sign.setAccessTokenSec((String)tokenMsg.get("oauth_token_secret"));
+		sign.setAccessToken(tokenMsg.getString("access_token"));
+		sign.setAccessTokenSec((String)tokenMsg.get("access_token_sec"));
 		sign.setConsumerKey(consumKey);
 		sign.setConsumerKeySec(comsumKeysec);
 		sign.setReqQuery(statusUpdate);
@@ -68,7 +80,7 @@ public class Twitter implements RequestURL{
 				JSONObject backjson = new JSONObject(backData);
 				statusBack.setId(backjson.get("id_str").toString());
 				statusBack.setMessage("Success");
-				newString = ResponseHandler.statusObjectToXMLhandler(statusBack);				
+				newString = new ResponseToXMLHandler().statusObjectToXMLhandler(statusBack);				
 			}
 			else
 			{
@@ -90,13 +102,13 @@ public class Twitter implements RequestURL{
 	public String getMyFavList(){ 
 		OauthSignObject sign = new OauthSignObject();
 		OauthSignature signMethod = new OauthSignature();
-		String consumKey =entity.getTwitterEntity().getConsumerKey();
-		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
+		String consumKey =properties.getProperty(SNSConstants.TWITTER_KEY);
+		String comsumKeysec = properties.getProperty(SNSConstants.TWITTER_SEC);
 		String count = entity.getTwitterEntity().getCount();
 		JSONObject tokenMsg = new JSONObject(entity.getAccessToken());
 		String statusUpdate = "count="+ count;
-		sign.setAccessToken(tokenMsg.getString("oauth_token"));
-		sign.setAccessTokenSec((String)tokenMsg.get("oauth_token_secret"));
+		sign.setAccessToken(tokenMsg.getString("access_token"));
+		sign.setAccessTokenSec((String)tokenMsg.get("access_token_sec"));
 		sign.setConsumerKey(consumKey);
 		sign.setConsumerKeySec(comsumKeysec);
 		sign.setReqQuery(statusUpdate);
@@ -122,12 +134,12 @@ public class Twitter implements RequestURL{
 	public String getPeopleProfile(){
 		OauthSignObject sign = new OauthSignObject();
 		OauthSignature signMethod = new OauthSignature();
-		String consumKey =entity.getTwitterEntity().getConsumerKey();
-		String comsumKeysec = entity.getTwitterEntity().getConsumerKeySec();
+		String consumKey =properties.getProperty(SNSConstants.TWITTER_KEY);
+		String comsumKeysec = properties.getProperty(SNSConstants.TWITTER_SEC);
 		JSONObject tokenMsg = new JSONObject(entity.getAccessToken());
 		String statusUpdate = "";
-		sign.setAccessToken(tokenMsg.getString("oauth_token"));
-		sign.setAccessTokenSec((String)tokenMsg.get("oauth_token_secret"));
+		sign.setAccessToken(tokenMsg.getString("access_token"));
+		sign.setAccessTokenSec((String)tokenMsg.get("access_token_sec"));
 		sign.setConsumerKey(consumKey);
 		sign.setConsumerKeySec(comsumKeysec);
 		sign.setReqQuery(statusUpdate);
@@ -146,7 +158,7 @@ public class Twitter implements RequestURL{
 			response.setLink("");
 			response.setGender("");
 			response.setDescription(backjson.getString("description"));
-			newString = ResponseHandler.profileObjectToXMLhandler(response);			
+			newString = new ResponseToXMLHandler().profileObjectToXMLhandler(response);			
 		}catch(JSONException e){
 			newString = this.parseErrorMessage();			
 		}
@@ -160,10 +172,10 @@ public class Twitter implements RequestURL{
 			JSONArray array = backjson.getJSONArray("errors");			
 			if(array.get(0) != null){
 				JSONObject backerror = (JSONObject) array.get(0);
-				ErrorResponse error = new ErrorResponse();
+				ErrorResponseEntity error = new ErrorResponseEntity();
 				error.setErrorCode(backerror.get("code").toString());
 				error.setMessage(backerror.getString("message"));
-				statusReturn = ResponseHandler.errorObjectToXMLhandler(error);	
+				statusReturn = new ResponseToXMLHandler().errorObjectToXMLhandler(error);	
 			}
 			else
 			{
@@ -178,10 +190,10 @@ public class Twitter implements RequestURL{
 	
 	private String parseErrorMessage(){
 		String serverError ="";
-		ErrorResponse error = new ErrorResponse();
+		ErrorResponseEntity error = new ErrorResponseEntity();
 		error.setErrorCode("0");
 		error.setMessage("Internal Server Error");
-		serverError = ResponseHandler.errorObjectToXMLhandler(error);
+		serverError = new ResponseToXMLHandler().errorObjectToXMLhandler(error);
 		return serverError;
 	}
 }

@@ -2,22 +2,28 @@ var app = {
     ready : function() {
         app.bind();
         //push accesstoken from URL parameter to localstorage
-        oauthV2.oauthSearch();
+        // oauthV2.oauthSearch();
         
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         if (obj != undefined) {
-            var local_token = obj[0].access_token;
+            var local_token = obj.access_token;
             $("#facebook-token").text(local_token);
         }
     },
     initToken : function() {
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
         if (obj != undefined) {
-            var local_token = obj[0].access_token;
+            var local_token = obj.access_token;
             $("#facebook-token").text(local_token);
         } else {
-            social.tool.loading.show();
-            authRequest(conf.FACEBOOK);
+           var sns = SNS();
+           sns.facebook_token(function(){
+            // var ss = localStorage.getItem("tokens-facebook");
+            var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
+            $("#facebook-token").html(obj.access_token);
+        });
+            // social.tool.loading.show();
+            // authRequest(conf.FACEBOOK);
         }
     },
 
@@ -40,7 +46,7 @@ var app = {
         var api_key = "123456";
         var param = $("#parameter").val();
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
-        var local_token = obj[0].access_token;
+        var local_token = obj.access_token;
 
         function success(data) {
             social.tool.loading.hide();
@@ -89,7 +95,7 @@ var app = {
     get : function() {
         var api_key = "123456";
         var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
-        var local_token = obj[0].access_token;
+        var local_token = obj.access_token;
 
         function success(data) {
             var user = $.xml2json(data);

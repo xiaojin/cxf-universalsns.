@@ -7,9 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.pwc.platform.RequestURL.GooglePlusUrl;
-import com.pwc.service.ErrorResponse;
+import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ProfileResponseEntity;
-import com.pwc.service.ResponseHandler;
+import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.StatusResponseEntity;
 import com.pwc.sns.HttpXmlClient;
 
@@ -67,7 +67,7 @@ public class GooglePlus extends SocialMedia {
 				response.setUsername(backjson.getString("displayName"));
 				response.setLink(backjson.getString("url"));
 				response.setGender(backjson.getString("gender"));
-				newString = ResponseHandler.profileObjectToXMLhandler(response);
+				newString = new ResponseToXMLHandler().profileObjectToXMLhandler(response);
 			}catch(JSONException e)
 			{
 				newString = this.parseErrorMessage();
@@ -108,7 +108,7 @@ public class GooglePlus extends SocialMedia {
 			StatusResponseEntity statusBack = new StatusResponseEntity();
 			statusBack.setId(backjson.get("id").toString());
 			statusBack.setMessage("Success");
-			backData = ResponseHandler.statusObjectToXMLhandler(statusBack);				
+			backData =new ResponseToXMLHandler().statusObjectToXMLhandler(statusBack);				
 		}
 		else
 		{
@@ -122,10 +122,10 @@ public class GooglePlus extends SocialMedia {
 		JSONObject backjson = new JSONObject(data);
 		try{
 			JSONObject errorObj = (JSONObject) backjson.get("error");			
-			ErrorResponse error = new ErrorResponse();
+			ErrorResponseEntity error = new ErrorResponseEntity();
 			error.setErrorCode(errorObj.get("code").toString());
 			error.setMessage(errorObj.getString("message"));
-			statusReturn = ResponseHandler.errorObjectToXMLhandler(error);			
+			statusReturn = new ResponseToXMLHandler().errorObjectToXMLhandler(error);			
 		}catch(JSONException e){
 			statusReturn = this.parseErrorMessage();
 		}
@@ -134,10 +134,10 @@ public class GooglePlus extends SocialMedia {
 	
 	private String parseErrorMessage(){
 		String serverError ="";
-		ErrorResponse error = new ErrorResponse();
+		ErrorResponseEntity error = new ErrorResponseEntity();
 		error.setErrorCode("0");
 		error.setMessage("Internal Server Error");
-		serverError = ResponseHandler.errorObjectToXMLhandler(error);
+		serverError = new ResponseToXMLHandler().errorObjectToXMLhandler(error);
 		return serverError;
 	}
 }

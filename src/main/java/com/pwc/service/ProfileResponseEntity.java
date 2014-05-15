@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "socialframework")
 @XmlType(propOrder = {"platform", "id", "username", "description","link","gender"})
 //@XmlSeeAlso({})
-public class ProfileResponseEntity {
+public class ProfileResponseEntity{
 	private String platform;
 	private String id;
 	private String username;

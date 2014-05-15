@@ -1,11 +1,16 @@
 package com.pwc.servlet;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -19,6 +24,9 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
+import com.pwc.service.ErrorResponseEntity;
+import com.pwc.service.ResponseToXMLHandler;
+import com.pwc.service.TokenResponseEntity;
 import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
@@ -45,10 +53,22 @@ public class FacebookCallbackServlet extends HttpServlet{
 		String error="";
 		String errorDesc="";
 		boolean errorFlag = false;
-		
+		InputStream inSteam = null;
+		String tokenCallback = "";
+		try {
+			File file = new File("src/main/resources/access.properties");
+			inSteam = new FileInputStream(file);
+			properties.load(inSteam);
+			tokenCallback = properties.getProperty(SNSConstants.FACEBOOK_TOKENCALLBACK);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			inSteam.close();
+		}
 		Enumeration<String> requestParam =  request.getParameterNames();
 		boolean flag = true;
-		if(requestParam.toString().indexOf("error") > -1){
+		String errorRes = request.getParameter("error");
+		if(errorRes!=null){
 			errorFlag = true;
 			while(requestParam.hasMoreElements()&&flag){
 				String name = requestParam.nextElement();
@@ -70,8 +90,11 @@ public class FacebookCallbackServlet extends HttpServlet{
 			}
 		}
 		if (errorFlag) {
-			returnString = "{error:"+error+";errormessage:"+errorDesc+"}";
-			response.sendError(200, returnString);
+			ErrorResponseEntity errorResponse = new ErrorResponseEntity();
+			errorResponse.setErrorCode(error);
+			errorResponse.setMessage(errorDesc);
+			returnString = new ResponseToXMLHandler().errorObjectToXMLhandler(errorResponse);
+			response.sendError(400, returnString);
 		} else {
 			Properties properties = new Properties();
 			properties.load(new ByteArrayInputStream(ConfigProperty.getConfigBinary()));
@@ -95,6 +118,7 @@ public class FacebookCallbackServlet extends HttpServlet{
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				if (responseCode == 200) {
 					returnString = handler.handleResponse(callBackresponse);
+					returnString = handleSuccessResponseString(returnString);
 				} else if (responseCode == 401) {
 					returnString = handler.handleResponse(callBackresponse);
 				}else if (responseCode == 400) {
@@ -107,8 +131,17 @@ public class FacebookCallbackServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
-		writer.print(returnString);
-		writer.flush();
+		
+		if(tokenCallback != ""){
+			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
+			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
+		}else
+		{
+			response.setContentType("text/xml;charset=UTF-8");
+			writer.print(returnString);
+			writer.flush();
+		}
+
 	}
 
 	/**
@@ -118,5 +151,26 @@ public class FacebookCallbackServlet extends HttpServlet{
 		doGet(request,response);
 		this.doGet(request, response);
 	}
+	private String handleSuccessResponseString(String callBackresponse) {
+		TokenResponseEntity tokenEntity = new TokenResponseEntity();
 
+		String[] params = callBackresponse.split("&");
+		HashMap<String,String> dic = new HashMap<String,String>();
+		for(String param : params){
+			String key = param.substring(0, param.indexOf("="));
+			String val = param.substring(param.indexOf("=")+1);;
+			dic.put(key, val);
+		}
+		String access_token = dic.get("access_token") == null?"":dic.get("access_token");
+		String expires = dic.get("expires") == null?"":dic.get("expires");
+		tokenEntity.setAccess_token(access_token);
+		tokenEntity.setExpires_in(expires);
+		String newString = new ResponseToXMLHandler().tokenResponseToXMLHandler(tokenEntity);
+		return newString;
+	}
+
+	private String handleErrorResponseString(String callBackresponse) {
+
+		return null;
+	}
 }
