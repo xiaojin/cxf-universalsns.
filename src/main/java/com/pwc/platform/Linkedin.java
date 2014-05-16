@@ -1,11 +1,21 @@
 package com.pwc.platform;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +25,9 @@ import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ProfileResponseEntity;
 import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.StatusResponseEntity;
+import com.pwc.servlet.SNSConstants;
+import com.pwc.sns.ConfigProperty;
+import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.HttpXmlClient;
 /**
  * Class Linkedin used to implement the API Linkedin provided
@@ -29,6 +42,8 @@ public class Linkedin implements RequestURL{
 	public Linkedin(ApiEntity entity){
 		this.entity = entity;
 	}
+	
+
 	/**
 	 * Implement the Linkedin API  Get Company profile
 	 * <br/>
@@ -144,6 +159,7 @@ public class Linkedin implements RequestURL{
 			return backData;
 		}
 	}
+	
 	
 	private String parseErrorMessage(String data){
 		String statusReturn = "";

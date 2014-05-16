@@ -37,7 +37,8 @@ var conf = {};
 	        TWITTER_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/twitterRequest",
             LINKEDIN_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/linkedinRequest",
             GOOGLE_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/googleRequest",
-            FACEBOOK_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/facebookRequest"
+            FACEBOOK_TOKENSERVICE:"http://54.187.87.218:9090/cxf/service/facebookRequest",
+            GOOGLE_REFRESHTOKENSERVICE:"http://54.187.87.218:9090/cxf/token/googleRefreshToken"
 	    };
 	} else {
 	    conf = {
@@ -63,10 +64,11 @@ var conf = {};
 	        GOOGLEPLUS : "GooglePlus",
 	        LINKEDIN : "LinkedIn",
 	        HOSTURL:"http://127.0.0.1:9090",
-	        TWITTER_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/twitterRequest",
-	        LINKEDIN_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/linkedinRequest",
-	        GOOGLE_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/googleRequest",
-	        FACEBOOK_TOKENSERVICE:"http://127.0.0.1:9090/cxf/service/facebookRequest"
+	        TWITTER_TOKENSERVICE:"http://127.0.0.1:9090/cxf/token/twitterRequest",
+	        LINKEDIN_TOKENSERVICE:"http://127.0.0.1:9090/cxf/token/linkedinRequest",
+	        GOOGLE_TOKENSERVICE:"http://127.0.0.1:9090/cxf/token/googleRequest",
+	        FACEBOOK_TOKENSERVICE:"http://127.0.0.1:9090/cxf/token/facebookRequest",
+	        GOOGLE_REFRESHTOKENSERVICE:"http://127.0.0.1:9090/cxf/token/googleRefreshToken"
 	    };
 	}	
 	

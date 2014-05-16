@@ -9,6 +9,7 @@ public class LinkedinEntity {
 	private String parameters;
 	private String companyID;
 	private String personID;
+	private String oauthToken;
 	/**
 	 * 
 	 * @return String message
@@ -68,6 +69,22 @@ public class LinkedinEntity {
 	 */
 	public void setPersonID(String personID) {
 		this.personID = personID;
+	}
+	
+	/**
+	 * 
+	 * @return oauthToken
+	 */
+	public String getOauthToken() {
+		return oauthToken;
+	}
+	
+	/**
+	 * 
+	 * @param oauthToken
+	 */
+	public void setOauthToken(String oauthToken) {
+		this.oauthToken = oauthToken;
 	}
 	
 	

@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Token")
-@XmlType(propOrder = {"access_token", "access_token_sec","token_type","expires_in","user_id","screen_name"})
+@XmlType(propOrder = {"access_token", "access_token_sec","token_type","expires_in","user_id","screen_name","refresh_token"})
 //@XmlSeeAlso({})
 public class TokenResponseEntity{
 	private String access_token ;
@@ -13,6 +13,7 @@ public class TokenResponseEntity{
 	private String expires_in;
 	private String user_id;
 	private String screen_name;
+    private String refresh_token;
 	public String getAccess_token() {
 		return access_token;
 	}
@@ -48,6 +49,12 @@ public class TokenResponseEntity{
 	}
 	public void setAccess_token_sec(String access_token_sec) {
 		this.access_token_sec = access_token_sec;
+	}
+	public String getRefresh_token() {
+		return refresh_token;
+	}
+	public void setRefresh_token(String refresh_token) {
+		this.refresh_token = refresh_token;
 	}
 	
 }

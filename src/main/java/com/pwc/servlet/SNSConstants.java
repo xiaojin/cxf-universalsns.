@@ -40,4 +40,8 @@ public class SNSConstants {
 	public final static String GOOGLE_CALLBACK = "GOOGLE_CALLBACK";
 	
 	public final static String GOOGLE_SEC = "GOOGLE_SEC";
+	
+	public final static String LINKEDIN_REFRESHTOKEN_REQUEST = "LINKEDIN_REFRESHTOKEN_REQUEST";
+	
+	public final static String LINKEDIN_REFRESHTOKEN_OAUTH = "LINKEDIN_REFRESHTOKEN_OAUTH";
 }

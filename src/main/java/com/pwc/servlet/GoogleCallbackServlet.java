@@ -22,7 +22,6 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleOAuthConstants;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.GenericUrl;
@@ -125,10 +124,10 @@ public class GoogleCallbackServlet extends HttpServlet{
 					    new ClientParametersAuthentication(clientID,
 					    		clientsec), clientID,
 					    authUrl.toString()).setScopes(SCOPES).build();
-
+				tokenResponse = authorizationCodeFlow.newTokenRequest(code).setRedirectUri(redirect_URL).setGrantType("authorization_code").execute();
 				//GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow(httpTransport,JSON_FACTORY,clientID,clientsec,SCOPES);
 				//tokenResponse = flow.newTokenRequest(code).setRedirectUri(redirect_URL).execute();
-				tokenResponse =  authorizationCodeFlow.newTokenRequest(code).setRedirectUri(redirect_URL).execute();
+//				tokenResponse =  authorizationCodeFlow.newTokenRequest(code).setRedirectUri(redirect_URL).execute();
 			} catch (GeneralSecurityException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -137,7 +136,8 @@ public class GoogleCallbackServlet extends HttpServlet{
 				TokenResponseEntity tokenEntity = new TokenResponseEntity();
 				tokenEntity.setAccess_token(tokenResponse.getAccessToken());
 				tokenEntity.setExpires_in(tokenResponse.getExpiresInSeconds().toString());
-				tokenEntity.setToken_type(tokenResponse.getTokenType());				
+				tokenEntity.setToken_type(tokenResponse.getTokenType());
+				tokenEntity.setRefresh_token(tokenResponse.getRefreshToken());
 				String newString = new ResponseToXMLHandler().tokenResponseToXMLHandler(tokenEntity);
 				returnString = newString;
 			}
