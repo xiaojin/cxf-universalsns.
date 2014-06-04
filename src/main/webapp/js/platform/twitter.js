@@ -203,22 +203,24 @@ var twitter = {
         }
         
     },
+    
     oauthTwitter : function() {
         var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (twitterToken != null && twitterToken.access_token != undefined) {
             $("#twitter-token").html(twitterToken.access_token);
             alert("Got one");
-        } else {
-            // authRequest(conf.TWITTER);
+        } else {          
             var sns = SNS();
             sns.twitter_token(function(){
-            // var ss = localStorage.getItem("tokens-facebook");
             var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
             $("#twitter-token").html(twitterToken.access_token);
         });
         }
 
-    },
+    }, 
+    
+    // authRequest(conf.TWITTER);
+      // var ss = localStorage.getItem("tokens-facebook")
     ready : function() {
         $("#googleURL").click(function() {
             window.location.href = conf.GOOGLE_CALLBACK;

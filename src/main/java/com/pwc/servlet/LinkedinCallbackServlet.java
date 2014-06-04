@@ -140,7 +140,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
-		if(tokenCallback != ""){
+		if(!("".equals(tokenCallback))){
 			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
 			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
 		}else

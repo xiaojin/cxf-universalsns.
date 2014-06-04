@@ -143,7 +143,7 @@ public class GoogleCallbackServlet extends HttpServlet{
 			}
 
 		}
-		if(tokenCallback != ""){
+		if(!("".equals(tokenCallback))){
 			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
 			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
 		}else
