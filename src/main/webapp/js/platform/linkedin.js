@@ -298,7 +298,7 @@ var link = {
                 $("#user-id").html(user.id);
                 $("#name").html(user.username);
                 $("#user-desc").html(user.description);
-                $("#link").html(user.link);
+                $("#link").html(decodeURI(user.link));
             } else {
                 $("#user-id").html();
                 $("#name").html();

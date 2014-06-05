@@ -1,5 +1,7 @@
 package com.pwc.platform;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -131,7 +133,17 @@ public class Linkedin implements RequestURL{
 			response.setUsername(backjson.getString("first-name")+" "+backjson.getString("last-name"));
 			JSONArray obj = (JSONArray) backjson.get("site-standard-profile-request");			
 			if(obj.get(0) !=null){
-				response.setLink((String)obj.get(0));
+				String link="";
+				try {
+					link = URLEncoder.encode((String)obj.get(0), "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				response.setLink(link);
 			}
 			else{
 				response.setLink("");
