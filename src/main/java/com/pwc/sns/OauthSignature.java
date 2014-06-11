@@ -3,7 +3,6 @@ package com.pwc.sns;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
-import java.util.Calendar;
 import java.util.UUID;
 
 import javax.crypto.Mac;
@@ -11,7 +10,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import com.pwc.sns.OauthSignObject;
 /**
  * OAuth signature method
  * 

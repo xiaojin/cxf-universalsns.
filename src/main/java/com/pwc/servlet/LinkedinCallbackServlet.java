@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -18,13 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSON;
-import net.sf.json.xml.XMLSerializer;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONObject;
@@ -36,9 +31,6 @@ import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
-import com.pwc.sns.OauthSignObject;
-import com.pwc.sns.OauthSignature;
-import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 
 public class LinkedinCallbackServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
