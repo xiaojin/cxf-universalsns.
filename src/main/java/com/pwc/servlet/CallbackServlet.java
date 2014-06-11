@@ -1,10 +1,7 @@
 package com.pwc.servlet;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -50,6 +48,7 @@ public class CallbackServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
 		String returnString = "";
 		String varifier = "";
@@ -58,20 +57,11 @@ public class CallbackServlet extends HttpServlet {
 		String error = "";
 		String errorDesc = "";
 		boolean errorFlag = false;
-		InputStream inSteam = null;
 		String tokenCallback = "";
-		try {
-			File file = new File("src/main/resources/access.properties");
-			inSteam = new FileInputStream(file);
-			properties.load(inSteam);
-			oauth_token = properties.getProperty("OAUTH_TOKEN");
-			tokenCallback = properties.getProperty(SNSConstants.TWITTER_TOKENCALLBACK);
-			oauth_token_secret = properties.getProperty("OAUTH_TOKEN_SEC");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			inSteam.close();
-		}
+		
+		oauth_token = (String)session.getAttribute(SNSConstants.OAUTH_TOKEN);
+		tokenCallback = (String)session.getAttribute(SNSConstants.TWITTER_TOKENCALLBACK);
+		oauth_token_secret = (String)session.getAttribute(SNSConstants.OAUTH_TOKEN_SEC);
 
 		Enumeration<String> requestParam = request.getParameterNames();
 		boolean flag = true;
@@ -145,8 +135,7 @@ public class CallbackServlet extends HttpServlet {
 		if(!("".equals(tokenCallback))){
 			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
 			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
-		}else
-		{
+		}else{
 			response.setContentType("text/xml;charset=UTF-8");
 			writer.print(returnString);
 			writer.flush();

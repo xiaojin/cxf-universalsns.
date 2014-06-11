@@ -1,30 +1,23 @@
 package com.pwc.servlet;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSON;
-import net.sf.json.xml.XMLSerializer;
+import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONObject;
@@ -36,9 +29,6 @@ import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
-import com.pwc.sns.OauthSignObject;
-import com.pwc.sns.OauthSignature;
-import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 
 public class LinkedinCallbackServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -55,6 +45,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
 		String returnString = "";
 		String code ="";
@@ -64,18 +55,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 		
 		Enumeration<String> requestParam =  request.getParameterNames();
 		boolean flag = true;
-		InputStream inSteam = null;
-		String tokenCallback = "";
-		try {
-			File file = new File("src/main/resources/access.properties");
-			inSteam = new FileInputStream(file);
-			properties.load(inSteam);
-			tokenCallback = properties.getProperty(SNSConstants.LINKEDIN_TOKENCALLBACK);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			inSteam.close();
-		}
+		String tokenCallback = (String)session.getAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK);
 		String errorRes = request.getParameter("error");
 		if(errorRes!=null){
 			errorFlag = true;
@@ -88,8 +68,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 					errorDesc= request.getParameter(name);
 				}
 			}
-		}else
-		{
+		}else{
 			while(requestParam.hasMoreElements()&&flag){
 				String name = requestParam.nextElement();
 				if("code".equals(name)){
@@ -143,8 +122,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 		if(!("".equals(tokenCallback))){
 			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
 			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
-		}else
-		{
+		}else{
 			response.setContentType("text/xml;charset=UTF-8");
 			writer.print(returnString);
 			writer.flush();

@@ -1,25 +1,18 @@
 package com.pwc;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -30,7 +23,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -43,10 +39,7 @@ import org.json.JSONObject;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
-import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleOAuthConstants;
-import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
@@ -54,7 +47,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.repackaged.com.google.common.base.Joiner;
 import com.pwc.exception.BadRequestException;
-import com.pwc.platform.Linkedin;
 import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.TokenResponseEntity;
@@ -86,8 +78,6 @@ allowCredentials = true
 @Path("/token")
 public class AccessTokenService {
 
-	private final String TOKEN_SCORE_FILE = "src/main/resources/access.properties";
-
 	/**
 	 * OAuth 1.0 <br/>
 	 * Reference: <br/>
@@ -108,17 +98,13 @@ public class AccessTokenService {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response requestToken(@QueryParam("callback") String backURL) throws IOException {
+	    HttpSession  session = getSession();
 		// Step 1:Begin
 		Properties loadProperties = new Properties();
 		if(backURL !=null){
-			Map<String, String> params = new HashMap<String, String>();
-			params.put(SNSConstants.TWITTER_TOKENCALLBACK, backURL);
-			handlerTokenFileAccess(params);
-		}else
-		{
-			Map<String, String> params = new HashMap<String, String>();
-			params.put(SNSConstants.TWITTER_TOKENCALLBACK, "");
-			handlerTokenFileAccess(params);
+			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, backURL);
+		}else{
+			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, backURL);
 		}
 		loadProperties.load(new ByteArrayInputStream(ConfigProperty
 				.getConfigBinary()));
@@ -154,10 +140,8 @@ public class AccessTokenService {
 				oauth_token = params[0].substring(params[0].indexOf("=") + 1);
 				oauth_token_sec = params[1]
 						.substring(params[1].indexOf("=") + 1);
-				Map<String, String> storeParams = new HashMap<String, String>();
-				storeParams.put(SNSConstants.OAUTH_TOKEN, oauth_token);
-				storeParams.put(SNSConstants.OAUTH_TOKEN_SEC, oauth_token_sec);
-				handlerTokenFileAccess(storeParams);
+				session.setAttribute(SNSConstants.OAUTH_TOKEN, oauth_token);
+				session.setAttribute(SNSConstants.OAUTH_TOKEN_SEC, oauth_token_sec);
 				
 				res = Response.seeOther(new URI(loadProperties
 						.getProperty(SNSConstants.TWITTER_AUTHTOKEN_URL) + oauth_token));
@@ -192,6 +176,7 @@ public class AccessTokenService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response linkedinRequestToken(@QueryParam("scope") String scope,@QueryParam("callback") String backURL)
 			throws IOException {
+		HttpSession  session = getSession();
 		String requireScope = "r_basicprofile rw_nus rw_company_admin";
 		ResponseBuilder res = null;
 		try {
@@ -202,14 +187,9 @@ public class AccessTokenService {
 				requireScope = scope;
 			}
 			if(backURL !=null){
-					Map<String, String> params = new HashMap<String, String>();
-					params.put(SNSConstants.LINKEDIN_TOKENCALLBACK, backURL);
-					handlerTokenFileAccess(params);
-			}else
-			{
-				Map<String, String> params = new HashMap<String, String>();
-				params.put(SNSConstants.LINKEDIN_TOKENCALLBACK, "");
-				handlerTokenFileAccess(params);
+					session.setAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK, backURL);
+			}else{
+				session.setAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK, "");
 			}
 			Properties properties = new Properties();
 			properties.load(new ByteArrayInputStream(ConfigProperty
@@ -247,6 +227,7 @@ public class AccessTokenService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response facebookRequestToken(@QueryParam("scope") String scope,@QueryParam("callback") String backURL)
 			throws IOException {
+		HttpSession  session = getSession();
 		String requireScope = "read_stream publish_actions";
 		if (scope != null) {
 			scope = URLDecoder.decode(scope, "UTF-8");
@@ -255,14 +236,9 @@ public class AccessTokenService {
 			requireScope = scope;
 		}
 		if(backURL !=null){
-			Map<String, String> params = new HashMap<String, String>();
-			params.put(SNSConstants.FACEBOOK_TOKENCALLBACK, backURL);
-			handlerTokenFileAccess(params);
-		}else
-		{
-			Map<String, String> params = new HashMap<String, String>();
-			params.put(SNSConstants.FACEBOOK_TOKENCALLBACK, "");
-			handlerTokenFileAccess(params);
+			session.setAttribute(SNSConstants.FACEBOOK_TOKENCALLBACK, backURL);
+		}else{
+			session.setAttribute(SNSConstants.FACEBOOK_TOKENCALLBACK, "");
 		}
 		Properties properties = new Properties();
 		properties.load(new ByteArrayInputStream(ConfigProperty
@@ -301,6 +277,7 @@ public class AccessTokenService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response googleRequestToken(@QueryParam("scope") String scope,
 			@QueryParam("actions") String actions,@QueryParam("callback") String backURL) throws IOException {
+		HttpSession  session = getSession();
 		String url = "";
 		ResponseBuilder res = null;
 		try {
@@ -317,14 +294,10 @@ public class AccessTokenService {
 				requestActions = actions.split("&");
 			}
 			if(backURL !=null){
-				Map<String, String> params = new HashMap<String, String>();
-				params.put(SNSConstants.GOOGLE_TOKENCALLBACK, backURL);
-				handlerTokenFileAccess(params);
+				session.setAttribute(SNSConstants.GOOGLE_TOKENCALLBACK, backURL);
 			}else
 			{
-				Map<String, String> params = new HashMap<String, String>();
-				params.put(SNSConstants.GOOGLE_TOKENCALLBACK, "");
-				handlerTokenFileAccess(params);
+				session.setAttribute(SNSConstants.GOOGLE_TOKENCALLBACK, "");
 			}
 			Properties properties = new Properties();
 			properties.load(new ByteArrayInputStream(ConfigProperty
@@ -446,44 +419,10 @@ public class AccessTokenService {
 		return serverError;
 	}
 	
-	private void handlerTokenFileAccess(Map<String, String> params){
-		Properties properties = new Properties();
-		InputStream inSteam = null;
-		FileOutputStream outputStream = null;
-		try {
-			File file = new File(TOKEN_SCORE_FILE);
-			inSteam = new FileInputStream(file);
-			properties.load(inSteam);
-			inSteam.close();
-			outputStream = new FileOutputStream(file);
-			if(!params.isEmpty())
-			{
-				Set<String> keys = params.keySet();
-				Iterator<String> iterator=keys.iterator();
-				while(iterator.hasNext()){
-					String key = (String) iterator.next();
-					String value = (String) params.get(key);
-					properties.put(key, value);
-				}
-			}
-			properties.store(outputStream, "");
-			outputStream.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-			try {
-				inSteam.close();
-				outputStream.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	private HttpSession getSession(){
+		Message message = PhaseInterceptorChain.getCurrentMessage();
+	    HttpServletRequest request = (HttpServletRequest)message.get(AbstractHTTPDestination.HTTP_REQUEST);
+	    HttpSession  session = request.getSession(true);
+	    return session;
 	}
-	
-	
 }
