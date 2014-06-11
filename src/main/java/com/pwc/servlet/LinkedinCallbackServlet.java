@@ -1,10 +1,7 @@
 package com.pwc.servlet;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -47,6 +45,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
 		String returnString = "";
 		String code ="";
@@ -56,18 +55,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 		
 		Enumeration<String> requestParam =  request.getParameterNames();
 		boolean flag = true;
-		InputStream inSteam = null;
-		String tokenCallback = "";
-		try {
-			File file = new File("src/main/resources/access.properties");
-			inSteam = new FileInputStream(file);
-			properties.load(inSteam);
-			tokenCallback = properties.getProperty(SNSConstants.LINKEDIN_TOKENCALLBACK);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			inSteam.close();
-		}
+		String tokenCallback = (String)session.getAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK);
 		String errorRes = request.getParameter("error");
 		if(errorRes!=null){
 			errorFlag = true;
@@ -80,8 +68,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 					errorDesc= request.getParameter(name);
 				}
 			}
-		}else
-		{
+		}else{
 			while(requestParam.hasMoreElements()&&flag){
 				String name = requestParam.nextElement();
 				if("code".equals(name)){
@@ -135,8 +122,7 @@ public class LinkedinCallbackServlet extends HttpServlet{
 		if(!("".equals(tokenCallback))){
 			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
 			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
-		}else
-		{
+		}else{
 			response.setContentType("text/xml;charset=UTF-8");
 			writer.print(returnString);
 			writer.flush();

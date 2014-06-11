@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.BearerToken;
@@ -49,24 +50,14 @@ public class GoogleCallbackServlet extends HttpServlet{
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
 		String returnString = "";
 		String code ="";
 		String error="";
 		String errorDesc="";
 		boolean errorFlag = false;
-		InputStream inSteam = null;
-		String tokenCallback = "";
-		try {
-			File file = new File("src/main/resources/access.properties");
-			inSteam = new FileInputStream(file);
-			properties.load(inSteam);
-			tokenCallback = properties.getProperty(SNSConstants.GOOGLE_TOKENCALLBACK);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			inSteam.close();
-		}
+		String tokenCallback = (String)session.getAttribute(SNSConstants.GOOGLE_TOKENCALLBACK);
 		Enumeration<String> requestParam =  request.getParameterNames();
 		String errorRes = request.getParameter("error");
 		boolean flag = true;
