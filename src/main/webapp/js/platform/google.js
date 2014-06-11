@@ -144,7 +144,8 @@ var app = {
 
         var param = JSON.stringify({
             "target" : {
-                "url" : "https://developers.google.com/+/plugins/snippet/examples/thing"
+                // "url" : "https://developers.google.com/+/plugins/snippet/examples/thing"
+                "url" : "http://www.163.com"
             },
             "type" : "http://schemas.google.com/AddActivity"
         });

@@ -121,6 +121,9 @@ var link = {
                     }
                 }
                 $(".postShare").click(link.postFeed);
+                if($("#myfeeds .feed-entry").length<1){
+                    alert("Recently you haven't share anything on the linkedIn");
+                }
             } else {
                 alert(error + '\n' + $.xml2json($(data)[2]).message);
             }
