@@ -13,5 +13,5 @@ To Deploy the application on Amazon EC2 server:
 mvn jetty:run -Denv=prod
 
 *It will take a while to download various jar files for the first time.
-*mvn is an executable which should be found on your PATH. 
+*mvn is an executable which is on your PATH. 
 

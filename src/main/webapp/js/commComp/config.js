@@ -14,7 +14,7 @@ var conf = {};
 	    conf = {
 	        TWITTER_KEY : "2gi2C1blyjfks5R8pHViCQ",
 	        TWITTER_SEC : "FaCqSiO7eGPIK9PUv9j6x5mCENWOt4WK4VMuYxQB8",
-	        TWITTER_CALLBACK : "http://54.187.87.218:9090/twitter2.html",
+	        TWITTER_CALLBACK : "http://54.187.87.218:9090/twitter.html",
 	        TWITTER_REQUESTTOKEN_URL : "https://api.twitter.com/oauth/request_token",
 	        TWITTER_AUTHTOKEN_URL : "https://api.twitter.com/oauth/authenticate?oauth_token=",
 	        TWITTER_ACCESSTOKEN_URL : "https://api.twitter.com/oauth/access_token",
@@ -44,7 +44,7 @@ var conf = {};
 	    conf = {
 	        TWITTER_KEY : "qCEyFIf0RehbUglehaOug",
 	        TWITTER_SEC : "dbcOAa4PSWn5bhmKLT1S5dslqIOAzTYpV145dj77h8",
-	        TWITTER_CALLBACK : "http://127.0.0.1:9090/twitter2.html",
+	        TWITTER_CALLBACK : "http://127.0.0.1:9090/twitter.html",
 	        TWITTER_REQUESTTOKEN_URL : "https://api.twitter.com/oauth/request_token",
 	        TWITTER_AUTHTOKEN_URL : "https://api.twitter.com/oauth/authenticate?oauth_token=",
 	        TWITTER_ACCESSTOKEN_URL : "https://api.twitter.com/oauth/access_token",
