@@ -58,6 +58,7 @@ import com.pwc.sns.Oauth2Signature;
 import com.pwc.sns.OauthSignObject;
 import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 import com.pwc.sns.OauthSignature;
+import com.pwc.sns.dao.ClientDao;
 
 /**
  * Implementation of the interface of {@link ApiService}
@@ -77,7 +78,12 @@ allowCredentials = true
 )
 @Path("/token")
 public class AccessTokenService {
-
+	
+	private ClientDao clientDao;
+	
+	public void setClientDao(ClientDao clientDao){
+		this.clientDao = clientDao;
+	}
 	/**
 	 * OAuth 1.0 <br/>
 	 * Reference: <br/>
