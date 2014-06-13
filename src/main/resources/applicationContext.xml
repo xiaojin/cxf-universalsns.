@@ -7,20 +7,14 @@
 		http://cxf.apache.org/jaxrs
 		http://cxf.apache.org/schemas/jaxrs.xsd"
 	default-lazy-init="false">
-	<import resource="applicationContext-db.xml"/>
+	<import resource="applicationContext-db.xml" />
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<!-- <import resource="classpath*:META-INF/logmonContext.xml" /> -->
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" 
-		/> -->
 	<bean id="apiServiceImpl" class="com.pwc.ApiServiceImpl"></bean>
 	<bean id="cors-filter"
 		class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" />
-	<!-- <bean id="cors-server" scope="prototype" class="org.apache.cxf.systest.jaxrs.cors.AnnotatedCorsServer" 
-		/> -->
-	<!-- <bean id="apiServiceFacebook" class="com.pwc.ApiServiceFacebookImpl"></bean> -->
 	<bean id="accessToken" class="com.pwc.AccessTokenService">
-		<property name="clientDao" ref="clientDao"/>
+		<property name="clientDao" ref="clientDao" />
 	</bean>
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
