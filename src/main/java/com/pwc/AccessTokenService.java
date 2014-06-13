@@ -110,7 +110,7 @@ public class AccessTokenService {
 		if(backURL !=null){
 			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, backURL);
 		}else{
-			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, backURL);
+			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, "");
 		}
 		loadProperties.load(new ByteArrayInputStream(ConfigProperty
 				.getConfigBinary()));
