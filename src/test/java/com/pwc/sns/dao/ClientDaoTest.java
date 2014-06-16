@@ -25,4 +25,15 @@ public class ClientDaoTest {
         assertNull(client);
         assertTrue(client == null);
     }
+    
+    @Test
+    public void add(){
+    	Client client = new Client();
+    	client.setName("test");
+    	client.setStatus(1);
+    	client.setClientType("1");
+    	clientDao.addClient(client);
+    	assert(clientDao.len() > 0);
+    	
+    }
 }
