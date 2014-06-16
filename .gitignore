@@ -2,3 +2,5 @@ target/
 doc/
 ServiceJavadoc.zip
 src/main/webapp/showcase.html
+.classpath
+.settings/org.eclipse.wst.common.component
