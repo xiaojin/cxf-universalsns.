@@ -16,12 +16,16 @@
 	<bean id="accessToken" class="com.pwc.AccessTokenService">
 		<property name="clientDao" ref="clientDao" />
 	</bean>
+	<bean id="securityInterceptor" class="com.pwc.sns.interceptor.SecurityInterceptor"/>
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="apiServiceImpl" />
 			<!-- <ref bean="cors-server" /> -->
 			<ref bean="accessToken" />
 		</jaxrs:serviceBeans>
+		<jaxrs:inInterceptors>
+			<ref bean="securityInterceptor"></ref>
+		</jaxrs:inInterceptors>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />
@@ -30,5 +34,8 @@
 			<ref bean="cors-filter" />
 		</jaxrs:providers>
 	</jaxrs:server>
-
+<!-- 	<bean id="serverAuthHeader" class="com.pwc.ServerAuthHeader">
+		<property name="content" value="${}"></property>
+		<property name="seed" value="${}"></property>
+	</bean> -->
 </beans>

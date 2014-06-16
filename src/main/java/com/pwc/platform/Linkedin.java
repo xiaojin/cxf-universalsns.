@@ -63,8 +63,7 @@ public class Linkedin implements RequestURL{
 		backData = HttpXmlClient.post(url,head,jsonObj.toString());	
 		return backData;
 	}
-	public String getPeopleFeed(){
-		String url = LinkedinUrl.GET_FEED;
+	public String getPeopleFeed(){		String url = LinkedinUrl.GET_FEED;
 		LinkedinEntity linkedin = entity.getLinkedinEntity();
 		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
 		if("me".equals(linkedin.getPersonID())){
@@ -73,7 +72,14 @@ public class Linkedin implements RequestURL{
 		else{
 			url = url.replaceAll("\\~", "id="+entity.getLinkedinEntity().getCompanyID());
 		}
-		url = url + "?"+param+"&oauth2_access_token=" + entity.getAccessToken();
+		if(param == ""){
+			url = url + "?"+param+"&oauth2_access_token=" + entity.getAccessToken();
+		}
+		else
+		{
+			url = url + "?"+"oauth2_access_token=" + entity.getAccessToken();
+		}
+		url = url +"&type=SHAR&after=1357018947000";
 		backData = HttpXmlClient.get(url);
 		return backData;
 	}
@@ -84,6 +90,7 @@ public class Linkedin implements RequestURL{
 		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
 		url = url.replaceAll("key\\=\\{key\\}", param);
 		url = url + "?"+"oauth2_access_token=" + entity.getAccessToken();
+		
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Content-Type", "application/xml");
 		head.put("Accept", "text/plain");
