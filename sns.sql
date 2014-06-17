@@ -16,6 +16,16 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `sns`
+--
+
+/*!40000 DROP DATABASE IF EXISTS `sns`*/;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `sns` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `sns`;
+
+--
 -- Table structure for table `client`
 --
 
@@ -53,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-17 10:17:02
+-- Dump completed on 2014-06-17 10:33:40
