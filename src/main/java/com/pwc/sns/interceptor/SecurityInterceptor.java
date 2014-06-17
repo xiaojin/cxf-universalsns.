@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.interceptor.InterceptorChain;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -30,6 +31,8 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 		// TODO Auto-generated method stub
 		HttpServletRequest request = (HttpServletRequest) message
 				.get(AbstractHTTPDestination.HTTP_REQUEST);
+		InterceptorChain chain = message.getInterceptorChain();
+		
 //		HttpServletResponse response =(HttpServletResponse)message.get(AbstractHTTPDestination.HTTP_RESPONSE);
 //		PrintWriter writer = null ;
 //		try {
@@ -45,12 +48,12 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 		String ip = request.getHeader("x-Forwarded-For");
 		LOGGER.debug("SecurityInterceptor request =============IP:" + ip
 				+ "=============");
-//		boolean checkInDatabase = true;
-//		if (checkInDatabase) {
-//			writer.write("invalid message");
-//		} else {
-//			this.handlerDBSearch();
-//		}
+		boolean checkInDatabase = true;
+		if (checkInDatabase) {
+			chain.abort();
+		} else {
+			this.handlerDBSearch();
+		}
 	}
 
 	public ServerAuthHeader getServerAuthHeader() {
