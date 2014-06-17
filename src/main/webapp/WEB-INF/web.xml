@@ -57,8 +57,19 @@
 		<servlet-name>googleCallBack</servlet-name>
 		<servlet-class>com.pwc.servlet.GoogleCallbackServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ClientLandingServlet</display-name>
+		<servlet-name>ClientLandingServlet</servlet-name>
+		<servlet-class>com.pwc.sns.servlet.ClientLandingServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>googleCallBack</servlet-name>
 		<url-pattern>/googleCallBack</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ClientLandingServlet</servlet-name>
+		<url-pattern>/ClientLandingServlet</url-pattern>
 	</servlet-mapping>	
 </web-app>
