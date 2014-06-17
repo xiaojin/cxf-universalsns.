@@ -3,7 +3,11 @@ doc/
 ServiceJavadoc.zip
 src/main/webapp/showcase.html
 .classpath
+<<<<<<< HEAD
 .settings/org.eclipse.wst.common.component
 .classpath
 .gitignore
 .settings/org.eclipse.wst.common.component
+=======
+.settings/
+>>>>>>> 901970a3a23e9e0b9c276a58711d83d301514cb4

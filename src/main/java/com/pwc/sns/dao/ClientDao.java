@@ -34,13 +34,13 @@ public class ClientDao {
 	}
 
 	public List findAll() {
-		String sql = "Select * from Client";
+		String sql = "Select * from client";
 		List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
 		return list;
 	}
 
 	public Client findClientByUdid(String udid) {
-		String sql = "Select * from Client where udid= ?";
+		String sql = "Select * from client where udid= ?";
 		try {
 			Client client = this.jdbcTemplate.queryForObject(sql,
 					new Object[] { udid }, new ClientRowWrapper());
