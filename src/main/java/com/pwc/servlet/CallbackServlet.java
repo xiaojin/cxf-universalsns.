@@ -134,7 +134,7 @@ public class CallbackServlet extends HttpServlet {
 		}
 		if(!("".equals(tokenCallback))){
 			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
-			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
+			response.sendRedirect(request.getContextPath()+"ClientLandingServlet" +"?tokencallback="+returnString);
 		}else{
 			response.setContentType("text/xml;charset=UTF-8");
 			writer.print(returnString);
