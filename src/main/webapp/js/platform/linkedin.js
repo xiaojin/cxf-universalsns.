@@ -3,10 +3,19 @@ var link = {
     buildfeedlist : function(obj, $parent) {
         var $feedItem = $(".myfeedli");
         var $copy = $feedItem.clone();
-
-        var update_comments = obj.update_comments.update_comment;
+        var update_comments =null;
+        if(obj.update_comments!=undefined)
+        {
+             update_comments = obj.update_comments.update_comment;
+        }
         $copy.find(".linkedin-name a").html(obj.update_content.person.first_name + " " + obj.update_content.person.last_name);
-        $copy.find(".linkedin-content span").html(obj.update_content.person.current_share.comment);
+        if(obj.update_content.person.current_share !=undefined){
+           $copy.find(".linkedin-content span").html(obj.update_content.person.current_share.comment==undefined?"":obj.update_content.person.current_share.comment);
+        }
+        else
+        {
+            $copy.find(".linkedin-content span").html("");           
+        }
         var $itemParent = $copy.find('.feed-list');
 
         if ($.isArray(update_comments)) {

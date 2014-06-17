@@ -34,12 +34,16 @@
             <!-- <ref bean="dataValidationInInterceptor" /> -->
         </cxf:inInterceptors>
     </cxf:bus>
+	<bean id="securityInterceptor" class="com.pwc.sns.interceptor.SecurityInterceptor"/>
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="apiServiceImpl" />
 			<!-- <ref bean="cors-server" /> -->
 			<ref bean="accessToken" />
 		</jaxrs:serviceBeans>
+		<jaxrs:inInterceptors>
+			<ref bean="securityInterceptor"></ref>
+		</jaxrs:inInterceptors>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />
