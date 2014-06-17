@@ -132,14 +132,9 @@ public class CallbackServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		if(!("".equals(tokenCallback))){
-			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
-			response.sendRedirect(request.getContextPath()+"ClientLandingServlet" +"?tokencallback="+returnString);
-		}else{
-			response.setContentType("text/xml;charset=UTF-8");
-			writer.print(returnString);
-			writer.flush();
-		}
+		tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
+		response.sendRedirect(request.getContextPath()+"ClientLandingServlet" +"?tokencallback="+returnString);
+		
 	}
 
 	/**
