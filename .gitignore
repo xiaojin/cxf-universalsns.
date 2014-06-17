@@ -4,3 +4,6 @@ ServiceJavadoc.zip
 src/main/webapp/showcase.html
 .classpath
 .settings/org.eclipse.wst.common.component
+.classpath
+.gitignore
+.settings/org.eclipse.wst.common.component
