@@ -1,27 +1,16 @@
-package com.pwc.sns.dto;
+package com.pwc.sns.service;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class Client {
-	private int id;
-	private String udid;
+@XmlRootElement(name = "SignupEntity") 
+public class SignupEntity {
+
 	private String name;
 	private String phone;
 	private String email;
 	private String clientType;
 	private String callbackUrl;
-	private int status;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getUdid() {
-		return udid;
-	}
-	public void setUdid(String udid) {
-		this.udid = udid;
-	}
+
 	public String getName() {
 		return name;
 	}
@@ -52,18 +41,11 @@ public class Client {
 	public void setCallbackUrl(String callbackUrl) {
 		this.callbackUrl = callbackUrl;
 	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", udid=" + udid + ", name=" + name
+		return "Client [name=" + name
 				+ ", phone=" + phone + ", email=" + email + ", clientType="
-				+ clientType + ", callbackUrl=" + callbackUrl + ", status="
-				+ status + "]";
+				+ clientType + ", callbackUrl=" + callbackUrl + "]";
 	}
 	
 }

@@ -19,8 +19,9 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
 	<bean id="apiServiceImpl" class="com.pwc.ApiServiceImpl"></bean>
-	<bean id="signupService" class="com.pwc.sns.service.SignupService"></bean>
-	
+	<bean id="signupService" class="com.pwc.sns.service.SignupService">
+		<property name="clientDao" ref="clientDao"></property>
+	</bean>
 	<bean id="cors-filter"
 		class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" />
 	<bean id="accessToken" class="com.pwc.AccessTokenService">
@@ -40,22 +41,11 @@
 			<ref bean="apiServiceImpl" />
 			<!-- <ref bean="cors-server" /> -->
 			<ref bean="accessToken" />
+			<ref bean="signupService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:inInterceptors>
 			<ref bean="securityInterceptor"></ref>
 		</jaxrs:inInterceptors>
-		<jaxrs:extensionMappings>
-			<entry key="xml" value="application/xml" />
-			<entry key="json" value="application/json" />
-		</jaxrs:extensionMappings>
-		<jaxrs:providers>
-			<ref bean="cors-filter" />
-		</jaxrs:providers>
-	</jaxrs:server>
-	<jaxrs:server id="signupService" address="/signup">
-		<jaxrs:serviceBeans>
-			<ref bean="apiServiceImpl" />
-		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />

@@ -48,12 +48,12 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 		String ip = request.getHeader("x-Forwarded-For");
 		LOGGER.debug("SecurityInterceptor request =============IP:" + ip
 				+ "=============");
-		boolean checkInDatabase = true;
-		if (checkInDatabase) {
-			chain.abort();
-		} else {
-			this.handlerDBSearch();
-		}
+//		boolean checkInDatabase = true;
+//		if (checkInDatabase) {
+//			chain.abort();
+//		} else {
+//			this.handlerDBSearch();
+//		}
 	}
 
 	public ServerAuthHeader getServerAuthHeader() {
