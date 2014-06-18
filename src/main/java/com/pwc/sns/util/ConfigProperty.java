@@ -1,4 +1,4 @@
-package com.pwc.sns;
+package com.pwc.sns.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

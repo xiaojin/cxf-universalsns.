@@ -21,13 +21,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONObject;
 
-import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
 import com.pwc.sns.service.ResponseToXMLHandler;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
+import com.pwc.sns.util.ConfigProperty;
 import com.pwc.sns.util.SNSConstants;
 
 public class LinkedinCallbackServlet extends HttpServlet {

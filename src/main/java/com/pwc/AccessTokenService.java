@@ -47,7 +47,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.repackaged.com.google.common.base.Joiner;
 import com.pwc.exception.BadRequestException;
-import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
@@ -58,6 +57,7 @@ import com.pwc.sns.dao.ClientDao;
 import com.pwc.sns.service.ResponseToXMLHandler;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
+import com.pwc.sns.util.ConfigProperty;
 import com.pwc.sns.util.SNSConstants;
 
 /**
@@ -103,8 +103,8 @@ public class AccessTokenService {
 	@Path("/twitterRequest")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response requestToken(@QueryParam("callback") String backURL) throws IOException {
-	    HttpSession  session = getSession();
+	public Response requestToken() throws IOException {
+		HttpSession  session = getSession();
 		// Step 1:Begin
 		Properties loadProperties = new Properties();
 		loadProperties.load(new ByteArrayInputStream(ConfigProperty
