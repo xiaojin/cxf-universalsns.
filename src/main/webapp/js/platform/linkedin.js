@@ -370,9 +370,6 @@ var link = {
     },
     ready : function() {
         $("#linkedin-token").html("");
-        $("#googleURL").click(function() {
-            window.location.href = conf.GOOGLE_CALLBACK;
-        });
         var lineninToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
         if (lineninToken != null && lineninToken.access_token != undefined) {
             $("#linkedin-token").html(lineninToken.access_token);
