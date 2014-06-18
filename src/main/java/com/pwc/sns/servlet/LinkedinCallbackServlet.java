@@ -94,10 +94,10 @@ public class LinkedinCallbackServlet extends HttpServlet {
 
 			sign.setAuthenticationServerUrl(properties
 					.getProperty("LINKEDIN_ACCESSTOKEN_URL"));
-			sign.setCallBackURL(properties.getProperty("LINKEDIN_CALLBACK"));
+			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) + request.getContextPath() + SNSConstants.LINKEDIN_CALLBACK);
 			sign.setGrantType("authorization_code");
 			sign.setCode(code);
-			sign.setClientId(properties.getProperty("LINKEDIN_KEY"));
+			sign.setClientId(properties.getProperty(SNSConstants.LINKEDIN_KEY));
 			sign.setClientSecret(properties.getProperty("LINKEDIN_SEC"));
 			String url = oauthsign.handlerLinkedinAccessTokenRequest(sign);
 

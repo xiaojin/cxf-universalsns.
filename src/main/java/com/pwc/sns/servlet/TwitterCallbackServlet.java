@@ -57,9 +57,10 @@ public class TwitterCallbackServlet extends HttpServlet {
 		String error = "";
 		String errorDesc = "";
 		boolean errorFlag = false;
-		
-		oauth_token = (String)session.getAttribute(SNSConstants.OAUTH_TOKEN);
-		oauth_token_secret = (String)session.getAttribute(SNSConstants.OAUTH_TOKEN_SEC);
+
+		oauth_token = (String) session.getAttribute(SNSConstants.OAUTH_TOKEN);
+		oauth_token_secret = (String) session
+				.getAttribute(SNSConstants.OAUTH_TOKEN_SEC);
 
 		Enumeration<String> requestParam = request.getParameterNames();
 		boolean flag = true;
@@ -88,7 +89,8 @@ public class TwitterCallbackServlet extends HttpServlet {
 			ErrorResponseEntity errorResponse = new ErrorResponseEntity();
 			errorResponse.setErrorCode(error);
 			errorResponse.setMessage(errorDesc);
-			returnString = new ResponseToXMLHandler().errorObjectToXMLhandler(errorResponse);
+			returnString = new ResponseToXMLHandler()
+					.errorObjectToXMLhandler(errorResponse);
 			response.sendError(400, returnString);
 		} else {
 			Properties configProperties = new Properties();
@@ -97,11 +99,14 @@ public class TwitterCallbackServlet extends HttpServlet {
 			OauthSignature oauthsign = new OauthSignature();
 			OauthSignObject sign = new OauthSignObject();
 			sign.setReqURI(configProperties
-					.getProperty("TWITTER_ACCESSTOKEN_URL"));
+					.getProperty(SNSConstants.TWITTER_AUTHTOKEN_URL));
 			sign.setCallBackURL(configProperties
-					.getProperty("TWITTER_CALLBACK"));
-			sign.setConsumerKey(configProperties.getProperty("TWITTER_KEY"));
-			sign.setConsumerKeySec(configProperties.getProperty("TWITTER_SEC"));
+					.getProperty(SNSConstants.HOSTURL)
+					+ request.getContextPath() + SNSConstants.TWITTER_CALLBACK);
+			sign.setConsumerKey(configProperties
+					.getProperty(SNSConstants.TWITTER_KEY));
+			sign.setConsumerKeySec(configProperties
+					.getProperty(SNSConstants.TWITTER_SEC));
 			sign.setAccessToken(oauth_token);
 			sign.setAccessTokenSec(oauth_token_secret);
 			sign.setOauthVerify(varifier);
@@ -130,8 +135,10 @@ public class TwitterCallbackServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		response.sendRedirect(request.getContextPath()+SNSConstants.CLIENT_LANDING_SERVLET +"?tokencallback="+returnString);
-		
+		response.sendRedirect(request.getContextPath()
+				+ SNSConstants.CLIENT_LANDING_SERVLET + "?tokencallback="
+				+ returnString);
+
 	}
 
 	/**
@@ -148,21 +155,26 @@ public class TwitterCallbackServlet extends HttpServlet {
 		TokenResponseEntity tokenEntity = new TokenResponseEntity();
 
 		String[] params = callBackresponse.split("&");
-		HashMap<String,String> dic = new HashMap<String,String>();
-		for(String param : params){
+		HashMap<String, String> dic = new HashMap<String, String>();
+		for (String param : params) {
 			String key = param.substring(0, param.indexOf("="));
-			String val = param.substring(param.indexOf("=")+1);;
+			String val = param.substring(param.indexOf("=") + 1);
+			;
 			dic.put(key, val);
 		}
-		String access_token = dic.get("oauth_token") == null?"":dic.get("oauth_token");
-		String oauth_token_secret = dic.get("oauth_token_secret") == null?"":dic.get("oauth_token_secret");
-		String user_id = dic.get("user_id") == null?"":dic.get("user_id");
-		String screen_name = dic.get("screen_name") == null?"":dic.get("screen_name");
+		String access_token = dic.get("oauth_token") == null ? "" : dic
+				.get("oauth_token");
+		String oauth_token_secret = dic.get("oauth_token_secret") == null ? ""
+				: dic.get("oauth_token_secret");
+		String user_id = dic.get("user_id") == null ? "" : dic.get("user_id");
+		String screen_name = dic.get("screen_name") == null ? "" : dic
+				.get("screen_name");
 		tokenEntity.setAccess_token(access_token);
 		tokenEntity.setUser_id(user_id);
 		tokenEntity.setScreen_name(screen_name);
 		tokenEntity.setAccess_token_sec(oauth_token_secret);
-		String newString = new ResponseToXMLHandler().tokenResponseToXMLHandler(tokenEntity);
+		String newString = new ResponseToXMLHandler()
+				.tokenResponseToXMLHandler(tokenEntity);
 		return newString;
 	}
 

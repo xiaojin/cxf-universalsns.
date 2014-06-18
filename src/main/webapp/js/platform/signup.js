@@ -48,7 +48,7 @@ var signUp = {
         var callbackURL = $(".form").find("#callbackURL").text();
         var clientType = $(".form").find("#validate-select :selected").val();
         $.ajax({
-            url : conf.HOSTURL + "/cxf/signup/new?name=xiao",
+            url : conf.HOSTURL + "/cxf/gate/signup/new?name=xiao",
             type : "POST",
             success : function(data) {
                     $("#register-form").hide();

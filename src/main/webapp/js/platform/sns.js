@@ -61,7 +61,8 @@ if(SNS === undefined)
                 var height= 960;
                 var left = (screen.width/2)-(width/2);
                 var top = (screen.height/2)-(height/2);
-                var onwin = window.open(tokenURL+"?callback="+myurl,'','scrollbars=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+                // var onwin = window.open(tokenURL+"?callback="+myurl,'','scrollbars=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+                var onwin = window.open(tokenURL,'','scrollbars=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
                 var interval = setInterval(function() {
                     var param = onwin.location.search;
                     console.log(param);
