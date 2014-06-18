@@ -93,7 +93,7 @@ public class FacebookCallbackServlet extends HttpServlet {
 			Oauth2SignObject sign = new Oauth2SignObject();
 			sign.setAuthenticationServerUrl(properties
 					.getProperty("FACEBOOK_ACCESSTOKEN_URL"));
-			sign.setCallBackURL(properties.getProperty("FACEBOOK_CALLBACK"));
+			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) +request.getContextPath() + SNSConstants.FACEBOOK_CALLBACK);
 			sign.setCode(code);
 			sign.setClientId(properties.getProperty("FACEBOOK_CLIENTID"));
 			sign.setClientSecret(properties.getProperty("FACEBOOK_SEC"));

@@ -113,7 +113,7 @@ public class AccessTokenService {
 		OauthSignObject sign = new OauthSignObject();
 		String returnString = "";
 		sign.setReqURI(loadProperties.getProperty(SNSConstants.TWITTER_REQUESTTOKEN_URL));
-		sign.setCallBackURL(loadProperties.getProperty(SNSConstants.TWITTER_CALLBACK));
+		sign.setCallBackURL(loadProperties.getProperty(SNSConstants.HOSTURL)+getRequest().getContextPath()+SNSConstants.TWITTER_CALLBACK);
 		sign.setConsumerKey(loadProperties.getProperty(SNSConstants.TWITTER_KEY));
 		sign.setConsumerKeySec(loadProperties.getProperty(SNSConstants.TWITTER_SEC));
 		sign.setRequestType(REQUESTTYPE.GET);
@@ -193,7 +193,7 @@ public class AccessTokenService {
 			Oauth2SignObject sign = new Oauth2SignObject();
 			sign.setAuthenticationServerUrl(properties
 					.getProperty(SNSConstants.LINKEDIN_AUTHTOKEN_URL));
-			sign.setCallBackURL(properties.getProperty(SNSConstants.LINKEDIN_CALLBACK));
+			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) +getRequest() +SNSConstants.LINKEDIN_CALLBACK);
 			sign.setScope(requireScope);
 			sign.setClientId(properties.getProperty(SNSConstants.LINKEDIN_KEY));
 			// Generate Request URL
@@ -236,7 +236,7 @@ public class AccessTokenService {
 		Oauth2SignObject sign = new Oauth2SignObject();
 		sign.setAuthenticationServerUrl(properties
 				.getProperty(SNSConstants.FACEBOOK_AUTHTOKEN_URL));
-		sign.setCallBackURL(properties.getProperty(SNSConstants.FACEBOOK_CALLBACK));
+		sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) + getRequest().getContextPath() + SNSConstants.FACEBOOK_CALLBACK);
 		sign.setScope(requireScope);
 		sign.setClientId(properties.getProperty(SNSConstants.FACEBOOK_CLIENTID));
 		// Generate Request URL
@@ -401,10 +401,14 @@ public class AccessTokenService {
 		return serverError;
 	}
 	
-	private HttpSession getSession(){
+	private HttpSession getSession(){		
+	    HttpSession  session = getRequest().getSession(true);
+	    return session;
+	}
+	
+	private HttpServletRequest getRequest(){
 		Message message = PhaseInterceptorChain.getCurrentMessage();
 	    HttpServletRequest request = (HttpServletRequest)message.get(AbstractHTTPDestination.HTTP_REQUEST);
-	    HttpSession  session = request.getSession(true);
-	    return session;
+	    return request;
 	}
 }

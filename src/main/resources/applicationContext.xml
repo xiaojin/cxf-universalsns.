@@ -41,11 +41,22 @@
 			<ref bean="apiServiceImpl" />
 			<!-- <ref bean="cors-server" /> -->
 			<ref bean="accessToken" />
-			<ref bean="signupService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:inInterceptors>
 			<ref bean="securityInterceptor"></ref>
 		</jaxrs:inInterceptors>
+		<jaxrs:extensionMappings>
+			<entry key="xml" value="application/xml" />
+			<entry key="json" value="application/json" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<ref bean="cors-filter" />
+		</jaxrs:providers>
+	</jaxrs:server>
+		<jaxrs:server id="signUpService" address="/gate">
+		<jaxrs:serviceBeans>
+			<ref bean="signupService" />
+		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />
