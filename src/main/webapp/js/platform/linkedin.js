@@ -359,7 +359,6 @@ var link = {
         if (lineninToken != null && lineninToken.access_token != undefined) {
             $("#linkedin-token").html(lineninToken.access_token);
         } else {
-            // authRequest(conf.LINKEDIN);
             var sns = SNS();
             sns.linkedin_token(function(){
             // var ss = localStorage.getItem("tokens-facebook");
