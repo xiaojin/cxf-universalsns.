@@ -1,4 +1,4 @@
-package com.pwc.service;
+package com.pwc.sns.service.entity;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 

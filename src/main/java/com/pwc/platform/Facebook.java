@@ -7,11 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.pwc.platform.RequestURL.FacebookUrl;
-import com.pwc.service.ErrorResponseEntity;
-import com.pwc.service.ProfileResponseEntity;
-import com.pwc.service.ResponseToXMLHandler;
-import com.pwc.service.StatusResponseEntity;
 import com.pwc.sns.HttpXmlClient;
+import com.pwc.sns.service.ResponseToXMLHandler;
+import com.pwc.sns.service.entity.ErrorResponseEntity;
+import com.pwc.sns.service.entity.ProfileResponseEntity;
+import com.pwc.sns.service.entity.StatusResponseEntity;
 
 /**
  * Facebook subclass of {@link SocialMedia} <br/>
