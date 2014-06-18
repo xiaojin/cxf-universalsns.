@@ -47,9 +47,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.repackaged.com.google.common.base.Joiner;
 import com.pwc.exception.BadRequestException;
-import com.pwc.service.ErrorResponseEntity;
-import com.pwc.service.ResponseToXMLHandler;
-import com.pwc.service.TokenResponseEntity;
 import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
@@ -58,6 +55,9 @@ import com.pwc.sns.OauthSignObject;
 import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.dao.ClientDao;
+import com.pwc.sns.service.ResponseToXMLHandler;
+import com.pwc.sns.service.entity.ErrorResponseEntity;
+import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.SNSConstants;
 
 /**

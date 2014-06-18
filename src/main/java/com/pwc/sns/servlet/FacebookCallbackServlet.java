@@ -22,13 +22,13 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
-import com.pwc.service.ErrorResponseEntity;
-import com.pwc.service.ResponseToXMLHandler;
-import com.pwc.service.TokenResponseEntity;
 import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
+import com.pwc.sns.service.ResponseToXMLHandler;
+import com.pwc.sns.service.entity.ErrorResponseEntity;
+import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.SNSConstants;
 
 public class FacebookCallbackServlet extends HttpServlet {

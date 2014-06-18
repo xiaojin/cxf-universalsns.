@@ -26,10 +26,10 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.repackaged.com.google.common.base.Joiner;
-import com.pwc.service.ErrorResponseEntity;
-import com.pwc.service.ResponseToXMLHandler;
-import com.pwc.service.TokenResponseEntity;
 import com.pwc.sns.ConfigProperty;
+import com.pwc.sns.service.ResponseToXMLHandler;
+import com.pwc.sns.service.entity.ErrorResponseEntity;
+import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.SNSConstants;
 
 public class GoogleCallbackServlet extends HttpServlet{
