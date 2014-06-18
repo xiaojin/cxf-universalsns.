@@ -1,4 +1,4 @@
-package com.pwc.servlet;
+package com.pwc.sns.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

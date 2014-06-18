@@ -50,7 +50,6 @@ import com.pwc.exception.BadRequestException;
 import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.TokenResponseEntity;
-import com.pwc.servlet.SNSConstants;
 import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
@@ -59,6 +58,7 @@ import com.pwc.sns.OauthSignObject;
 import com.pwc.sns.OauthSignObject.REQUESTTYPE;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.dao.ClientDao;
+import com.pwc.sns.util.SNSConstants;
 
 /**
  * Implementation of the interface of {@link ApiService}
@@ -107,11 +107,6 @@ public class AccessTokenService {
 	    HttpSession  session = getSession();
 		// Step 1:Begin
 		Properties loadProperties = new Properties();
-		if(backURL !=null){
-			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, backURL);
-		}else{
-			session.setAttribute(SNSConstants.TWITTER_TOKENCALLBACK, "");
-		}
 		loadProperties.load(new ByteArrayInputStream(ConfigProperty
 				.getConfigBinary()));
 		OauthSignature oauthsign = new OauthSignature();
@@ -182,7 +177,6 @@ public class AccessTokenService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response linkedinRequestToken(@QueryParam("scope") String scope,@QueryParam("callback") String backURL)
 			throws IOException {
-		HttpSession  session = getSession();
 		String requireScope = "r_basicprofile rw_nus rw_company_admin";
 		ResponseBuilder res = null;
 		try {
@@ -191,11 +185,6 @@ public class AccessTokenService {
 				String[] scopes = scope.split("&");
 				scope = StringUtils.join(scopes, " ");
 				requireScope = scope;
-			}
-			if(backURL !=null){
-					session.setAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK, backURL);
-			}else{
-				session.setAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK, "");
 			}
 			Properties properties = new Properties();
 			properties.load(new ByteArrayInputStream(ConfigProperty
@@ -233,18 +222,12 @@ public class AccessTokenService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response facebookRequestToken(@QueryParam("scope") String scope,@QueryParam("callback") String backURL)
 			throws IOException {
-		HttpSession  session = getSession();
 		String requireScope = "read_stream publish_actions";
 		if (scope != null) {
 			scope = URLDecoder.decode(scope, "UTF-8");
 			String[] scopes = scope.split("&");
 			scope = StringUtils.join(scopes, " ");
 			requireScope = scope;
-		}
-		if(backURL !=null){
-			session.setAttribute(SNSConstants.FACEBOOK_TOKENCALLBACK, backURL);
-		}else{
-			session.setAttribute(SNSConstants.FACEBOOK_TOKENCALLBACK, "");
 		}
 		Properties properties = new Properties();
 		properties.load(new ByteArrayInputStream(ConfigProperty
@@ -283,7 +266,6 @@ public class AccessTokenService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response googleRequestToken(@QueryParam("scope") String scope,
 			@QueryParam("actions") String actions,@QueryParam("callback") String backURL) throws IOException {
-		HttpSession  session = getSession();
 		String url = "";
 		ResponseBuilder res = null;
 		try {
@@ -298,12 +280,6 @@ public class AccessTokenService {
 			if (actions != null) {
 				actions = URLDecoder.decode(actions, "UTF-8");
 				requestActions = actions.split("&");
-			}
-			if(backURL !=null){
-				session.setAttribute(SNSConstants.GOOGLE_TOKENCALLBACK, backURL);
-			}else
-			{
-				session.setAttribute(SNSConstants.GOOGLE_TOKENCALLBACK, "");
 			}
 			Properties properties = new Properties();
 			properties.load(new ByteArrayInputStream(ConfigProperty

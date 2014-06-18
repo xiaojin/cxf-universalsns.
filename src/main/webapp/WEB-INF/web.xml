@@ -23,7 +23,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>EnvServlet</servlet-name>
-		<servlet-class>com.pwc.servlet.EnvServlet</servlet-class>
+		<servlet-class>com.pwc.sns.servlet.EnvServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>EnvServlet</servlet-name>
@@ -31,7 +31,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>tokenCallBack</servlet-name>
-		<servlet-class>com.pwc.servlet.CallbackServlet</servlet-class>
+		<servlet-class>com.pwc.sns.servlet.TwitterCallbackServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>tokenCallBack</servlet-name>
@@ -39,7 +39,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>linkedinCallBack</servlet-name>
-		<servlet-class>com.pwc.servlet.LinkedinCallbackServlet</servlet-class>
+		<servlet-class>com.pwc.sns.servlet.LinkedinCallbackServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>linkedinCallBack</servlet-name>
@@ -47,7 +47,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>facebookCallBack</servlet-name>
-		<servlet-class>com.pwc.servlet.FacebookCallbackServlet</servlet-class>
+		<servlet-class>com.pwc.sns.servlet.FacebookCallbackServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>facebookCallBack</servlet-name>
@@ -55,7 +55,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>googleCallBack</servlet-name>
-		<servlet-class>com.pwc.servlet.GoogleCallbackServlet</servlet-class>
+		<servlet-class>com.pwc.sns.servlet.GoogleCallbackServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>

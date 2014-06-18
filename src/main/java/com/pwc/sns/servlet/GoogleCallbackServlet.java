@@ -1,9 +1,8 @@
-package com.pwc.servlet;
+package com.pwc.sns.servlet;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -31,6 +30,7 @@ import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.TokenResponseEntity;
 import com.pwc.sns.ConfigProperty;
+import com.pwc.sns.util.SNSConstants;
 
 public class GoogleCallbackServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -54,7 +54,6 @@ public class GoogleCallbackServlet extends HttpServlet{
 		String error="";
 		String errorDesc="";
 		boolean errorFlag = false;
-		String tokenCallback = (String)session.getAttribute(SNSConstants.GOOGLE_TOKENCALLBACK);
 		Enumeration<String> requestParam =  request.getParameterNames();
 		String errorRes = request.getParameter("error");
 		boolean flag = true;
@@ -131,15 +130,7 @@ public class GoogleCallbackServlet extends HttpServlet{
 			}
 
 		}
-		if(!("".equals(tokenCallback))){
-			tokenCallback= URLDecoder.decode(tokenCallback,"UTF-8");
-			response.sendRedirect(tokenCallback +"?tokencallback="+returnString);
-		}else
-		{
-			response.setContentType("text/xml;charset=UTF-8");
-			writer.print(returnString);
-			writer.flush();
-		}
+		response.sendRedirect(request.getContextPath()+SNSConstants.CLIENT_LANDING_SERVLET +"?tokencallback="+returnString);
 	}
 
 	/**

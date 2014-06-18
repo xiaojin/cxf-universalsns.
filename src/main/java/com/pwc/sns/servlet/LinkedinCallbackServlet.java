@@ -1,11 +1,10 @@
-package com.pwc.servlet;
+package com.pwc.sns.servlet;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -29,6 +28,7 @@ import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpConnectionManager;
 import com.pwc.sns.Oauth2SignObject;
 import com.pwc.sns.Oauth2Signature;
+import com.pwc.sns.util.SNSConstants;
 
 public class LinkedinCallbackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -57,8 +57,6 @@ public class LinkedinCallbackServlet extends HttpServlet {
 
 		Enumeration<String> requestParam = request.getParameterNames();
 		boolean flag = true;
-		String tokenCallback = (String) session
-				.getAttribute(SNSConstants.LINKEDIN_TOKENCALLBACK);
 		String errorRes = request.getParameter("error");
 		if (errorRes != null) {
 			errorFlag = true;
@@ -125,15 +123,7 @@ public class LinkedinCallbackServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		if (!("".equals(tokenCallback))) {
-			tokenCallback = URLDecoder.decode(tokenCallback, "UTF-8");
-			response.sendRedirect(tokenCallback + "?tokencallback="
-					+ returnString);
-		} else {
-			response.setContentType("text/xml;charset=UTF-8");
-			writer.print(returnString);
-			writer.flush();
-		}
+		response.sendRedirect(request.getContextPath()+SNSConstants.CLIENT_LANDING_SERVLET +"?tokencallback="+returnString);
 	}
 
 	/**

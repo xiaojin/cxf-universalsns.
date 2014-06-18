@@ -15,12 +15,12 @@ import com.pwc.service.ErrorResponseEntity;
 import com.pwc.service.ProfileResponseEntity;
 import com.pwc.service.ResponseToXMLHandler;
 import com.pwc.service.StatusResponseEntity;
-import com.pwc.servlet.SNSConstants;
 import com.pwc.sns.ConfigProperty;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.OauthSignature;
 import com.pwc.sns.OauthSignObject;
 import com.pwc.sns.OauthSignObject.REQUESTTYPE;
+import com.pwc.sns.util.SNSConstants;
 
 /**
  * Class Twitter used to implement the API Twitter provided
