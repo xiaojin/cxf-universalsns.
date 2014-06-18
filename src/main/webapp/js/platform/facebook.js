@@ -37,9 +37,6 @@ var app = {
         $("#facebook-get").click(function() {
             app.get();
         });
-        $("#googleURL").click(function() {
-            window.location.href = conf.GOOGLE_CALLBACK;
-        });
     },
 
     post : function() {

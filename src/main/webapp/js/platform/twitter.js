@@ -222,9 +222,6 @@ var twitter = {
     // authRequest(conf.TWITTER);
       // var ss = localStorage.getItem("tokens-facebook")
     ready : function() {
-        $("#googleURL").click(function() {
-            window.location.href = conf.GOOGLE_CALLBACK;
-        });
         $("#twitter-get-token").click(twitter.oauthTwitter);
         $("#twitter-get-profile").click(twitter.getUserProfile);
         $("#twitterFav").click(twitter.listFavList);
