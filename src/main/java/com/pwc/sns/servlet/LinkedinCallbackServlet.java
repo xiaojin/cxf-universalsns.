@@ -29,6 +29,7 @@ import com.pwc.sns.service.ResponseToXMLHandler;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.SNSConstants;
+import com.pwc.sns.util.SnsUtil;
 
 public class LinkedinCallbackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -94,7 +95,7 @@ public class LinkedinCallbackServlet extends HttpServlet {
 
 			sign.setAuthenticationServerUrl(properties
 					.getProperty("LINKEDIN_ACCESSTOKEN_URL"));
-			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) + request.getContextPath() + SNSConstants.LINKEDIN_CALLBACK);
+			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) + SnsUtil.getContextPath() + SNSConstants.LINKEDIN_CALLBACK);
 			sign.setGrantType("authorization_code");
 			sign.setCode(code);
 			sign.setClientId(properties.getProperty(SNSConstants.LINKEDIN_KEY));

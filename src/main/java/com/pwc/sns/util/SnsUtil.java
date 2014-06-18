@@ -8,4 +8,7 @@ public class SnsUtil {
 		final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 	    return uuid;
 	}
+	public static String getContextPath(){
+		return "/";
+	}
 }

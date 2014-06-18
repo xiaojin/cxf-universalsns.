@@ -19,6 +19,7 @@ public class ApiEntity {
 	private String accessToken;
 	private String paramter;
 	private String tokenURL;
+	private String accessTokenSec;
 	private TwitterEntity twitterEntity;
 	private LinkedinEntity linkedinEntity;
 	private GooglePlusEntity googlePlusEntity;
@@ -137,8 +138,11 @@ public class ApiEntity {
 	public void setFacebookEntity(FacebookEntity facebookEntity) {
 		this.facebookEntity = facebookEntity;
 	}
+	public String getAccessTokenSec() {
+		return accessTokenSec;
+	}
+	public void setAccessTokenSec(String accessTokenSec) {
+		this.accessTokenSec = accessTokenSec;
+	}
 	
-	
-	
-		
 }
