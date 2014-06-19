@@ -30,6 +30,7 @@ import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.ConfigProperty;
 import com.pwc.sns.util.SNSConstants;
+import com.pwc.sns.util.SnsUtil;
 import com.pwc.sns.OauthSignature;
 
 public class TwitterCallbackServlet extends HttpServlet {
@@ -99,10 +100,10 @@ public class TwitterCallbackServlet extends HttpServlet {
 			OauthSignature oauthsign = new OauthSignature();
 			OauthSignObject sign = new OauthSignObject();
 			sign.setReqURI(configProperties
-					.getProperty(SNSConstants.TWITTER_AUTHTOKEN_URL));
+					.getProperty(SNSConstants.TWITTER_ACCESSTOKEN_URL));
 			sign.setCallBackURL(configProperties
 					.getProperty(SNSConstants.HOSTURL)
-					+ request.getContextPath() + SNSConstants.TWITTER_CALLBACK);
+					+ SnsUtil.getContextPath() + SNSConstants.TWITTER_CALLBACK);
 			sign.setConsumerKey(configProperties
 					.getProperty(SNSConstants.TWITTER_KEY));
 			sign.setConsumerKeySec(configProperties

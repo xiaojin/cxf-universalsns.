@@ -67,8 +67,14 @@ if(SNS === undefined)
                     var param = onwin.location.search;
                     console.log(param);
                     if (param.toLowerCase().indexOf("tokencallback") > -1) {
-                        handlerResponseToken(param,state,callback);
-                        clearInterval(interval);  
+                        if (param.indexOf("xml") >-1) {
+                          handlerResponseToken(param,state,callback);
+                          clearInterval(interval);                                                 
+                        }
+                        else
+                        {
+                            alert("Internal Error");
+                        }
                         onwin.close();      
                     }
                 }, 3000);

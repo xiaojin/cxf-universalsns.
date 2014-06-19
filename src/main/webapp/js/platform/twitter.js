@@ -4,7 +4,6 @@ var twitter = {
     listFavList : function() {
         var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
-            oauthV1.init();
             var api_key = "123456";
             function success(data) {
                 social.tool.loading.hide();
@@ -63,7 +62,8 @@ var twitter = {
                 data : JSON.stringify({
                         ApiEntity : {
                             platform : "twitter",
-                            accessToken : JSON.stringify(oauth_information),
+                            accessToken : oauth_information.access_token,
+                            accessTokenSec:oauth_information.access_token_sec,
                             apiKey : api_key,
                             twitterEntity : {
                                 consumerKeySec : conf.TWITTER_SEC,
@@ -82,7 +82,6 @@ var twitter = {
     postStatuses : function() {
         var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
-            oauthV1.init();
             var status = $("#commandValue").val();
             var api_key = "123456";
             if (status == null || status == undefined) {
@@ -101,7 +100,8 @@ var twitter = {
                     data : JSON.stringify({
                         ApiEntity : {
                             platform : "twitter",
-                            accessToken : JSON.stringify(oauth_information),
+                            accessToken : oauth_information.access_token,
+                            accessTokenSec:oauth_information.access_token_sec,
                             apiKey : api_key,
                             twitterEntity : {
                                 consumerKeySec : conf.TWITTER_SEC,
@@ -148,7 +148,6 @@ var twitter = {
     getUserProfile:function(){
        var oauth_information = JSON.parse(localStorage.getItem("tokens-twitter"));
         if (oauth_information != null && oauth_information != undefined) {
-            oauthV1.init();
             var api_key = "123456";
             function success(data) {
                 social.tool.loading.hide();
@@ -188,7 +187,8 @@ var twitter = {
                 data : JSON.stringify({
                         ApiEntity : {
                             platform : "twitter",
-                            accessToken : JSON.stringify(oauth_information),
+                            accessToken : oauth_information.access_token,
+                            accessTokenSec:oauth_information.access_token_sec,
                             apiKey : api_key,
                             twitterEntity : {
                                 consumerKeySec : conf.TWITTER_SEC,

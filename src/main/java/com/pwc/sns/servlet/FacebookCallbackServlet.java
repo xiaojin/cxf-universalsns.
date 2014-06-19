@@ -30,6 +30,7 @@ import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.ConfigProperty;
 import com.pwc.sns.util.SNSConstants;
+import com.pwc.sns.util.SnsUtil;
 
 public class FacebookCallbackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -93,7 +94,7 @@ public class FacebookCallbackServlet extends HttpServlet {
 			Oauth2SignObject sign = new Oauth2SignObject();
 			sign.setAuthenticationServerUrl(properties
 					.getProperty("FACEBOOK_ACCESSTOKEN_URL"));
-			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) +request.getContextPath() + SNSConstants.FACEBOOK_CALLBACK);
+			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) +SnsUtil.getContextPath() + SNSConstants.FACEBOOK_CALLBACK);
 			sign.setCode(code);
 			sign.setClientId(properties.getProperty("FACEBOOK_CLIENTID"));
 			sign.setClientSecret(properties.getProperty("FACEBOOK_SEC"));

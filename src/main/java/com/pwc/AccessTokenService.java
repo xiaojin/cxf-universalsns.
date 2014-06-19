@@ -59,6 +59,7 @@ import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.ConfigProperty;
 import com.pwc.sns.util.SNSConstants;
+import com.pwc.sns.util.SnsUtil;
 
 /**
  * Implementation of the interface of {@link ApiService}
@@ -113,7 +114,7 @@ public class AccessTokenService {
 		OauthSignObject sign = new OauthSignObject();
 		String returnString = "";
 		sign.setReqURI(loadProperties.getProperty(SNSConstants.TWITTER_REQUESTTOKEN_URL));
-		sign.setCallBackURL(loadProperties.getProperty(SNSConstants.HOSTURL)+getRequest().getContextPath()+SNSConstants.TWITTER_CALLBACK);
+		sign.setCallBackURL(loadProperties.getProperty(SNSConstants.HOSTURL)+SnsUtil.getContextPath()+SNSConstants.TWITTER_CALLBACK);
 		sign.setConsumerKey(loadProperties.getProperty(SNSConstants.TWITTER_KEY));
 		sign.setConsumerKeySec(loadProperties.getProperty(SNSConstants.TWITTER_SEC));
 		sign.setRequestType(REQUESTTYPE.GET);
@@ -193,7 +194,7 @@ public class AccessTokenService {
 			Oauth2SignObject sign = new Oauth2SignObject();
 			sign.setAuthenticationServerUrl(properties
 					.getProperty(SNSConstants.LINKEDIN_AUTHTOKEN_URL));
-			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) +getRequest() +SNSConstants.LINKEDIN_CALLBACK);
+			sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) +SnsUtil.getContextPath() +SNSConstants.LINKEDIN_CALLBACK);
 			sign.setScope(requireScope);
 			sign.setClientId(properties.getProperty(SNSConstants.LINKEDIN_KEY));
 			// Generate Request URL
@@ -236,7 +237,7 @@ public class AccessTokenService {
 		Oauth2SignObject sign = new Oauth2SignObject();
 		sign.setAuthenticationServerUrl(properties
 				.getProperty(SNSConstants.FACEBOOK_AUTHTOKEN_URL));
-		sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) + getRequest().getContextPath() + SNSConstants.FACEBOOK_CALLBACK);
+		sign.setCallBackURL(properties.getProperty(SNSConstants.HOSTURL) + SnsUtil.getContextPath() + SNSConstants.FACEBOOK_CALLBACK);
 		sign.setScope(requireScope);
 		sign.setClientId(properties.getProperty(SNSConstants.FACEBOOK_CLIENTID));
 		// Generate Request URL
