@@ -10,7 +10,11 @@ mvn clean jetty:run
 
 To Deploy the application on Amazon EC2 server:
 
-mvn jetty:run -Denv=prod
+mvn clean jetty:run -Denv=prod
+
+To start the server for Android client testing:
+
+mvn clean jetty:run -Denv=android
 
 *It will take a while to download various jar files for the first time.
 *mvn is an executable which is on your PATH. 
