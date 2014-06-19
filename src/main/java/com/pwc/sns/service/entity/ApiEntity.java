@@ -1,12 +1,7 @@
-package com.pwc;
+package com.pwc.sns.service.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
-
-import com.pwc.platform.FacebookEntity;
-import com.pwc.platform.GooglePlusEntity;
-import com.pwc.platform.LinkedinEntity;
-import com.pwc.platform.TwitterEntity;
 /**
  * The entity of webservice request data
  * 

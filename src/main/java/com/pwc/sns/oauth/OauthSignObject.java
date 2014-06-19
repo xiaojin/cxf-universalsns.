@@ -1,4 +1,4 @@
-package com.pwc.sns;
+package com.pwc.sns.oauth;
 /**
  * Entity Class SignObject used in @see com.pwc.sns.OauthSignature.java
  */

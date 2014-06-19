@@ -1,4 +1,4 @@
-package com.pwc.exception;
+package com.pwc.sns.exception;
 
 import java.util.Arrays;
 import java.util.List;

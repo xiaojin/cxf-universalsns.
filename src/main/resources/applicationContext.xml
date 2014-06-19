@@ -18,7 +18,7 @@
 	
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
-	<bean id="apiServiceImpl" class="com.pwc.ApiServiceImpl"></bean>
+	<bean id="apiServiceImpl" class="com.pwc.sns.service.ApiServiceImpl"></bean>
 	<bean id="signupService" class="com.pwc.sns.service.SignupService">
 		<property name="clientDao" ref="clientDao"></property>
 	</bean>

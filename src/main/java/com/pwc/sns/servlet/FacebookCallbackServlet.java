@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
@@ -23,8 +22,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
 import com.pwc.sns.HttpConnectionManager;
-import com.pwc.sns.Oauth2SignObject;
-import com.pwc.sns.Oauth2Signature;
+import com.pwc.sns.oauth.Oauth2SignObject;
+import com.pwc.sns.oauth.Oauth2Signature;
 import com.pwc.sns.service.ResponseToXMLHandler;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;

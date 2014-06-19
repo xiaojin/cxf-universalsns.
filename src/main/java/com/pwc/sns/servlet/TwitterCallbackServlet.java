@@ -2,10 +2,8 @@ package com.pwc.sns.servlet;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
@@ -23,15 +21,15 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
 import com.pwc.sns.HttpConnectionManager;
-import com.pwc.sns.OauthSignObject;
-import com.pwc.sns.OauthSignObject.REQUESTTYPE;
+import com.pwc.sns.oauth.OauthSignObject;
+import com.pwc.sns.oauth.OauthSignObject.REQUESTTYPE;
+import com.pwc.sns.oauth.OauthSignature;
 import com.pwc.sns.service.ResponseToXMLHandler;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;
 import com.pwc.sns.util.ConfigProperty;
 import com.pwc.sns.util.SNSConstants;
 import com.pwc.sns.util.SnsUtil;
-import com.pwc.sns.OauthSignature;
 
 public class TwitterCallbackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

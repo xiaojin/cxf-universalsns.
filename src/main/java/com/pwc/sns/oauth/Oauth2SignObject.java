@@ -1,4 +1,4 @@
-package com.pwc.sns;
+package com.pwc.sns.oauth;
 
 public class Oauth2SignObject {
 

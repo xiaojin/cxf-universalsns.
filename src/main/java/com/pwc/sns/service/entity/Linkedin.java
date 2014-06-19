@@ -1,4 +1,4 @@
-package com.pwc.platform;
+package com.pwc.sns.service.entity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -12,9 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pwc.ApiEntity;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.service.ResponseToXMLHandler;
+import com.pwc.sns.service.entity.ApiEntity;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.ProfileResponseEntity;
 import com.pwc.sns.service.entity.StatusResponseEntity;

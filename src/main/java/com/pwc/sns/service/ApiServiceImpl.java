@@ -1,4 +1,4 @@
-package com.pwc;
+package com.pwc.sns.service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,12 +20,13 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
-import com.pwc.platform.Facebook;
-import com.pwc.platform.GooglePlus;
-import com.pwc.platform.Linkedin;
-import com.pwc.platform.SocialMedia;
-import com.pwc.platform.Twitter;
 import com.pwc.sns.HttpConnectionManager;
+import com.pwc.sns.service.entity.ApiEntity;
+import com.pwc.sns.service.entity.Facebook;
+import com.pwc.sns.service.entity.GooglePlus;
+import com.pwc.sns.service.entity.Linkedin;
+import com.pwc.sns.service.entity.SocialMedia;
+import com.pwc.sns.service.entity.Twitter;
 
 /**
  * Implementation of the interface of {@link ApiService}

@@ -1,4 +1,4 @@
-package com.pwc.platform;
+package com.pwc.sns.service.entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,12 +6,9 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pwc.platform.RequestURL.GooglePlusUrl;
 import com.pwc.sns.HttpXmlClient;
 import com.pwc.sns.service.ResponseToXMLHandler;
-import com.pwc.sns.service.entity.ErrorResponseEntity;
-import com.pwc.sns.service.entity.ProfileResponseEntity;
-import com.pwc.sns.service.entity.StatusResponseEntity;
+import com.pwc.sns.service.entity.RequestURL.GooglePlusUrl;
 
 /**
  * GooglePlus subclass of {@link SocialMedia} <br/>

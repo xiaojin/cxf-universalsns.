@@ -1,4 +1,4 @@
-package com.pwc.sns;
+package com.pwc.sns.oauth;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

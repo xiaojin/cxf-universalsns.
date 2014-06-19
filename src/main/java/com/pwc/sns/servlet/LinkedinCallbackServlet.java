@@ -22,8 +22,8 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONObject;
 
 import com.pwc.sns.HttpConnectionManager;
-import com.pwc.sns.Oauth2SignObject;
-import com.pwc.sns.Oauth2Signature;
+import com.pwc.sns.oauth.Oauth2SignObject;
+import com.pwc.sns.oauth.Oauth2Signature;
 import com.pwc.sns.service.ResponseToXMLHandler;
 import com.pwc.sns.service.entity.ErrorResponseEntity;
 import com.pwc.sns.service.entity.TokenResponseEntity;

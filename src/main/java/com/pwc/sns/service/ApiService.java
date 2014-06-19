@@ -1,4 +1,4 @@
-package com.pwc;
+package com.pwc.sns.service;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.pwc.sns.service.entity.ApiEntity;
 
 /**
  * Interface of the social framework webservice

@@ -1,4 +1,4 @@
-package com.pwc.platform;
+package com.pwc.sns.service.entity;
 
 public interface RequestURL {
 	class FacebookUrl {

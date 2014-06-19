@@ -1,13 +1,12 @@
-package com.pwc.platform;
+package com.pwc.sns.service.entity;
 
 /**
- * FacebookEntity entity 
+ * GooglePlusEntity entity 
  *
  */
-public class FacebookEntity {
+public class GooglePlusEntity {
 	private String personID;
 	private String parameters;
-	
 	
 	/**
 	 * 
@@ -16,6 +15,7 @@ public class FacebookEntity {
 	public String getPersonID() {
 		return personID;
 	}
+	
 	/**
 	 * 
 	 * @param personID
@@ -23,13 +23,15 @@ public class FacebookEntity {
 	public void setPersonID(String personID) {
 		this.personID = personID;
 	}
+	
 	/**
 	 * 
-	 * @return
+	 * @return parameters
 	 */
 	public String getParameters() {
 		return parameters;
 	}
+	
 	/**
 	 * 
 	 * @param parameters

@@ -1,6 +1,6 @@
-package com.pwc.platform;
+package com.pwc.sns.service.entity;
 
-import com.pwc.ApiEntity;
+import com.pwc.sns.service.entity.ApiEntity;
 /**
  * Super class of the {@link Facebook} {@link GooglePlus}
  */
