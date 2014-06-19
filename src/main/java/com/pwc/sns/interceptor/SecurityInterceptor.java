@@ -11,11 +11,22 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 
+import com.pwc.sns.dao.ClientDao;
+import com.pwc.sns.dto.Client;
+
 
 public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 	private ServerAuthHeader serverAuthHeader;
 	private static final Log LOGGER = LogFactory
 			.getLog(SecurityInterceptor.class);
+	
+	private ClientDao clientDao;
+	
+	
+	public void setClientDao(ClientDao clientDao){
+		
+		this.clientDao = clientDao;
+	}
 
 	public SecurityInterceptor() {
 		this(Phase.RECEIVE);
@@ -64,7 +75,11 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 		this.serverAuthHeader = serverAuthHeader;
 	}
 
-	private void handlerDBSearch() {
-
+	private boolean shouldContinue(String udid) {
+		Client client = this.clientDao.findClientByUdid(udid);
+		if(client == null){
+			return false;
+		}
+		return true;
 	}
 }

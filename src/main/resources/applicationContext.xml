@@ -35,7 +35,9 @@
             <!-- <ref bean="dataValidationInInterceptor" /> -->
         </cxf:inInterceptors>
     </cxf:bus>
-	<bean id="securityInterceptor" class="com.pwc.sns.interceptor.SecurityInterceptor"/>
+	<bean id="securityInterceptor" class="com.pwc.sns.interceptor.SecurityInterceptor">
+		<property name="clientDao" ref="clientDao"></property>
+	</bean>
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="apiServiceImpl" />
