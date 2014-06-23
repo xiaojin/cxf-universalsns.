@@ -24,12 +24,18 @@ var app = {
         // oauth_google.cookiepolicy = 'single_host_origin';
         // oauth_google.callBackFun = app.getTokenSuccess;
         // authRequest(conf.GOOGLEPLUS);
-           var sns = SNS();
-           sns.google_token(function(){
+            var udid = "be34333bae754655a5f808420af68316";
+            udid =localStorage.getItem("login-udid");
+            if(udid != undefined){
+                var sns = SNS(udid);
+                sns.google_token(function(){
             // var ss = localStorage.getItem("tokens-facebook");
-            var obj = JSON.parse(localStorage.getItem("tokens-google"));
-            $("#google-token").html(obj.access_token);
-            });
+                     var obj = JSON.parse(localStorage.getItem("tokens-google"));
+                     $("#google-token").html(obj.access_token);
+             });
+            }else{
+                alert("Sigin first");
+            }
         
     },
     getTokenSuccess : function() {

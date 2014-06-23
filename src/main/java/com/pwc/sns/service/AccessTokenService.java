@@ -76,7 +76,7 @@ allowCredentials = true
 // "X-custom-3", "X-custom-4"
 // }
 )
-@Path("/token")
+@Path("/")
 public class AccessTokenService {
 	
 	private ClientDao clientDao;
@@ -100,7 +100,7 @@ public class AccessTokenService {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/twitterRequest")
+	@Path("twitterRequest")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response requestToken() throws IOException {
@@ -172,7 +172,7 @@ public class AccessTokenService {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/linkedinRequest")
+	@Path("linkedinRequest")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response linkedinRequestToken(@QueryParam("scope") String scope,@QueryParam("callback") String backURL)
@@ -217,7 +217,7 @@ public class AccessTokenService {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/facebookRequest")
+	@Path("facebookRequest")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response facebookRequestToken(@QueryParam("scope") String scope,@QueryParam("callback") String backURL)
@@ -261,7 +261,7 @@ public class AccessTokenService {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/googleRequest")
+	@Path("googleRequest")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response googleRequestToken(@QueryParam("scope") String scope,
@@ -334,7 +334,7 @@ public class AccessTokenService {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/googleRefreshToken")
+	@Path("googleRefreshToken")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response googleRefreshToken(@QueryParam("refreshtoken") String token)

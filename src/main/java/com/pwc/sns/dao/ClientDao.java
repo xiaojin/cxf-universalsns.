@@ -52,7 +52,7 @@ public class ClientDao {
 	
 	public void addClient(Client client){
 		String sql = "INSERT INTO client (udid, name, phone, email, client_type, callback_url,status) VALUES (?,?,?,?,?,?,?)";
-		Object[] params = new Object[] { SnsUtil.getUuid(), client.getName(), client.getPhone(), client.getEmail(), client.getClientType(),
+		Object[] params = new Object[] { client.getUdid(), client.getName(), client.getPhone(), client.getEmail(), client.getClientType(),
 				client.getCallbackUrl(),client.getStatus()};
 		int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, 
 				Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,

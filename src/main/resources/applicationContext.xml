@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:cxf="http://cxf.apache.org/core"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
@@ -11,13 +10,13 @@
 		http://cxf.apache.org/core
 		http://cxf.apache.org/schemas/core.xsd"
 	default-lazy-init="false">
-	
+
 	<import resource="applicationContext-db.xml" />
-	
+
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	
+
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	
+
 	<bean id="apiServiceImpl" class="com.pwc.sns.service.ApiServiceImpl"></bean>
 	<bean id="signupService" class="com.pwc.sns.service.SignupService">
 		<property name="clientDao" ref="clientDao"></property>
@@ -29,19 +28,18 @@
 	</bean>
 	<cxf:bus>
 		<cxf:features>
-		   <cxf:logging/>
+			<cxf:logging />
 		</cxf:features>
-        <cxf:inInterceptors>
-            <!-- <ref bean="dataValidationInInterceptor" /> -->
-        </cxf:inInterceptors>
-    </cxf:bus>
+		<cxf:inInterceptors>
+			<!-- <ref bean="dataValidationInInterceptor" /> -->
+		</cxf:inInterceptors>
+	</cxf:bus>
 	<bean id="securityInterceptor" class="com.pwc.sns.interceptor.SecurityInterceptor">
 		<property name="clientDao" ref="clientDao"></property>
 	</bean>
-	<jaxrs:server id="logmonService" address="/">
+	
+	<jaxrs:server id="loginService" address="/token">
 		<jaxrs:serviceBeans>
-			<ref bean="apiServiceImpl" />
-			<!-- <ref bean="cors-server" /> -->
 			<ref bean="accessToken" />
 		</jaxrs:serviceBeans>
 		<jaxrs:inInterceptors>
@@ -55,7 +53,20 @@
 			<ref bean="cors-filter" />
 		</jaxrs:providers>
 	</jaxrs:server>
-		<jaxrs:server id="signUpService" address="/gate">
+		
+	<jaxrs:server id="logmonService" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="apiServiceImpl" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="xml" value="application/xml" />
+			<entry key="json" value="application/json" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<ref bean="cors-filter" />
+		</jaxrs:providers>
+	</jaxrs:server>
+	<jaxrs:server id="signUpService" address="/gate">
 		<jaxrs:serviceBeans>
 			<ref bean="signupService" />
 		</jaxrs:serviceBeans>

@@ -210,11 +210,18 @@ var twitter = {
             $("#twitter-token").html(twitterToken.access_token);
             alert("Got one");
         } else {          
-            var sns = SNS();
-            sns.twitter_token(function(){
-            var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
-            $("#twitter-token").html(twitterToken.access_token);
-        });
+            var udid = "be34333bae754655a5f808420af68316";
+            udid =localStorage.getItem("login-udid");
+            if(udid != undefined){
+                 var sns = SNS(udid);
+                 sns.twitter_token(function(){
+                    var twitterToken = JSON.parse(localStorage.getItem("tokens-twitter"));
+                    $("#twitter-token").html(twitterToken.access_token);
+                 });
+            }else{
+                alert("Sigin first");
+            }
+
         }
 
     }, 

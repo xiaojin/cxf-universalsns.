@@ -151,7 +151,7 @@ public class ApiServiceImpl implements ApiService {
 					.build();
 		} else if (platform.equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
-			return Response.ok(linkedin.postComments(), MediaType.TEXT_PLAIN)
+			return Response.ok(linkedin.shareComments(), MediaType.TEXT_PLAIN)
 					.build();
 		} else {
 			return Response.ok("error:need config platform data",
@@ -216,7 +216,7 @@ public class ApiServiceImpl implements ApiService {
 	public Response postCommentst(ApiEntity entity) throws IOException {
 		if (entity.getPlatform().equalsIgnoreCase("linkedin")) {
 			Linkedin linkedin = new Linkedin(entity);
-			return Response.ok(linkedin.commentOnCompany(),
+			return Response.ok(linkedin.replyFeeds(),
 					MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("no supported", MediaType.TEXT_PLAIN).build();

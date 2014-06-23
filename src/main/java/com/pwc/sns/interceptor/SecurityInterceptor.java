@@ -1,5 +1,7 @@
 package com.pwc.sns.interceptor;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -13,6 +15,7 @@ import org.apache.cxf.transport.http.AbstractHTTPDestination;
 
 import com.pwc.sns.dao.ClientDao;
 import com.pwc.sns.dto.Client;
+import com.pwc.sns.exception.NotAuthorizedException;
 
 
 public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -43,8 +46,30 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 		HttpServletRequest request = (HttpServletRequest) message
 				.get(AbstractHTTPDestination.HTTP_REQUEST);
 		InterceptorChain chain = message.getInterceptorChain();
-		
 //		HttpServletResponse response =(HttpServletResponse)message.get(AbstractHTTPDestination.HTTP_RESPONSE);
+//		HashMap<Object, Object> responseHeader = (HashMap<Object, Object>) message.get(org.apache.cxf.message.Message.PROTOCOL_HEADERS);
+		String uri = (String) message
+				.get(org.apache.cxf.message.Message.PATH_INFO);
+		String queryString = (String) message
+				.get(org.apache.cxf.message.Message.QUERY_STRING);
+		String authID = queryString.substring(queryString.indexOf("=")+1);
+		LOGGER.debug("SecurityInterceptor request =============URI:" + uri
+				+ "=============");
+		String ip = request.getHeader("x-Forwarded-For");
+		LOGGER.debug("SecurityInterceptor request =============IP:" + ip
+				+ "=============");
+//		String authID = (String) responseHeader.get("Authority");
+		if(authID !=null && !"".equals(authID)){
+			boolean isExited = shouldContinue(authID);
+			if(isExited){
+			}else{
+				chain.abort();
+				throw new NotAuthorizedException("You do not have Permission");
+			}
+		}else{
+			chain.abort();
+			throw new NotAuthorizedException("You do not have Permission");
+		}
 //		PrintWriter writer = null ;
 //		try {
 //			writer = response.getWriter();
@@ -52,13 +77,7 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		String uri = (String) message
-				.get(org.apache.cxf.message.Message.PATH_INFO);
-		LOGGER.debug("SecurityInterceptor request =============URI:" + uri
-				+ "=============");
-		String ip = request.getHeader("x-Forwarded-For");
-		LOGGER.debug("SecurityInterceptor request =============IP:" + ip
-				+ "=============");
+
 //		boolean checkInDatabase = true;
 //		if (checkInDatabase) {
 //			chain.abort();

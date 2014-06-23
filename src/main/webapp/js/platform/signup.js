@@ -30,13 +30,6 @@ var signUp = {
         }
     },
     uploadinfo : function() {
-        function onSuccess(data) {
-            $("#register-form").hide();
-            $("#udid").show();
-            $("#udid").html("");
-            $("#udid").html(data);
-            console.log(data);
-        };
         function onError(data) {
             console.log(data);
         };
@@ -55,6 +48,7 @@ var signUp = {
                     $("#udid").show();
                     $("#udid").html("");
                     $("#udid").html(data);
+                    localStorage.setItem("login-udid",data);
                     console.log(data);
             },
             contentType : "application/json",
@@ -71,6 +65,11 @@ var signUp = {
         });
     },
     ready : function() {
+        if (localStorage.getItem("login-udid") !=undefined) {
+               $("#register-form").hide();
+               $("#udid").show();
+               $("#udid").html(localStorage.getItem("login-udid"));
+        };
         $('.input-group input[required], .input-group textarea[required], .input-group select[required]').on('keyup change', function() {
             signUp.keyup($(this));
         });

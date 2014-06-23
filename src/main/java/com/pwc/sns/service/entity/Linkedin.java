@@ -1,6 +1,7 @@
 package com.pwc.sns.service.entity;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +64,46 @@ public class Linkedin implements RequestURL{
 		backData = HttpXmlClient.post(url,head,jsonObj.toString());	
 		return backData;
 	}
+	
+	public String shareComments(){
+		String url = LinkedinUrl.SHARECOMMENT;
+		LinkedinEntity linkedin = entity.getLinkedinEntity();
+		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
+		url = url.replaceAll("key\\=\\{key\\}", param);
+		url = url + "?"+"oauth2_access_token=" + entity.getAccessToken();
+		
+		Map<String, String> head = new HashMap<String, String>();
+		head.put("Content-Type", "application/xml");
+		head.put("Accept", "text/plain");
+		String message = entity.getLinkedinEntity().getMessage();
+		try {
+			message = URLDecoder.decode(message, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String xml ="<?xml version='1.0' encoding='UTF-8'?><share><comment>"+message+"</comment><visibility><code>anyone</code></visibility></share>";
+		
+		backData = HttpXmlClient.post(url,head,xml);
+		StatusResponseEntity statusBack = new StatusResponseEntity();
+		String newString="";
+		try{
+			int index = backData.indexOf("error");
+			if(index ==-1){			
+				statusBack.setId("1");
+				statusBack.setMessage("Success");
+				newString = new ResponseToXMLHandler().statusObjectToXMLhandler(statusBack);				
+			}else
+			{
+				newString = this.parseErrorMessage(backData);			
+			}
+		}catch(JSONException e){
+			newString = this.parseErrorMessage();			
+		}
+		
+		return newString;
+		// TODO Auto-generated method stub
+	}
 	public String getPeopleFeed(){		String url = LinkedinUrl.GET_FEED;
 		LinkedinEntity linkedin = entity.getLinkedinEntity();
 		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
@@ -84,7 +125,7 @@ public class Linkedin implements RequestURL{
 		return backData;
 	}
 	
-	public String postComments() {
+	public String replyFeeds() {
 		String url = LinkedinUrl.POST_FEED;
 		LinkedinEntity linkedin = entity.getLinkedinEntity();
 		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
@@ -102,7 +143,7 @@ public class Linkedin implements RequestURL{
 		String newString="";
 		try{
 			if("".equals(backData)){				
-				statusBack.setId("1111111");
+				statusBack.setId("1");
 				statusBack.setMessage("Success");
 				newString = new ResponseToXMLHandler().statusObjectToXMLhandler(statusBack);				
 			}else

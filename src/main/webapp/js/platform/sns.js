@@ -15,9 +15,11 @@
 var SNS ;
 if(SNS === undefined)
 {
-    SNS = function(){
+    SNS = function(udid){
         var tokenURL = "";
         var tokenState = "";
+        var _udid = udid;
+        // var _udid = "be34333bae754655a5f808420af68316";
         self.facebook_token = function(callback) {
             if (callback && typeof(callback) === 'function') {
                 tokenURL = conf.FACEBOOK_TOKENSERVICE;
@@ -61,21 +63,28 @@ if(SNS === undefined)
                 var height= 960;
                 var left = (screen.width/2)-(width/2);
                 var top = (screen.height/2)-(height/2);
-                // var onwin = window.open(tokenURL+"?callback="+myurl,'','scrollbars=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-                var onwin = window.open(tokenURL,'','scrollbars=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+                var onwin = window.open(tokenURL+"?udid="+_udid,'','scrollbars=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
                 var interval = setInterval(function() {
                     var param = onwin.location.search;
                     console.log(param);
-                    if (param.toLowerCase().indexOf("tokencallback") > -1) {
-                        if (param.indexOf("xml") >-1) {
-                          handlerResponseToken(param,state,callback);
-                          clearInterval(interval);                                                 
+                    try{
+                        if (param.toLowerCase().indexOf("tokencallback") > -1) {
+                            if (param.indexOf("xml") >-1) {
+                              handlerResponseToken(param,state,callback);
+                              clearInterval(interval);                                                 
+                            }
+                            else
+                            {
+                                alert("Internal Error");
+                            }
+                            onwin.close();      
                         }
-                        else
-                        {
-                            alert("Internal Error");
-                        }
-                        onwin.close();      
+                    }catch(e)
+                    {
+                        console.log(e);
+                    }finally{
+                        clearInterval(interval);
+                        onwin.close();  
                     }
                 }, 3000);
             }

@@ -47,7 +47,62 @@ var link = {
         $parent.append($copy);
 
     },
+    shareComment : function(e) {
+        var accesstoken = JSON.parse(localStorage.getItem("tokens-linkedin")).access_token;
+        if (accesstoken != null && accesstoken != undefined) {
+            var status = $("#commentValue").val();
+            var api_key = "123456";
+            if (status == null || status == undefined) {
+                alert("please say something");
+            } else {
+                status = escape(status).replace(/\@/g, '%40').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/\+/g, '%2B');
+                $.ajax({
+                    url : conf.HOSTURL+"/cxf/service/message/",
+                    type : "POST",
+                    contentType : "application/json",
+                    dataType : 'xml',
+                    success : success,
+                    error : error,
+                    beforeSend : before,
+                    data : JSON.stringify({
+                        ApiEntity : {
+                            accessToken : accesstoken,
+                            platform : "linkedin",
+                            apiKey : '123456',
+                            linkedinEntity : {
+                                message : status,
+                            }
+                        }
+                    })
+                });
 
+            }
+            function success(data) {
+                social.tool.loading.hide();
+                var error = $.xml2json(data).error;
+                if (error != undefined) {
+                    var error = $.xml2json(data);
+                    alert(error.message);
+                } else {
+                        var result =  $.xml2json(data);
+                        var mycomment = "<label class='alert alert-success comment-style'>" + unescape(status) + "</label>";
+                        $("#commentStatus").append(mycomment);
+                }
+            }
+
+            function error(jqXHR, textStatus, errorThrown) {
+                social.tool.loading.hide();
+                console.log(errorThrown);
+            }
+
+            function before(jqXHR) {
+                social.tool.loading.show();
+            }
+
+        } else {
+            alert("Get token first");
+        }
+    },
     postFeed : function(e) {
         var $target = $(e.target);
         var obj = $(this).closest(".feed-entry").data("linkedinfeed");
@@ -86,7 +141,7 @@ var link = {
         //getInfo
 
         $.ajax({
-            url : conf.HOSTURL+"/cxf/service/message/",
+            url : conf.HOSTURL+"/cxf/service/comments/",
             type : "POST",
             success : success,
             beforeSend : before,
@@ -235,7 +290,7 @@ var link = {
         }); 
 
     },
-    shareComment : function() {
+    commentCompany : function() {
         var company = 2414183;
         var comments = $("#commandValue").val();
         if (comments == null || comments == undefined) {
@@ -359,12 +414,18 @@ var link = {
         if (lineninToken != null && lineninToken.access_token != undefined) {
             $("#linkedin-token").html(lineninToken.access_token);
         } else {
-            var sns = SNS();
-            sns.linkedin_token(function(){
+            var udid = "be34333bae754655a5f808420af68316";
+            udid =localStorage.getItem("login-udid");
+            if(udid != undefined){
+                var sns = SNS(udid);
+                sns.linkedin_token(function(){
             // var ss = localStorage.getItem("tokens-facebook");
-            var linkedinToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
-            $("#linkedin-token").html(linkedinToken.access_token);
-        });
+                    var linkedinToken = JSON.parse(localStorage.getItem("tokens-linkedin"));
+                    $("#linkedin-token").html(linkedinToken.access_token);
+             });
+            }else{
+                alert("Sigin first");
+            }
         }
 
     },
@@ -377,7 +438,8 @@ var link = {
         $("#linkedin-get-token").click(link.oauthLinkedIn);
         $("#linkedin-get-profile").click(link.getUserProfile);
         $("#linkedinComp").click(link.listCompanyProfile);
-        $("#sharecommand").click(link.shareComment);
+        $("#commentCompany").click(link.commentCompany);
+        $("#shareComment").click(link.shareComment);
         $("#commandLine").hide();
 
         $("#linkedin-get-feed").click(link.getFeed);

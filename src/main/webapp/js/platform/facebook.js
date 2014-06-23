@@ -16,12 +16,18 @@ var app = {
             var local_token = obj.access_token;
             $("#facebook-token").text(local_token);
         } else {
-           var sns = SNS();
-           sns.facebook_token(function(){
+            var udid = "be34333bae754655a5f808420af68316";
+            udid =localStorage.getItem("login-udid");
+            if(udid != undefined){
+                 var sns = SNS(udid);
+                sns.facebook_token(function(){
             // var ss = localStorage.getItem("tokens-facebook");
-            var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
-            $("#facebook-token").html(obj.access_token);
-        });
+                     var obj = JSON.parse(localStorage.getItem("tokens-facebook"));
+                    $("#facebook-token").html(obj.access_token);
+         });
+        }else{
+                alert("Sigin first");
+            }
             // social.tool.loading.show();
             // authRequest(conf.FACEBOOK);
         }

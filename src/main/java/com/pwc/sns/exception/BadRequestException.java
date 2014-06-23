@@ -28,6 +28,5 @@ public class BadRequestException extends WebApplicationException{
 	public List<String> getErrors() {
 		return errors;
 	}
-
 		
 }
