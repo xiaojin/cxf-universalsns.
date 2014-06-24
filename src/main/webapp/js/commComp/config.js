@@ -1,6 +1,6 @@
 var conf = {};
 (function($){
-	var ec2 = false;  
+	var ec2 = true;  
 	if (ec2) {
 	    conf.HOSTURL = "https://54.187.87.218:8443";
 	    $.extend(conf,{
