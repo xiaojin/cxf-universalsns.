@@ -12,6 +12,7 @@ public class ConfigProperty {
 	private final static String PRO_FILE = "oauthConfig.properties";
 	private final static String DEV_FILE = "oauthTestConfig.properties";
 	private final static String ANDROID_FILE = "oauthAndroidConfig.properties";
+	private final static String HTTPSTEST_FILE = "oauthTestNormalConfig.properties";
 
 	public static synchronized byte[] getConfigBinary() throws IOException {
 		if (configBinary == null) {
@@ -24,6 +25,8 @@ public class ConfigProperty {
 				FILE_NAME = PRO_FILE;
 			} else if (env.equalsIgnoreCase("android") || env.equalsIgnoreCase("a") ){
 				FILE_NAME = ANDROID_FILE;
+			} else if(env.equalsIgnoreCase("test") || env.equalsIgnoreCase("t")){
+				FILE_NAME = HTTPSTEST_FILE;
 			}
 			InputStream is = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream(FILE_NAME);
