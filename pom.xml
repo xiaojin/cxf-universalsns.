@@ -189,7 +189,7 @@
 						</connector>
 						
 						<connector implementation="org.mortbay.jetty.security.SslSocketConnector">
-							<port>443</port>
+							<port>8443</port>
 							<maxIdleTime>60000</maxIdleTime>
 							<keystore>ssl.keystore</keystore>
 							<password>123456</password>
