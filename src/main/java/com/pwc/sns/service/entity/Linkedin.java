@@ -77,7 +77,9 @@ public class Linkedin implements RequestURL{
 		head.put("Accept", "text/plain");
 		String message = entity.getLinkedinEntity().getMessage();
 		try {
-			message = URLDecoder.decode(message, "UTF-8");
+			if(message != null ){
+				message = URLDecoder.decode(message, "UTF-8");
+			}
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
