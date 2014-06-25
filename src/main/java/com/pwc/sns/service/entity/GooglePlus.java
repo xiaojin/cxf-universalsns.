@@ -94,11 +94,11 @@ public class GooglePlus extends SocialMedia {
 		else{
 			url = url.replaceAll("\\{id\\}", googlePlus.getPersonID());
 		}
-		JSONObject jsonObj = new JSONObject(googlePlus.getParameters());
+//		JSONObject jsonObj = new JSONObject(googlePlus.getParameters());
 		Map<String, String> head = new HashMap<String, String>();
 		head.put("Content-Type", "application/json");
 		head.put("Authorization", "Bearer " + entity.getAccessToken());
-		String backData = HttpXmlClient.post(url, head, jsonObj.toString());
+		String backData = HttpXmlClient.post(url, head, googlePlus.getParameters());
 		int index = backData.indexOf("error");		
 		if(index ==-1){		
 			JSONObject backjson = new JSONObject(backData);

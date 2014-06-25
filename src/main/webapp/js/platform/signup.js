@@ -33,7 +33,6 @@ var signUp = {
         function onError(data) {
             console.log(data);
         };
-
         var name = $(".form").find("#user-name").val();
         var password = $(".form").find("#password").val();
         var email = $(".form").find("#validate-email").val();

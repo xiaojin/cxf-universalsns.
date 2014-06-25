@@ -52,7 +52,10 @@ public class SecurityInterceptor extends AbstractPhaseInterceptor<Message> {
 				.get(org.apache.cxf.message.Message.PATH_INFO);
 		String queryString = (String) message
 				.get(org.apache.cxf.message.Message.QUERY_STRING);
-		String authID = queryString.substring(queryString.indexOf("=")+1);
+		String authID = "";
+		if(queryString.indexOf("udid")>=0){
+			authID = queryString.substring(queryString.indexOf("udid=")+5);
+		}
 		LOGGER.debug("SecurityInterceptor request =============URI:" + uri
 				+ "=============");
 		String ip = request.getHeader("x-Forwarded-For");
