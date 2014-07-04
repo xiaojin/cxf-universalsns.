@@ -24,5 +24,6 @@ public interface RequestURL {
 		public final static String GET_FEED="https://api.linkedin.com/v1/people/~/network/updates";
 		public final static String POST_FEED="https://api.linkedin.com/v1/people/~/network/updates/key={key}/update-comments";
 		public final static String SHARECOMMENT = "https://api.linkedin.com/v1/people/~/shares";
+		public final static String NETWORK_UPDATE = "https://api.linkedin.com/v1/people/~/network/updates";
 			}
 }

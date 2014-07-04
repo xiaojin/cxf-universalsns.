@@ -18,6 +18,7 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<bean id="apiServiceImpl" class="com.pwc.sns.service.ApiServiceImpl"></bean>
+	<bean id="linkedinService" class="com.pwc.sns.service.LinkedInService"></bean>
 	<bean id="signupService" class="com.pwc.sns.service.SignupService">
 		<property name="clientDao" ref="clientDao"></property>
 	</bean>
@@ -57,6 +58,7 @@
 	<jaxrs:server id="logmonService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="apiServiceImpl" />
+			<ref bean="linkedinService" />
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />

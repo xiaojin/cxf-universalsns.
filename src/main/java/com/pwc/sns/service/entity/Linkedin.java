@@ -159,7 +159,26 @@ public class Linkedin implements RequestURL{
 		return newString;
 		// TODO Auto-generated method stub
 	}
-	
+	public String getNetWorkUpdate(){
+		String url = LinkedinUrl.NETWORK_UPDATE;
+		LinkedinEntity linkedin = entity.getLinkedinEntity();
+		String param = linkedin.getParameters() == null ? "":linkedin.getParameters();
+		if(!("me".equals(linkedin.getPersonID()))){
+			url = url.replaceAll("\\~", "id="+linkedin.getPersonID());
+		}
+		if(!("".equals(param))){
+			param = param + "&";
+		}
+		url = url + "?"+param+"oauth2_access_token=" + entity.getAccessToken();
+		backData = HttpXmlClient.get(url);
+		int index = backData.indexOf("error");
+		if(index ==-1){	
+			return backData;
+		}else{
+			backData = this.parseErrorMessage(backData);
+			return backData;
+		}
+	}
 	public String getPeopleProfile(){
 		String url = LinkedinUrl.GET_PEOPLE_PROFILE;
 		LinkedinEntity linkedin = entity.getLinkedinEntity();
